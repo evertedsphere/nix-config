@@ -421,7 +421,7 @@ programs.wofi.enable = true;
     };
 
     services.udiskie = {
-      enable = true;
+      enable = false;
       notify = true;
       tray = "auto";
       automount = true;
@@ -736,77 +736,35 @@ programs.wofi.enable = true;
     programs.i3status-rust = {
       enable = true;
       bars.default = {
-        settings = {
-          theme = {
-            name = "native";
-            overrides = {
-              separator = "";
-              good_bg = gruvbox.bg;
-              good_fg = gruvbox.green;
-              idle_bg = gruvbox.bg;
-              idle_fg = gruvbox.lightgray;
-              info_bg = gruvbox.bg;
-              info_fg = gruvbox.yellow;
-              warning_bg = gruvbox.yellow;
-              warning_fg = gruvbox.darkgray;
-              critical_bg = gruvbox.red;
-              critical_fg = gruvbox.white;
-            };
-          };
-          icons = { name = "material-nf"; };
-        };
-        blocks =
-          let
-            netBlock = device: {
-              block = "net";
-              inherit device;
-              format = "{signal_strength} {speed_down;K*B}";
-              interval = 5;
-            };
-            netBlocks = [ "enp5s0" "wlp4s0" ];
-          in
-          [
-            (mkIf false {
-              block = "battery";
-              interval = 10;
-              format = "{percentage} {power} {time}";
-            })
-            {
-              block = "temperature";
-              interval = 5;
-            }
-            {
-              block = "disk_space";
-              path = "/";
-              alias = "/";
-              info_type = "used";
-              interval = 600;
-              warning = 80.0;
-              alert = 90.0;
-              format = "{icon} {free}";
-            }
-            {
-              block = "memory";
-              display_type = "memory";
-              format_mem = "{mem_avail}";
-              clickable = false;
-              interval = 5;
-              warning_mem = 80;
-              warning_swap = 80;
-              critical_mem = 95;
-              critical_swap = 95;
-            }
-            {
-              block = "load";
-              interval = 5;
-              format = "{1m} {5m} {15m}";
-            }
-          ] ++ netBlocks ++ [{
-            block = "time";
-            interval = 60;
-            format = "%Y-%m-%d %A %R";
-            locale = "fr_FR";
-          }];
+       blocks = [
+              { block = "cpu"; }
+              {
+                block = "disk_space";
+                path = "/";
+                info_type = "available";
+                interval = 20;
+                warning = 20.0;
+                alert = 10.0;
+                format = " $icon root: $available.eng(w:2) ";
+              }
+              {
+                block = "memory";
+                format = " $icon $mem_total_used_percents.eng(w:2) ";
+                format_alt = " $icon_swap $swap_used_percents.eng(w:2) ";
+              }
+              {
+                block = "sound";
+                click = [{
+                  button = "left";
+                  cmd = "pavucontrol";
+                }];
+              }
+              {
+                block = "time";
+                interval = 5;
+                format = " $timestamp.datetime(f:'%a %d/%m %R') ";
+              }
+	      ];
       };
     };
 

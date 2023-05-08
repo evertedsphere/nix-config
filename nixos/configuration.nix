@@ -181,6 +181,13 @@ programs.zsh.enable = true;
     htop
     lsof
     alejandra
+
+        (pkgs.emacsWithPackages (epkgs: [
+          # for org-roam, which fails to function otherwise
+          # also see note in packages.el
+          epkgs.emacsql-sqlite
+        ]))
+
   ];
 
   services.keyd = {
