@@ -1,0 +1,37 @@
+{
+  "animation": false,
+  "autoAttachOnNewTabCommand": 1,
+  "autoCollapseExpandSubtreeOnAttach": false,
+  "autoCollapseExpandSubtreeOnSelect": false,
+  "autoCollapseExpandSubtreeOnSelectExceptActiveTabRemove": false,
+  "autoGroupNewTabsFromPinned": false,
+  "chunkedUserStyleRules0": "ICAvKiBDb21wYWN0IHRhYiBsYXlvdXQgKi8KICA6cm9vdCB7IC0tdGFiLWhlaWdodDogNDBweCAhaW1wb3J0YW50OyB9CiAgLnRhYiB7IGhlaWdodDogNDBweCAhaW1wb3J0YW50OyBtYXJnaW46IDA7IHBhZGRpbmc6IDA7IH0KICAvKiBTaHJpbmsgc3BhY2UgYmV0d2VlbiBwaW5uZWQgdGFicyBhbmQgdGFiIGJhciwgb25seSB3aGVuIHBpbnMgYXJlIHByZXNlbnQgKi8KICAjdGFiYmFyW3N0eWxlKj0ibWFyZ2luIl0geyBtYXJnaW4tdG9wOiAyMHB4ICFpbXBvcnRhbnQ7IH0KCiAgLyogU2hvdyB0aXRsZSBvZiB1bnJlYWQgdGFicyB3aXRoIHJlZCBmb250ICovCiAgLnRhYi51bnJlYWQgLmxhYmVsIHsKICAgIGNvbG9yOiByZWQgIWltcG9ydGFudDsKICB9CgogIC8qIEFkZCBwcml2YXRlIGJyb3dzaW5nIGluZGljYXRvciBwZXIgdGFiICovCiAgLnRhYi5wcml2YXRlLWJyb3dzaW5nIC5sYWJlbDpiZWZvcmUgewogICAgY29udGVudDogIiAiOwogIH0KCnRhYi1pdGVtIHRhYi1jbG9zZWJveCB7CiAgZGlzcGxheTogbm9uZTsKfQoKLyogQ2hhbmdlIHN0eWxpbmcgb2YgcGVuZGluZyAodW5sb2FkZWQpIHRhYnMgKi8KdGFiLWl0ZW0uZGlzY2FyZGVkIHRhYi1pdGVtLXN1YnN0YW5jZSB7CiAgb3BhY2l0eTogMC43NTsKfQoKdGFiLWl0ZW0uZGlzY2FyZGVkIC5sYWJlbC1jb250ZW50IHsKICAgIGZvbnQtc3R5bGU6IGl0YWxpYzsKfQoKdGFiLXR3aXN0eTo6YmVmb3JlIHsKICBkaXNwbGF5OiBub25lICFpbXBvcnRhbnQ7Cn0KCnRhYi10d2lzdHkgewogIGRpc3BsYXk6IG5vbmUgIWltcG9ydGFudDsKICBwYWRkaW5nLWxlZnQ6IDEwcHggIWltcG9ydGFudDsKfQ==",
+  "configsVersion": 25,
+  "delayForDuplicatedTabDetection": 19,
+  "enableLinuxBehaviors": true,
+  "insertNewChildAt": 0,
+  "labelOverflowStyle": "crop",
+  "notifiedFeaturesVersion": 9,
+  "optionsExpandedSections": [
+    "section-appearance",
+    "section-advanced",
+    "section-contextMenu",
+    "section-drag",
+    "section-treeBehavior",
+    "section-debug"
+  ],
+  "parentTabOperationBehaviorMode": 1,
+  "showExpertOptions": true,
+  "skipCollapsedTabsForTabSwitchingShortcuts": true,
+  "syncDevices": {
+    "device-1650572352444-23943": {
+      "id": "device-1650572352444-23943",
+      "name": "Firefox on Linux",
+      "icon": "device-desktop",
+      "timestamp": 1652629148734
+    }
+  },
+  "userStyleRules": "",
+  "userStyleRulesFieldHeight": "208.33334350585938px",
+  "userStyleRulesFieldTheme": "base16-dark"
+}
