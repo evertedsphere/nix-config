@@ -8,7 +8,7 @@
 }: {
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
-    # outputs.nixosModules.example
+    outputs.nixosModules.fonts
     # Or modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # ./users.nix
@@ -105,6 +105,7 @@
 
   environment.systemPackages = with pkgs; [
     neovim
+    ripgrep
     jq
     git
     wget
@@ -113,11 +114,24 @@
     alejandra
   ];
 
+  services.keyd = {
+    enable = true;
+    ids = [ "*" ];
+    settings = {
+      main = {
+capslock = "overload(control, esc)";
+tab = "overload(meta, tab)";
+      };
+    };
+  };
+
   services.openssh = {
     enable = true;
-    permitRootLogin = "without-password";
-    passwordAuthentication = false;
-    kbdInteractiveAuthentication = false;
+    settings = {
+    PermitRootLogin = "without-password";
+    PasswordAuthentication = false;
+    KbdInteractiveAuthentication = false;
+    };
   };
 
   system.stateVersion = "22.11";

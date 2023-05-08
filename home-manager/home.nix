@@ -47,7 +47,6 @@
     };
   };
 
-  # TODO: Set your username
   home = {
     username = "s";
     homeDirectory = "/home/s";
@@ -55,6 +54,7 @@
 
   programs.neovim.enable = true;
   # home.packages = with pkgs; [ steam ];
+  programs.alacritty.enable = true;
 
   programs.home-manager.enable = true;
   programs.git.enable = true;
@@ -63,7 +63,17 @@
     enable = true;
     nvidiaPatches = true;
     xwayland.enable = true;
-    extraConfig = '''';
+    extraConfig = ''
+      $mod = SUPER 
+      general {
+	      gaps_in = 14
+	      gaps_out = 28
+	      border_size = 2
+      }
+
+    # terminal
+    bind = $mod, Return, exec, ${pkgs.alacritty}/bin/alacritty
+    '';
   };
 
   systemd.user.startServices = "sd-switch";
