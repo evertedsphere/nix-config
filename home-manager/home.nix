@@ -54,7 +54,36 @@
 
   programs.neovim.enable = true;
   # home.packages = with pkgs; [ steam ];
-  programs.alacritty.enable = true;
+  programs.alacritty = {
+    enable = true;
+    settings = {
+        window = {
+          opacity = 0.93;
+          dimensions = {
+            columns = 100;
+            lines = 85;
+          };
+          padding = {
+            # i3 gap width
+            x = 12;
+            y = 12;
+          };
+          dynamic_padding = false;
+          decorations = "None";
+          startup_mode = "Windowed";
+        };
+
+        scrolling = {
+          history = 10000;
+          multiplier = 3;
+        };
+
+        font = {
+          normal = { family = "Iosevka"; };
+          size = 12.0;
+        };
+      };
+    };
 
   programs.home-manager.enable = true;
   programs.git.enable = true;
@@ -70,6 +99,9 @@
 	      gaps_out = 28
 	      border_size = 2
       }
+
+monitor=DP-2,preferred,auto,1.6
+monitor=HDMI-A-2,preferred,auto,1.3
 
     # terminal
     bind = $mod, Return, exec, ${pkgs.alacritty}/bin/alacritty
