@@ -5,41 +5,23 @@
   config,
   pkgs,
   ...
-}: {
-  # You can import other home-manager modules here
+}: let colors = config.colorScheme.colors; in {
   imports = [
-    # If you want to use modules your own flake exports (from modules/home-manager):
     # outputs.homeManagerModules.example
-
-    # Or modules exported from other flakes (such as nix-colors):
-    # inputs.nix-colors.homeManagerModules.default
-
-    # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
     ./hyprland.nix
+    inputs.nix-colors.homeManagerModules.default
   ];
 
+  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
+
   nixpkgs = {
-    # You can add overlays here
     overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-
-      # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
     ];
-    # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
@@ -51,11 +33,86 @@
     homeDirectory = "/home/s";
   };
 
+programs.wofi.enable = true;
+  programs.qutebrowser = {
+    enable = true;
+  };
+
+  services.gammastep = {
+    enable = true;
+    provider = "geoclue2";
+    temperature = {
+      day = 6000;
+      night = 4600;
+    };
+    settings = {
+      general.adjustment-method = "wayland";
+    };
+  };
+
+
+
   programs.neovim.enable = true;
   home.packages = with pkgs; [swaybg];
   programs.alacritty = {
     enable = true;
     settings = {
+      colors = {
+	primary = {
+          background = "#${colors.base00}";
+          foreground = "#${colors.base05}";
+        };
+        cursor = {
+          text = "#${colors.base00}";
+          cursor = "#${colors.base05}";
+        };
+        normal = {
+          black = "#${colors.base00}";
+          red = "#${colors.base08}";
+          green = "#${colors.base0B}";
+          yellow = "#${colors.base0A}";
+          blue = "#${colors.base0D}";
+          magenta = "#${colors.base0E}";
+          cyan = "#${colors.base0C}";
+          white = "#${colors.base05}";
+        };
+        bright = {
+          black = "#${colors.base03}";
+          red = "#${colors.base08}";
+          green = "#${colors.base0B}";
+          yellow = "#${colors.base0A}";
+          blue = "#${colors.base0D}";
+          magenta = "#${colors.base0E}";
+          cyan = "#${colors.base0C}";
+          white = "#${colors.base07}";
+        };
+        indexed_colors = [
+          {
+            index = 16;
+            color = "#${colors.base09}";
+          }
+          {
+            index = 17;
+            color = "#${colors.base0F}";
+          }
+          {
+            index = 18;
+            color = "#${colors.base01}";
+          }
+          {
+            index = 19;
+            color = "#${colors.base02}";
+          }
+          {
+            index = 20;
+            color = "#${colors.base04}";
+          }
+          {
+            index = 21;
+            color = "#${colors.base06}";
+          }
+        ];
+      };
       window = {
         opacity = 0.93;
         dimensions = {

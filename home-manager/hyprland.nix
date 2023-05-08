@@ -6,6 +6,15 @@
   pkgs,
   ...
 }: {
+
+  home.packages = with pkgs; [
+    xorg.xprop
+    (inputs.hyprland-contrib.packages.${pkgs.hostPlatform.system}.grimblast)
+  ];
+
+  # start swayidle as part of hyprland, not sway
+  #systemd.user.services.swayidle.Install.WantedBy = lib.mkForce ["hyprland-session.target"];
+
   wayland.windowManager.hyprland = {
     enable = true;
     nvidiaPatches = true;
@@ -26,8 +35,8 @@
       # ~133ppi
       monitor=DP-2,preferred,auto,1.5
       # ~127ppi
-      monitor=HDMI-A-2,preferred,auto,1.5
-      #exec-once = xprop -root -f _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 1.5
+      monitor=HDMI-A-2,preferred,auto,1.4
+      #exec-once = xprop -root -f _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 1.4
       exec-once = swaybg -i /persist/nix-config/seto_miyako.jpg
 
       # set cursor for HL itself
@@ -57,6 +66,7 @@
 
       # terminal
       bind = $mod, Return, exec, ${pkgs.alacritty}/bin/alacritty
+      bind = $mod, p, exec, wofi --show drun
 
 
       animations {

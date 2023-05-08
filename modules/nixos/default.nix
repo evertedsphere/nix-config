@@ -3,4 +3,6 @@
 {
   # List your module files here
   fonts = import ./fonts.nix;
+  audio = import ./audio.nix;
+  xserver = import ./xserver.nix;
 }

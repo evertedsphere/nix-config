@@ -7,11 +7,10 @@
   ...
 }: {
   imports = [
-    # If you want to use modules your own flake exports (from modules/nixos):
     outputs.nixosModules.fonts
-    # Or modules from other flakes (such as nixos-hardware):
+    outputs.nixosModules.xserver
+    outputs.nixosModules.audio
     # inputs.hardware.nixosModules.common-cpu-amd
-    # ./users.nix
     ./hardware-configuration.nix
     inputs.impermanence.nixosModule
   ];
@@ -59,10 +58,39 @@
   networking.hostName = "malina";
   networking.networkmanager.enable = true;
 
+  # this also governs wayland
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.modesetting.enable = true;
-  hardware.opengl.enable = true;
-  # unfortunately this also governs wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  hardware.nvidia.powerManagement.enable = true;
+  # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
+  
+   services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      jack.enable = true;
+      pulse.enable = true;
+    };
+
+  security = {
+    # allow wayland lockers to unlock the screen
+    #pam.services.swaylock.text = "auth include login";
+
+    # userland niceness
+    rtkit.enable = true;
+  };
+  
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
+  };
 
   time.timeZone = "Europe/Paris";
 
@@ -86,8 +114,44 @@
   };
 
   # services.xserver.enable = true;
+      services.arbtt = {
+        enable = true;
+        sampleRate = 10;
+      };
+
+      zramSwap.enable = true;
+      services.earlyoom = {
+        freeMemThreshold = 5;
+        freeSwapThreshold = 10;
+        enableNotifications = true;
+      };
+
+      systemd.extraConfig = ''
+        DefaultTimeoutStopSec=30s
+      '';
+
+      console = {
+        earlySetup = true;
+        packages = with pkgs; [ terminus_font ];
+        keyMap = "us";
+      };
+
 
 programs.zsh.enable = true;
+      environment.pathsToLink = [ "/share/zsh" ];
+      # this is needed or else lightdm doesn't show the user bc it thinks any user
+      # with a shell not in /etc/shells is a system user
+      environment.shells = with pkgs; [ bashInteractive zsh ];
+
+      boot.kernelModules = [ "uinput" ];
+      # for kmonad, but i'll leave it in
+      services.udev.extraRules = ''
+        KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput", GROUP="input", MODE="0660"
+      '';
+      i18n.defaultLocale = "en_US.UTF-8";
+      i18n.inputMethod.enabled = "fcitx5";
+      i18n.inputMethod.fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
+
   users.users.root = {
     initialPassword = "hunter2";
     shell = pkgs.zsh;
