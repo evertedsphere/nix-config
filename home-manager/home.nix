@@ -1,5 +1,3 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
   outputs,
@@ -18,6 +16,7 @@
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
+    ./hyprland.nix
   ];
 
   nixpkgs = {
@@ -53,60 +52,81 @@
   };
 
   programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
+  home.packages = with pkgs; [swaybg];
   programs.alacritty = {
     enable = true;
     settings = {
-        window = {
-          opacity = 0.93;
-          dimensions = {
-            columns = 100;
-            lines = 85;
-          };
-          padding = {
-            # i3 gap width
-            x = 12;
-            y = 12;
-          };
-          dynamic_padding = false;
-          decorations = "None";
-          startup_mode = "Windowed";
+      window = {
+        opacity = 0.93;
+        dimensions = {
+          columns = 100;
+          lines = 85;
         };
+        padding = {
+          # i3 gap width
+          x = 12;
+          y = 12;
+        };
+        dynamic_padding = false;
+        decorations = "None";
+        startup_mode = "Windowed";
+      };
 
-        scrolling = {
-          history = 10000;
-          multiplier = 3;
-        };
+      scrolling = {
+        history = 10000;
+        multiplier = 3;
+      };
 
-        font = {
-          normal = { family = "Iosevka"; };
-          size = 12.0;
-        };
+      font = {
+        normal = {family = "Iosevka";};
+        size = 12.0;
       };
     };
+  };
 
   programs.home-manager.enable = true;
   programs.git.enable = true;
+  programs.atuin.enable = true;
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    nvidiaPatches = true;
-    xwayland.enable = true;
-    extraConfig = ''
-      $mod = SUPER 
-      general {
-	      gaps_in = 14
-	      gaps_out = 28
-	      border_size = 2
-      }
-
-monitor=DP-2,preferred,auto,1.6
-monitor=HDMI-A-2,preferred,auto,1.3
-
-    # terminal
-    bind = $mod, Return, exec, ${pkgs.alacritty}/bin/alacritty
-    '';
+  home.pointerCursor = {
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Classic";
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
   };
+
+  programs.zsh = {
+    enable = true;
+  };
+
+  programs.firefox = {
+    enable = true;
+  };
+
+  programs.waybar = {
+    enable = true;
+    settings = {
+      mainBar = {
+        layer = "top";
+        position = "top";
+        height = 32;
+        output = [
+          "DP-2"
+          "HDMI-A-2"
+        ];
+        modules-left = ["wlr/workspaces" "wlr/taskbar"];
+        modules-center = [];
+        modules-right = ["temperature"];
+
+        "wlr/workspaces" = {
+          disable-scroll = true;
+          all-outputs = false;
+        };
+      };
+    };
+  };
+
 
   systemd.user.startServices = "sd-switch";
 
