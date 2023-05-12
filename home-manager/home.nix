@@ -219,7 +219,7 @@ programs.wofi.enable = true;
   };
 
   programs.home-manager.enable = true;
-  programs.atuin.enable = true;
+  # programs.atuin.enable = true;
 
   home.pointerCursor = {
     package = pkgs.bibata-cursors;
@@ -300,6 +300,8 @@ programs.wofi.enable = true;
       lfs.enable = true;
       ignores = [ ".direnv/" ".envrc" "result/" ];
       extraConfig = {
+        user.name = "Soham Chowdhury";
+        user.email = "evertedsphere@gmail.com";
         safe.directory = "/etc/nixos";
       };
     };

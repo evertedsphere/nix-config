@@ -52,6 +52,16 @@
     fsType = "vfat";
   };
 
+  fileSystems."/data/inbox" =
+    { device = "dpool/inbox";
+      fsType = "zfs";
+    };
+
+  fileSystems."/data/models" =
+    { device = "dpool/models";
+      fsType = "zfs";
+    };
+
   swapDevices = [];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

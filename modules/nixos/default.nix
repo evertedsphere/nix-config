@@ -5,4 +5,5 @@
   fonts = import ./fonts.nix;
   audio = import ./audio.nix;
   xserver = import ./xserver.nix;
+  mullvad = import ./mullvad.nix;
 }
