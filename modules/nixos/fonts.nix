@@ -20,6 +20,7 @@
       google-fonts
       terminus_font
       (nerdfonts.override { fonts = [ "FiraCode" "Iosevka" "Monoid" ]; })
+      (callPackage ./fonts/bqn-font.nix)
     ];
     # user defined fonts
     # the reason there's Noto Color Emoji everywhere is to override DejaVu's
