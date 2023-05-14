@@ -52,15 +52,15 @@
     fsType = "vfat";
   };
 
-  fileSystems."/data/inbox" =
-    { device = "dpool/inbox";
-      fsType = "zfs";
-    };
+  fileSystems."/data/inbox" = {
+    device = "dpool/inbox";
+    fsType = "zfs";
+  };
 
-  fileSystems."/data/models" =
-    { device = "dpool/models";
-      fsType = "zfs";
-    };
+  fileSystems."/data/models" = {
+    device = "dpool/models";
+    fsType = "zfs";
+  };
 
   swapDevices = [];
 

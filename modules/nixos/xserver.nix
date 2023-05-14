@@ -1,8 +1,16 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [
+    ./xserver/keyd.nix
+  ];
+
   # allegedly fixes e.g. sort order in file pickers not being persisted
   programs.dconf.enable = true;
+
   services.xserver = {
     enable = true;
     # "This option enable propagating /etc/X11/xkb symlink, which is standard include path for xkbcomp."
@@ -10,16 +18,21 @@
     libinput.enable = true;
     layout = "us";
     xkbOptions = "ctrl:nocaps,compose:menu";
-    desktopManager.session = [{
-      name = "home-manager";
-      bgSupport = true;
-      start = ''
-        ${pkgs.runtimeShell} $HOME/.hm-xsession
-        waitPID=$!
-      '';
-    }];
-    displayManager = { lightdm.enable = true; };
+    desktopManager.session = [
+      {
+        name = "home-manager";
+        bgSupport = true;
+        start = ''
+          ${pkgs.runtimeShell} $HOME/.hm-xsession
+          waitPID=$!
+        '';
+      }
+    ];
+    displayManager = {
+      lightdm.enable = true;
+    };
   };
+
   environment.systemPackages = with pkgs; [
     xorg.xev
     xorg.xkbcomp

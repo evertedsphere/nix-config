@@ -6,7 +6,6 @@
   pkgs,
   ...
 }: {
-
   home.packages = with pkgs; [
     xorg.xprop
     (inputs.hyprland-contrib.packages.${pkgs.hostPlatform.system}.grimblast)

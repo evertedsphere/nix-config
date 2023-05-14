@@ -1,4 +1,8 @@
-{ stdenv, lib, fetchFromGitHub }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+}:
 stdenv.mkDerivation rec {
   pname = "BQN386";
   version = "20211026";
@@ -8,7 +12,7 @@ stdenv.mkDerivation rec {
     rev = "af9438073ec0797d8e7ebaf67e6c6b744e82fa18";
     sha256 = "sha256-Fv0im+ehnTkHV95f1FuFQDQ3bif+Du9JPZB7xSPiSpE=";
   };
-  phases = [ "unpackPhase" "installPhase" ];
+  phases = ["unpackPhase" "installPhase"];
 
   installPhase = ''
     mkdir -p $out/share/fonts/truetype
@@ -20,4 +24,3 @@ stdenv.mkDerivation rec {
     platforms = platforms.all;
   };
 }
-

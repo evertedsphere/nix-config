@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   sound.enable = false;
   hardware.bluetooth.enable = true;
   security.rtkit.enable = true;
