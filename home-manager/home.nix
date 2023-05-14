@@ -116,17 +116,17 @@ in {
     enable = true;
   };
 
-  services.gammastep = {
-    enable = true;
-    provider = "geoclue2";
-    temperature = {
-      day = 6000;
-      night = 4600;
-    };
-    settings = {
-      #general.adjustment-method = "wayland";
-    };
-  };
+  # services.gammastep = {
+  #   enable = true;
+  #   provider = "geoclue2";
+  #   temperature = {
+  #     day = 6000;
+  #     night = 4600;
+  #   };
+  #   settings = {
+  #     #general.adjustment-method = "wayland";
+  #   };
+  # };
 
   programs.alacritty = {
     enable = true;

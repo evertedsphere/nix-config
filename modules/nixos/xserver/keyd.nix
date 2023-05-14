@@ -15,10 +15,9 @@
         "q" = "q";
         "w" = "w";
 
-        ///
-        /// symlink bqn map into /etc
-        ///
-        ///
+        # ///
+        # /// symlink bqn map into /etc
+        # ///
 
         "e" = "f";
         "r" = "p";
