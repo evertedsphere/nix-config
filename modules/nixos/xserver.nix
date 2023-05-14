@@ -5,9 +5,11 @@
   programs.dconf.enable = true;
   services.xserver = {
     enable = true;
+    # "This option enable propagating /etc/X11/xkb symlink, which is standard include path for xkbcomp."
+    exportConfiguration = true;
     libinput.enable = true;
     layout = "us";
-    xkbOptions = "eurosign:e,ctrl:nocaps,compose:ralt";
+    xkbOptions = "ctrl:nocaps,compose:menu";
     desktopManager.session = [{
       name = "home-manager";
       bgSupport = true;
@@ -18,4 +20,8 @@
     }];
     displayManager = { lightdm.enable = true; };
   };
+  environment.systemPackages = with pkgs; [
+    xorg.xev
+    xorg.xkbcomp
+  ];
 }

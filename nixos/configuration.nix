@@ -189,69 +189,30 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-    neovim
     firefox
     vivaldi
+
+    # terminal utilities
+    parallel
+    # data wrangling
     ripgrep
     jq
+    miller
     git
+    # net
     wget
     htop
     lsof
+    # formatters
     alejandra
 
+    neovim
     (pkgs.emacsWithPackages (epkgs: [
       # for org-roam, which fails to function otherwise
       # also see note in packages.el
       epkgs.emacsql-sqlite
     ]))
   ];
-
-  services.keyd = {
-    enable = true;
-    ids = ["*"];
-    settings = {
-      main = {
-        capslock = "overload(control, esc)";
-        tab = "overload(meta, tab)";
-        "q" = "q";
-        "w" = "w";
-        "e" = "f";
-        "r" = "p";
-        "t" = "b";
-        "y" = "j";
-        "u" = "l";
-        "i" = "u";
-        "o" = "y";
-        "p" = ";";
-        "[" = "[";
-        "]" = "]";
-        "a" = "a";
-        "s" = "r";
-        "d" = "s";
-        "f" = "t";
-        "g" = "g";
-        "h" = "m";
-        "j" = "n";
-        "k" = "e";
-        "l" = "i";
-        ";" = "o";
-        "'" = "'";
-        "\\" = "\\";
-        "102nd" = "z";
-        "z" = "x";
-        "x" = "c";
-        "c" = "d";
-        "v" = "v";
-        "b" = "z";
-        "n" = "k";
-        "m" = "h";
-        "," = ",";
-        "." = ".";
-        "/" = "/";
-      };
-    };
-  };
 
   services.openssh = {
     enable = true;

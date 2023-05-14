@@ -1,12 +1,15 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   fonts = {
     enableDefaultFonts = false;
     fonts = with pkgs; [
-    material-symbols
-    jost
-    lexend
+      material-symbols
+      jost
+      lexend
       hanazono
       noto-fonts
       noto-fonts-extra
@@ -19,18 +22,26 @@
       iosevka
       google-fonts
       terminus_font
-      (nerdfonts.override { fonts = [ "FiraCode" "Iosevka" "Monoid" ]; })
-      (callPackage ./fonts/bqn-font.nix)
+      (nerdfonts.override {fonts = ["FiraCode" "Iosevka" "Monoid"];})
+      (callPackage ./fonts/bqn-font.nix {})
     ];
     # user defined fonts
     # the reason there's Noto Color Emoji everywhere is to override DejaVu's
     # B&W emojis that would sometimes show instead of some Color emojis
-    fontconfig.defaultFonts = {
-      serif = ["Noto Serif" "Noto Color Emoji"];
-      sansSerif = ["Noto Sans" "Noto Color Emoji"];
-      monospace = ["Iosevka" "Noto Color Emoji"];
-      emoji = ["Noto Color Emoji"];
+    fontconfig = {
+      defaultFonts = {
+        serif = ["Noto Serif" "Noto Color Emoji"];
+        sansSerif = ["Noto Sans" "Noto Color Emoji"];
+        monospace = ["Iosevka" "BQN386 Unicode" "Noto Color Emoji"];
+        emoji = ["Noto Color Emoji"];
+      };
+      localConf = ''
+        <alias>
+          <family>APL385 Unicode</family>
+          <prefer><family>BQN386 Unicode</family></prefer>
+          <default><family>monospace</family></default>
+        </alias>
+      '';
     };
   };
 }
-

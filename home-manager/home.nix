@@ -391,9 +391,18 @@ programs.wofi.enable = true;
     };
 
     # set a random background
-    home.file.wallpaper-folder = {
+    home.file.wallpaper = {
       source = ../seto_miyako.jpg;
       target = ".local/share/walls/wall.jpg";
+    };
+
+    services.random-background = {
+      enable = true;
+      imageDirectory = "%h/.local/share/walls";
+      display = fill;
+      # only set on login
+      interval = null;
+      enableXinerama = true;
     };
 
     xdg.userDirs = {
