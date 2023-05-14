@@ -378,6 +378,7 @@ in {
         "utility"
         "ssh"
         "git"
+        "docker"
         "completion"
         "fasd"
         "prompt"
@@ -394,7 +395,7 @@ in {
   services.random-background = {
     enable = true;
     imageDirectory = "%h/.local/share/walls";
-    display = fill;
+    display = "fill";
     # only set on login
     interval = null;
     enableXinerama = true;
@@ -438,7 +439,7 @@ in {
   services.fluidsynth.enable = true;
   services.screen-locker = {
     enable = true;
-    lockCmd = "${pkgs.i3lock}/bin/i3lock -n -i ${config.home.file.wallpaper-folder.target}";
+    lockCmd = "${pkgs.i3lock}/bin/i3lock -n -i ${config.home.file.wallpaper.target}";
   };
 
   # x

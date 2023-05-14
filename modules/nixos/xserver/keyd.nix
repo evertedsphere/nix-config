@@ -11,9 +11,15 @@
       main = {
         capslock = "overload(control, esc)";
         tab = "overload(meta, tab)";
-        rightalt = "layer(bqn)";
+        # rightalt = "layer(bqn)";
         "q" = "q";
         "w" = "w";
+
+        ///
+        /// symlink bqn map into /etc
+        ///
+        ///
+
         "e" = "f";
         "r" = "p";
         "t" = "b";

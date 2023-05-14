@@ -36,5 +36,6 @@
   environment.systemPackages = with pkgs; [
     xorg.xev
     xorg.xkbcomp
+    xorg.xclip
   ];
 }
