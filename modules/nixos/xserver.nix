@@ -13,16 +13,13 @@
 
   services.xserver = {
     enable = true;
-    # "This option enable propagating /etc/X11/xkb symlink, which is standard include path for xkbcomp."
-    # exportConfiguration = true;
+    # # "This option enable propagating /etc/X11/xkb symlink, which is standard include path for xkbcomp."
+    # # fsr extralayouts disables this unless you're using startx
+    # exportConfiguration = lib.mkForce true;
     libinput.enable = true;
-    layout = "us";
-    extraLayouts.bqn = {
-      description = "bqn symbols, available in xkeyboard-config >= 2.36";
-      # languages = [ "bqn" ];
-      symbolsFile = ./xserver/bqn;
-    };
-    xkbOptions = "ctrl:nocaps,compose:menu";
+    # ideally i would be able to set these in the bqn module... but maybe not
+    layout = "us,bqn";
+    xkbOptions = "grp:switch,ctrl:nocaps,compose:menu";
     desktopManager.session = [
       {
         name = "home-manager";
