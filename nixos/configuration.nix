@@ -13,6 +13,7 @@ in {
     outputs.nixosModules.xserver
     outputs.nixosModules.audio
     outputs.nixosModules.mullvad
+    outputs.nixosModules.bqn
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     ./hardware-configuration.nix
     inputs.impermanence.nixosModule

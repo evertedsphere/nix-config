@@ -10,12 +10,6 @@
     waybar = prev.waybar.overrideAttrs (oldAttrs: {
       mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];
     });
-    # xorg = prev.xorg //
-    #   { xkeyboard_config = prev.xkeyboard_config.overrideAttrs(old: rec {
-    #   name = "xkeyboard-config-2.36";
-    #   url = "mirror://xorg/individual/data/xkeyboard-config/xkeyboard-config-2.36.tar.bz2";
-    #   sha256 = "2g6kn7l0mixw50kgn7897gwv1990c5rczr2x776q3xywss8dfzv5";
-    #     }); } ;
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will

@@ -6,4 +6,5 @@
   audio = import ./audio.nix;
   xserver = import ./xserver.nix;
   mullvad = import ./mullvad.nix;
+  bqn = import ./bqn;
 }
