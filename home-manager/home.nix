@@ -5,24 +5,18 @@
   config,
   pkgs,
   ...
-}:
-
-{
-  imports =
-    (with inputs; [
-      nix-colors.homeManagerModules.default
-    ])
-    ++ (with outputs.homeManagerModules; [
-      local
-    ])
-    ++ [ ./xsession.nix ];
+}: {
+  imports = [
+    inputs.nix-colors.homeManagerModules.default
+    outputs.homeManagerModules.local
+    ./xsession.nix
+  ];
 
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-      # neovim-nightly-overlay.overlays.default
     ];
     config = {
       allowUnfree = true;
@@ -32,9 +26,14 @@
   };
 
   home = {
-    username = "s";
-    homeDirectory = "/home/s";
+    username = config.local.user.localUser;
+    homeDirectory = "/home/${config.local.user.localUser}";
   };
+
+  home.stateVersion = "22.11";
+  home.enableNixpkgsReleaseCheck = true;
+  home.extraOutputsToInstall = ["doc" "info" "devdoc"];
+  systemd.user.startServices = "sd-switch";
 
   programs.wofi.enable = true;
   programs.qutebrowser = {
@@ -53,104 +52,13 @@
   #   };
   # };
 
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      colors = let
-        colors = config.colorScheme.colors;
-      in {
-        primary = {
-          background = "#${colors.base00}";
-          foreground = "#${colors.base05}";
-        };
-        cursor = {
-          text = "#${colors.base00}";
-          cursor = "#${colors.base05}";
-        };
-        normal = {
-          black = "#${colors.base00}";
-          red = "#${colors.base08}";
-          green = "#${colors.base0B}";
-          yellow = "#${colors.base0A}";
-          blue = "#${colors.base0D}";
-          magenta = "#${colors.base0E}";
-          cyan = "#${colors.base0C}";
-          white = "#${colors.base05}";
-        };
-        bright = {
-          black = "#${colors.base03}";
-          red = "#${colors.base08}";
-          green = "#${colors.base0B}";
-          yellow = "#${colors.base0A}";
-          blue = "#${colors.base0D}";
-          magenta = "#${colors.base0E}";
-          cyan = "#${colors.base0C}";
-          white = "#${colors.base07}";
-        };
-        indexed_colors = [
-          {
-            index = 16;
-            color = "#${colors.base09}";
-          }
-          {
-            index = 17;
-            color = "#${colors.base0F}";
-          }
-          {
-            index = 18;
-            color = "#${colors.base01}";
-          }
-          {
-            index = 19;
-            color = "#${colors.base02}";
-          }
-          {
-            index = 20;
-            color = "#${colors.base04}";
-          }
-          {
-            index = 21;
-            color = "#${colors.base06}";
-          }
-        ];
-      };
-      window = {
-        opacity = 0.93;
-        dimensions = {
-          columns = 100;
-          lines = 85;
-        };
-        padding = {
-          # i3 gap width
-          x = 12;
-          y = 12;
-        };
-        dynamic_padding = false;
-        decorations = "None";
-        startup_mode = "Windowed";
-      };
-
-      scrolling = {
-        history = 10000;
-        multiplier = 3;
-      };
-
-      font = {
-        normal = {
-          family = config.local.fonts.monospaceFont;
-        };
-        size = 12.0;
-      };
-    };
-  };
-
   programs.home-manager.enable = true;
   # programs.atuin.enable = true;
 
   home.pointerCursor = {
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
-    size = 24;
+    size = 30;
     gtk.enable = true;
     x11.enable = true;
   };
@@ -182,36 +90,29 @@
     };
   };
 
-  systemd.user.startServices = "sd-switch";
-
-  home.stateVersion = "22.11";
-
-  home = {
-    enableNixpkgsReleaseCheck = true;
-    extraOutputsToInstall = ["doc" "info" "devdoc"];
-    sessionVariables = {
-      EDITOR = "nvim";
-      VISUAL = "nvim";
-    };
-    packages = with pkgs; [
-      discord
-      (pkgs.writeShellApplication {
-        name = "bqn-alacritty";
-        runtimeInputs = [];
-        text = ''
-          ${pkgs.alacritty}/bin/alacritty -o font.normal.family="BQN386 Unicode"
-        '';
-      })
-      (makeDesktopItem {
-        name = "org-protocol";
-        exec = "emacsclient %u";
-        comment = "org-protocol";
-        desktopName = "org-protocol";
-        type = "Application";
-        mimeTypes = ["x-scheme-handler/org-protocol"];
-      })
-    ];
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
   };
+  home.packages = with pkgs; [
+    discord
+    (pkgs.writeShellApplication {
+      name = "bqn-alacritty";
+      runtimeInputs = [];
+      text = ''
+        # FIXME fail unless alacritty
+        ${config.local.programs.terminalExe} -o font.normal.family="BQN386 Unicode"
+      '';
+    })
+    (makeDesktopItem {
+      name = "org-protocol";
+      exec = "emacsclient %u";
+      comment = "org-protocol";
+      desktopName = "org-protocol";
+      type = "Application";
+      mimeTypes = ["x-scheme-handler/org-protocol"];
+    })
+  ];
 
   # misc
   xdg.mimeApps = {
@@ -225,18 +126,19 @@
       "x-www-browser" = "Firefox.desktop";
     };
   };
+
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
     delta.enable = true;
     lfs.enable = true;
-    ignores = [".direnv/" ".envrc" "result/"];
+    ignores = [".direnv/" "result/"];
     extraConfig = {
-      user.name = "Soham Chowdhury";
-      user.email = "evertedsphere@gmail.com";
-      safe.directory = "/etc/nixos";
+      user.name = config.local.user.fullName;
+      user.email = config.local.user.email;
     };
   };
+
   programs.info.enable = true;
   programs.htop = {
     enable = true;
@@ -257,18 +159,17 @@
     enableZshIntegration = true;
     defaultCommand = "fd --type f";
   };
-
   programs.command-not-found.enable = true;
   programs.readline.enable = true;
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
-    nix-direnv = {enable = true;};
+    nix-direnv.enable = true;
   };
   programs.feh.enable = true;
   programs.rofi = {
     enable = true;
-    terminal = "${pkgs.alacritty}/bin/alacritty";
+    terminal = config.local.programs.terminalExe;
     theme = "sidebar";
     font = "${config.local.fonts.monospaceFont} 22";
   };
@@ -421,8 +322,13 @@
   programs.i3status-rust = {
     enable = true;
     bars.default = {
+      # TODO nix-colors
+      icons = "awesome6";
+      theme = "gruvbox-dark";
       blocks = [
-        {block = "cpu";}
+        {
+          block = "cpu";
+        }
         {
           block = "disk_space";
           path = "/";
@@ -571,21 +477,21 @@
         transparency = 0;
         word_wrap = true;
       };
-      urgency_low = {
-        background = "${color2}";
-        foreground = "${background}";
-        timeout = 5;
-      };
-      urgency_normal = {
-        background = "${color3}";
-        foreground = "${background}";
-        timeout = 20;
-      };
-      urgency_critical = {
-        background = "${color1}";
-        foreground = "${background}";
-        timeout = 0;
-      };
+      # urgency_low = {
+      #   background = "${color2}";
+      #   foreground = "${background}";
+      #   timeout = 5;
+      # };
+      # urgency_normal = {
+      #   background = "${color3}";
+      #   foreground = "${background}";
+      #   timeout = 20;
+      # };
+      # urgency_critical = {
+      #   background = "${color1}";
+      #   foreground = "${background}";
+      #   timeout = 0;
+      # };
     };
   };
 }

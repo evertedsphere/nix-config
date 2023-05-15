@@ -12,6 +12,8 @@
     f = arg: attrsToList (renderTemplate arg);
   in
     builtins.listToAttrs (builtins.concatMap f data);
+  c = config.colorScheme.colors;
+  h = x: "#${x}";
 in {
   xsession = {
     enable = true;
@@ -101,7 +103,7 @@ in {
           "Print" = spawn "flameshot screen -p ~/img/caps";
           "Shift+Print" = spawn "flameshot gui";
           "Ctrl+Print" = spawn "sleep 5 && flameshot gui";
-          "${modifier}+Return" = run "${pkgs.alacritty}/bin/alacritty";
+          "${modifier}+Return" = run config.local.programs.terminalExe;
           "${modifier}+p" = run "${pkgs.rofi}/bin/rofi -modi drun -show drun";
         };
         controlKeybinds = {
@@ -120,69 +122,66 @@ in {
           "${modifier}+o" = "mode resize";
           "${modifier}+F10" = spawn "~/.local/bin/open-pdf";
         };
-        colors = let
-          colors = config.colorScheme.colors;
-          h = x: "#${x}";
-        in {
+        colors = {
           # Background color of the window. Only applications which do not cover
           # the whole area expose the color.
-          background = h colors.base01;
+          background = h c.base01;
 
           # A window which currently has the focus
           focused = {
-            border = h colors.base0A;
-            background = h colors.base0A;
-            text = h colors.base00;
-            indicator = h colors.base03;
-            childBorder = h colors.base0A;
+            border = h c.base0A;
+            background = h c.base0A;
+            text = h c.base00;
+            indicator = h c.base03;
+            childBorder = h c.base0A;
           };
 
           # A window which is the focused one of its container,
           # but it does not have the focus at the moment.
           focusedInactive = {
-            border = h colors.base03;
-            background = h colors.base03;
-            text = h colors.base00;
+            border = h c.base03;
+            background = h c.base03;
+            text = h c.base00;
             # hide indicator
-            indicator = h colors.base03;
-            childBorder = h colors.base03;
+            indicator = h c.base03;
+            childBorder = h c.base03;
           };
 
           # A window which is not focused
           unfocused = {
-            border = h colors.base01;
-            background = h colors.base01;
-            text = h colors.base03;
-            # text = h colors.base01;
-            indicator = h colors.base01;
-            childBorder = h colors.base01;
+            border = h c.base01;
+            background = h c.base01;
+            text = h c.base03;
+            # text = h c.base01;
+            indicator = h c.base01;
+            childBorder = h c.base01;
           };
 
           # A window which has its urgency hint activated.
           urgent = {
-            border = h colors.base08;
-            background = h colors.base08;
-            text = h colors.base07;
-            # text = h colors.base08;
-            indicator = h colors.base08;
-            childBorder = h colors.base08;
+            border = h c.base08;
+            background = h c.base08;
+            text = h c.base07;
+            # text = h c.base08;
+            indicator = h c.base08;
+            childBorder = h c.base08;
           };
 
           # Background and text color are used to draw placeholder window
           # contents (when restoring layouts). Border and indicator are ignobase08.
           placeholder = {
-            border = h colors.base00;
-            background = h colors.base00;
-            text = h colors.base0A;
-            indicator = h colors.base03;
-            childBorder = h colors.base00;
+            border = h c.base00;
+            background = h c.base00;
+            text = h c.base0A;
+            indicator = h c.base03;
+            childBorder = h c.base00;
           };
         };
         # FIXME
       in
         lib.mkOptionDefault {
           inherit modifier colors;
-          terminal = "${pkgs.alacritty}/bin/alacritty";
+          terminal = config.local.programs.terminalExe;
           fonts = {
             names = [config.local.fonts.monospaceFont];
             size = 11.0;
@@ -197,7 +196,6 @@ in {
             titlebar = false;
           };
           assigns = {
-            # "2:2" = [{ class = "^firefox$"; }];
             "5:5" = [{class = "^Spotify$";}];
             "7:7" = [{class = "^Discord$";} {class = "^Dragon";}];
             "9:9" = [{class = "^qBittorrent$";}];
@@ -232,7 +230,6 @@ in {
           bars = [
             {
               mode = "dock";
-
               hiddenState = "hide";
               position = "top";
               workspaceButtons = true;
@@ -243,35 +240,35 @@ in {
                 names = [config.local.fonts.monospaceFont];
                 size = 12.0;
               };
-              trayOutput = "DP-2";
+              # trayOutput = "DP-2";
               colors = {
-                background = colors.base01;
-                statusline = colors.base03;
-                separator = colors.base03;
+                background = h c.base01;
+                statusline = h c.base03;
+                separator = h c.base03;
                 focusedWorkspace = {
-                  border = colors.base0A;
-                  background = colors.base0A;
-                  text = colors.base00;
+                  border = h c.base0A;
+                  background = h c.base0A;
+                  text = h c.base00;
                 };
                 inactiveWorkspace = {
-                  border = colors.base01;
-                  background = colors.base01;
-                  text = colors.base03;
+                  border = h c.base01;
+                  background = h c.base01;
+                  text = h c.base03;
                 };
                 activeWorkspace = {
-                  border = colors.base03;
-                  background = colors.base03;
-                  text = colors.base00;
+                  border = h c.base03;
+                  background = h c.base03;
+                  text = h c.base00;
                 };
                 bindingMode = {
-                  border = colors.base08;
-                  background = colors.base08;
-                  text = colors.base01;
+                  border = h c.base08;
+                  background = h c.base08;
+                  text = h c.base01;
                 };
                 urgentWorkspace = {
-                  border = colors.base08;
-                  background = colors.base08;
-                  text = colors.base01;
+                  border = h c.base08;
+                  background = h c.base08;
+                  text = h c.base01;
                 };
               };
             }

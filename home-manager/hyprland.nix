@@ -64,7 +64,7 @@
       }
 
       # terminal
-      bind = $mod, Return, exec, ${pkgs.alacritty}/bin/alacritty
+      bind = $mod, Return, exec, ${config.local.programs.terminalExe}
       bind = $mod, p, exec, wofi --show drun
 
 
