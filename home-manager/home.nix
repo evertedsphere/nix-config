@@ -6,93 +6,16 @@
   pkgs,
   ...
 }:
-with lib; let
-  colors = config.colorScheme.colors;
 
-  foreground = "#979eab";
-  background = "#1f2329";
-  selection_foreground = "#5b6268";
-  selection_background = "#b3deef";
-
-  url_color = "#61afef";
-
-  color0 = "#282c34";
-  color8 = "#393e48";
-
-  # White
-  color7 = "#979eab";
-  color15 = "#bbc2cf";
-
-  # Red
-  color1 = "#e55561";
-  color9 = "#8b3434";
-
-  # Green
-  color2 = "#8ebd6b";
-  color10 = "#5e8d6b";
-
-  # Blue
-  color4 = "#4fa6ed";
-  color12 = "#0f66ad";
-
-  # Yellow
-  color3 = "#e2b86b";
-  color11 = "#835d1a";
-
-  # Magenta
-  color5 = "#bf68d9";
-  color13 = "#7e3992";
-
-  # Cyan
-  color6 = "#48b0bd";
-  color14 = "#266269";
-
-  # Cursor colors
-  cursor = "#cccccc";
-
-  # Tab bar colors
-  active_tab_foreground = "#282a36";
-  active_tab_background = "#f8f8f2";
-  inactive_tab_foreground = "#282a36";
-  inactive_tab_background = "#6272a4";
-
-  # Marks
-  mark1_foreground = "#282a36";
-  mark1_background = "#ff5555";
-
-  gruvbox = {
-    bg = "#282828";
-    # bg = "#1d2021";
-    red = "#cc241d";
-    white = "#ffffff";
-    green = "#98971a";
-    yellow = "#d79921";
-    blue = "#458588";
-    purple = "#b16286";
-    aqua = "#689d68";
-    gray = "#a89984";
-    darkgray = "#1d2021";
-    lightgray = "#bdae93";
-  };
-
-  renderTemplates = renderTemplate: data: let
-    attrsToList = attrSet:
-      lib.zipListsWith (name: value: {inherit name value;})
-      (builtins.attrNames attrSet)
-      (builtins.attrValues attrSet);
-    f = arg: attrsToList (renderTemplate arg);
-  in
-    builtins.listToAttrs (builtins.concatMap f data);
-in {
-  imports = (with inputs; [
-    inputs.nix-colors.homeManagerModules.default
-  ]) ++ (with outputs.homeManagerModules; [
-    fonts
-  ]);
-
-  local.fonts.defaultMonospaceFont = "Sarasa Mono J";
-
-  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
+{
+  imports =
+    (with inputs; [
+      nix-colors.homeManagerModules.default
+    ])
+    ++ (with outputs.homeManagerModules; [
+      local
+    ])
+    ++ [ ./xsession.nix ];
 
   nixpkgs = {
     overlays = [
@@ -133,7 +56,9 @@ in {
   programs.alacritty = {
     enable = true;
     settings = {
-      colors = {
+      colors = let
+        colors = config.colorScheme.colors;
+      in {
         primary = {
           background = "#${colors.base00}";
           foreground = "#${colors.base05}";
@@ -212,8 +137,8 @@ in {
 
       font = {
         normal = {
-          family = config.local.fonts.defaultMonospaceFont;
-                 };
+          family = config.local.fonts.monospaceFont;
+        };
         size = 12.0;
       };
     };
@@ -345,7 +270,7 @@ in {
     enable = true;
     terminal = "${pkgs.alacritty}/bin/alacritty";
     theme = "sidebar";
-    font = "${config.local.fonts.defaultMonospaceFont} 22";
+    font = "${config.local.fonts.monospaceFont} 22";
   };
 
   programs.zsh = {
@@ -486,270 +411,6 @@ in {
     fadeSteps = [0.04 0.04];
     # inactiveDim = "0.10";
   };
-  xsession = {
-    enable = true;
-    initExtra = "";
-    scriptPath = ".hm-xsession";
-    numlock.enable = true;
-    windowManager.i3 = {
-      enable = true;
-      config = let
-        modifier = "Mod4";
-        # FIXME
-        movementMap = {
-          left = "h";
-          right = "l";
-          up = "k";
-          down = "j";
-        };
-        movementKeys = [
-          {
-            key = movementMap.left;
-            dir = "left";
-          }
-          {
-            key = movementMap.down;
-            dir = "down";
-          }
-          {
-            key = movementMap.up;
-            dir = "up";
-          }
-          {
-            key = movementMap.right;
-            dir = "right";
-          }
-        ];
-        mkWs = x: y: {
-          wsName = "${x}:${y}";
-          wsKey = y;
-        };
-        smallMonitorWss =
-          map (x: mkWs x x) ["1" "2" "3" "4" "5" "6" "7" "8" "9" "0"];
-        bigMonitorWss = [
-          (mkWs "10" "q")
-          (mkWs "11" "w")
-          (mkWs "12" "e")
-          (mkWs "13" "r")
-          (mkWs "14" "t")
-          (mkWs "15" "y")
-          (mkWs "16" "u")
-          (mkWs "17" "i")
-        ];
-        workspaceKeybinds =
-          renderTemplates
-          ({
-            wsName,
-            wsKey,
-          }: {
-            "${modifier}+${wsKey}" = "workspace number ${wsName}";
-            "${modifier}+Shift+${wsKey}" = "move container to workspace number ${wsName}";
-          })
-          (smallMonitorWss ++ bigMonitorWss);
-        containerKeybinds =
-          renderTemplates
-          ({
-            key,
-            dir,
-          }: {
-            "${modifier}+${key}" = "focus ${dir}";
-            "${modifier}+Shift+${key}" = "move ${dir}";
-          })
-          movementKeys;
-        assignWorkspace = outputs: let
-          output = lib.concatStringsSep " " outputs;
-        in
-          map (workspace: {
-            inherit output;
-            workspace = workspace.wsName;
-          });
-        workspaceOutputAssign =
-          # TODO primary/secondary outputs
-          assignWorkspace ["eDP-1" "HDMI-A-0" "HDMI-1"] smallMonitorWss
-          ++ assignWorkspace ["DP-2" "DisplayPort-0"] bigMonitorWss;
-        run = x: "exec ${x}";
-        spawn = x: "exec --no-startup-id ${x}";
-        globalKeybinds = {
-          "F8" = spawn "dm-tool switch-to-greeter";
-          "Print" = spawn "flameshot screen -p ~/img/caps";
-          "Shift+Print" = spawn "flameshot gui";
-          "Ctrl+Print" = spawn "sleep 5 && flameshot gui";
-          "${modifier}+Return" = run "${pkgs.alacritty}/bin/alacritty";
-          "${modifier}+p" = run "${pkgs.rofi}/bin/rofi -modi drun -show drun";
-        };
-        controlKeybinds = {
-          "${modifier}+Ctrl+q" = "kill";
-          "${modifier}+b" = "split horizontal";
-          "${modifier}+v" = "split vertical";
-          "${modifier}+f" = "fullscreen toggle";
-          "${modifier}+m" = "layout tabbed";
-          "${modifier}+n" = "layout toggle split";
-          "${modifier}+Ctrl+space" = "floating toggle";
-          "${modifier}+space" = "focus mode_toggle";
-          "${modifier}+a" = "focus parent";
-          "${modifier}+d" = "focus child";
-          "${modifier}+Ctrl+c" = "reload";
-          "${modifier}+Ctrl+r" = "restart";
-          "${modifier}+o" = "mode resize";
-          "${modifier}+F10" = spawn "~/.local/bin/open-pdf";
-        };
-        colors = {
-          # Background color of the window. Only applications which do not cover
-          # the whole area expose the color.
-          background = gruvbox.bg;
-
-          # A window which currently has the focus
-          focused = {
-            border = gruvbox.yellow;
-            background = gruvbox.yellow;
-            text = gruvbox.darkgray;
-            # text = gruvbox.yellow;
-            indicator = gruvbox.lightgray;
-            childBorder = gruvbox.yellow;
-          };
-
-          # A window which is the focused one of its container,
-          # but it does not have the focus at the moment.
-          focusedInactive = {
-            border = gruvbox.lightgray;
-            background = gruvbox.lightgray;
-            text = gruvbox.darkgray;
-            # hide indicator
-            indicator = gruvbox.lightgray;
-            childBorder = gruvbox.lightgray;
-          };
-
-          # A window which is not focused
-          unfocused = {
-            border = gruvbox.bg;
-            background = gruvbox.bg;
-            text = gruvbox.lightgray;
-            # text = gruvbox.bg;
-            indicator = gruvbox.bg;
-            childBorder = gruvbox.bg;
-          };
-
-          # A window which has its urgency hint activated.
-          urgent = {
-            border = gruvbox.red;
-            background = gruvbox.red;
-            text = gruvbox.white;
-            # text = gruvbox.red;
-            indicator = gruvbox.red;
-            childBorder = gruvbox.red;
-          };
-
-          # Background and text color are used to draw placeholder window
-          # contents (when restoring layouts). Border and indicator are ignored.
-          placeholder = {
-            border = gruvbox.darkgray;
-            background = gruvbox.darkgray;
-            text = gruvbox.yellow;
-            indicator = gruvbox.lightgray;
-            childBorder = gruvbox.darkgray;
-          };
-        };
-        # FIXME
-      in
-        lib.mkOptionDefault {
-          inherit modifier colors;
-          terminal = "${pkgs.alacritty}/bin/alacritty";
-          fonts = {
-            names = ["Iosevka Nerd Font"];
-            size = 11.0;
-          };
-          workspaceAutoBackAndForth = true;
-          gaps = {
-            inner = 14;
-            outer = 0;
-          };
-          floating = {
-            inherit modifier;
-            titlebar = false;
-          };
-          assigns = {
-            # "2:2" = [{ class = "^firefox$"; }];
-            "5:5" = [{class = "^Spotify$";}];
-            "7:7" = [{class = "^Discord$";} {class = "^Dragon";}];
-            "9:9" = [{class = "^qBittorrent$";}];
-          };
-          window = let
-            borderWidth = 2;
-          in {
-            border = borderWidth;
-            commands = [
-              {
-                command = "border pixel ${builtins.toString borderWidth}";
-                criteria = {class = ".*";};
-              }
-            ];
-          };
-          modes = {
-            resize = {
-              # TODO resize grow right etc
-              "${movementMap.down}" = "resize grow height 50 px or 10 ppt";
-              "${movementMap.left}" = "resize shrink width 50 px or 10 ppt";
-              "${movementMap.right}" = "resize grow width 50 px or 10 ppt";
-              "${movementMap.up}" = "resize shrink height 50 px or 10 ppt";
-              Escape = "mode default";
-            };
-          };
-          keybindings =
-            containerKeybinds
-            // workspaceKeybinds
-            // globalKeybinds
-            // controlKeybinds;
-          inherit workspaceOutputAssign;
-          bars = [
-            {
-              mode = "dock";
-
-              hiddenState = "hide";
-              position = "top";
-              workspaceButtons = true;
-              workspaceNumbers = false;
-              # TODO don't hardcode
-              statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
-              fonts = {
-                names = ["Iosevka Nerd Font"];
-                size = 12.0;
-              };
-              trayOutput = "DP-2";
-              colors = {
-                background = gruvbox.bg;
-                statusline = gruvbox.lightgray;
-                separator = gruvbox.lightgray;
-                focusedWorkspace = {
-                  border = gruvbox.yellow;
-                  background = gruvbox.yellow;
-                  text = gruvbox.darkgray;
-                };
-                inactiveWorkspace = {
-                  border = gruvbox.bg;
-                  background = gruvbox.bg;
-                  text = gruvbox.lightgray;
-                };
-                activeWorkspace = {
-                  border = gruvbox.lightgray;
-                  background = gruvbox.lightgray;
-                  text = gruvbox.darkgray;
-                };
-                bindingMode = {
-                  border = gruvbox.red;
-                  background = gruvbox.red;
-                  text = gruvbox.bg;
-                };
-                urgentWorkspace = {
-                  border = gruvbox.red;
-                  background = gruvbox.red;
-                  text = gruvbox.bg;
-                };
-              };
-            }
-          ];
-        };
-    };
-  };
 
   programs.zathura = {
     enable = true;
@@ -850,31 +511,28 @@ in {
     '';
     plugins = with pkgs.vimPlugins; [
       ayu-vim
-
       vim-commentary
       vim-surround
-
       vim-nix
-
       colorizer
     ];
   };
 
-  qt.style = {
-    package = pkgs.adwaita-qt;
-    name = "adwaita-dark";
-  };
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Dracula";
-      package = pkgs.dracula-theme;
-    };
-    iconTheme = {
-      name = "Paper";
-      package = pkgs.paper-icon-theme;
-    };
-  };
+  # qt.style = {
+  #   package = pkgs.adwaita-qt;
+  #   name = "adwaita-dark";
+  # };
+  # gtk = {
+  #   enable = true;
+  #   theme = {
+  #     name = "Dracula";
+  #     package = pkgs.dracula-theme;
+  #   };
+  #   iconTheme = {
+  #     name = "Paper";
+  #     package = pkgs.paper-icon-theme;
+  #   };
+  # };
 
   programs.dircolors.enable = true;
   fonts.fontconfig.enable = true;
@@ -893,7 +551,7 @@ in {
         alignment = "center";
         bounce_freq = 0;
         corner_radius = 6;
-        font = "Iosevka Nerd Font";
+        font = config.local.fonts.monospaceFont;
         format = "<b>%s</b>\\n%b";
         geometry = "350x5-25+25";
         horizontal_padding = 8;

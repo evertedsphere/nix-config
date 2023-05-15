@@ -7,30 +7,30 @@
   fonts = {
     enableDefaultFonts = false;
     fonts = with pkgs; [
+      sarasa-gothic
       source-han-sans
       source-han-mono
-      sarasa-gothic
-      material-symbols
-      jost
-      lexend
+      source-code-pro
       hanazono
       noto-fonts
       noto-fonts-extra
       noto-fonts-cjk
       noto-fonts-emoji
-      carlito
-      dejavu_fonts
-      source-code-pro
-      ttf_bitstream_vera
-      iosevka
+      # material-symbols
+      # jost
+      # lexend
+      # carlito
+      # dejavu_fonts
+      # ttf_bitstream_vera
+      # iosevka
       google-fonts
       terminus_font
-      (nerdfonts.override {fonts = ["FiraCode" "Iosevka" "Monoid"];})
     ];
     # user defined fonts
     # the reason there's Noto Color Emoji everywhere is to override DejaVu's
     # B&W emojis that would sometimes show instead of some Color emojis
     fontconfig = {
+      # TODO parity with home-manager.local.fonts.*
       defaultFonts = {
         serif = ["Noto Serif" "Noto Color Emoji"];
         sansSerif = ["Noto Sans" "Noto Color Emoji"];

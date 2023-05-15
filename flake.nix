@@ -72,6 +72,7 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
+          ./home-manager/config.nix
           ./home-manager/home.nix
           # hyprland.homeManagerModules.default
         ];
