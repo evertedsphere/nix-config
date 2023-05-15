@@ -108,17 +108,17 @@ in {
         };
         controlKeybinds = {
           "${modifier}+Ctrl+q" = "kill";
+          "${modifier}+Ctrl+space" = "floating toggle";
+          "${modifier}+Ctrl+c" = "reload";
+          "${modifier}+Ctrl+r" = "restart";
           "${modifier}+b" = "split horizontal";
           "${modifier}+v" = "split vertical";
           "${modifier}+f" = "fullscreen toggle";
           "${modifier}+m" = "layout tabbed";
           "${modifier}+n" = "layout toggle split";
-          "${modifier}+Ctrl+space" = "floating toggle";
           "${modifier}+space" = "focus mode_toggle";
           "${modifier}+a" = "focus parent";
           "${modifier}+d" = "focus child";
-          "${modifier}+Ctrl+c" = "reload";
-          "${modifier}+Ctrl+r" = "restart";
           "${modifier}+o" = "mode resize";
           "${modifier}+F10" = spawn "~/.local/bin/open-pdf";
         };

@@ -10,6 +10,9 @@
     inputs.nix-colors.homeManagerModules.default
     outputs.homeManagerModules.local
     ./xsession.nix
+    ./alacritty.nix
+    ./neovim.nix
+    ./i3status-rs.nix
   ];
 
   nixpkgs = {
@@ -94,6 +97,7 @@
     EDITOR = "nvim";
     VISUAL = "nvim";
   };
+
   home.packages = with pkgs; [
     discord
     (pkgs.writeShellApplication {
@@ -281,33 +285,11 @@
   };
 
   # x
-  services.picom = let
-    shadowRadius = 15;
-    shadowOffset = -1 * shadowRadius;
-  in {
+  services.picom = {
     enable = true;
     backend = "glx";
-    settings = {
-      # blur = {
-      #   method = "dual_kawase";
-      #   strength = 8;
-      #   background = false;
-      #   background-frame = false;
-      #   background-fixed = false;
-      # };
-      shadow-radius = shadowRadius;
-      # (disabled) slightly rounded corners
-      # corner-radius = 10.0;
-      no-dnd-shadow = true;
-      no-dock-shadow = true;
-    };
     fade = true;
     vSync = true;
-
-    shadow = false;
-    shadowOpacity = 0.6;
-    shadowOffsets = [shadowOffset shadowOffset];
-
     fadeDelta = 3;
     fadeSteps = [0.04 0.04];
     # inactiveDim = "0.10";
@@ -318,110 +300,6 @@
     options = {
       window-title-basename = true;
     };
-  };
-  programs.i3status-rust = {
-    enable = true;
-    bars.default = {
-      # TODO nix-colors
-      icons = "awesome6";
-      theme = "gruvbox-dark";
-      blocks = [
-        {
-          block = "cpu";
-        }
-        {
-          block = "disk_space";
-          path = "/";
-          info_type = "available";
-          interval = 20;
-          warning = 20.0;
-          alert = 10.0;
-          format = " $icon root: $available.eng(w:2) ";
-        }
-        {
-          block = "memory";
-          format = " $icon $mem_total_used_percents.eng(w:2) ";
-          format_alt = " $icon_swap $swap_used_percents.eng(w:2) ";
-        }
-        {
-          block = "sound";
-          click = [
-            {
-              button = "left";
-              cmd = "pavucontrol";
-            }
-          ];
-        }
-        {
-          block = "time";
-          interval = 5;
-          format = " $timestamp.datetime(f:'%a %d/%m %R') ";
-        }
-      ];
-    };
-  };
-
-  programs.neovim = {
-    enable = true;
-    extraConfig = ''
-      set nocompatible
-
-      filetype plugin indent on
-      syntax on
-
-      "https://vim.fandom.com/wiki/Example_vimrc
-      set hidden
-      set wildmenu
-      set showcmd
-      set hlsearch
-      set nomodeline
-      set ignorecase
-      set smartcase
-      set backspace=indent,eol,start
-      set autoindent
-      "set nostartofline
-      set ruler
-      set laststatus=2
-      set confirm
-      set visualbell
-      set t_vb=
-      set mouse=a
-      set cmdheight=2
-      set nonumber
-      set notimeout ttimeout ttimeoutlen=200
-      set pastetoggle=<F11>
-      set shiftwidth=2
-      set softtabstop=2
-      set expandtab
-      set clipboard=unnamedplus
-      set undofile
-      set nobackup
-      set nowritebackup
-      set updatetime=300
-      set shortmess+=c
-      set signcolumn=yes
-      set dir=~/.swp
-      set list
-      set listchars=nbsp:¬,tab:→\ ,extends:»,precedes:«,trail:·,space:·
-
-      packloadall
-
-      set background=dark
-      set termguicolors
-      let ayucolor="dark"
-      colorscheme ayu
-
-      hi Normal     ctermbg=NONE guibg=NONE
-      hi LineNr     ctermbg=NONE guibg=NONE
-      hi SignColumn ctermbg=NONE guibg=NONE
-    '';
-    plugins = with pkgs.vimPlugins; [
-      ayu-vim
-      vim-commentary
-      vim-surround
-      vim-nix
-      colorizer
-    ];
   };
 
   # qt.style = {
