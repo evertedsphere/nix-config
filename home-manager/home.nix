@@ -84,11 +84,13 @@ with lib; let
   in
     builtins.listToAttrs (builtins.concatMap f data);
 in {
-  imports = [
-    # outputs.homeManagerModules.example
-    #./hyprland.nix
+  imports = (with inputs; [
     inputs.nix-colors.homeManagerModules.default
-  ];
+  ]) ++ (with outputs.homeManagerModules; [
+    fonts
+  ]);
+
+  local.fonts.defaultMonospaceFont = "Sarasa Mono J";
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 
@@ -209,7 +211,9 @@ in {
       };
 
       font = {
-        normal = {family = "Iosevka";};
+        normal = {
+          family = config.local.fonts.defaultMonospaceFont;
+                 };
         size = 12.0;
       };
     };
@@ -264,8 +268,16 @@ in {
       EDITOR = "nvim";
       VISUAL = "nvim";
     };
-    packages = [
-      (pkgs.makeDesktopItem {
+    packages = with pkgs; [
+      discord
+      (pkgs.writeShellApplication {
+        name = "bqn-alacritty";
+        runtimeInputs = [];
+        text = ''
+          ${pkgs.alacritty}/bin/alacritty -o font.normal.family="BQN386 Unicode"
+        '';
+      })
+      (makeDesktopItem {
         name = "org-protocol";
         exec = "emacsclient %u";
         comment = "org-protocol";
@@ -333,7 +345,7 @@ in {
     enable = true;
     terminal = "${pkgs.alacritty}/bin/alacritty";
     theme = "sidebar";
-    font = "Iosevka 22";
+    font = "${config.local.fonts.defaultMonospaceFont} 22";
   };
 
   programs.zsh = {

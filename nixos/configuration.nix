@@ -193,13 +193,21 @@ in {
     firefox
     vivaldi
 
+    git
+    # compilers and interpreters
+    j
+    gnuplot
     # terminal utilities
     parallel
+    rlwrap
+    fd
+    exa
+    bat
+    delta
     # data wrangling
     ripgrep
     jq
     miller
-    git
     # net
     wget
     htop
@@ -212,6 +220,7 @@ in {
       # for org-roam, which fails to function otherwise
       # also see note in packages.el
       epkgs.emacsql-sqlite
+      epkgs.org-roam
     ]))
   ];
 

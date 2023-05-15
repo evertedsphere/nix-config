@@ -7,6 +7,9 @@
   fonts = {
     enableDefaultFonts = false;
     fonts = with pkgs; [
+      source-han-sans
+      source-han-mono
+      sarasa-gothic
       material-symbols
       jost
       lexend

@@ -18,7 +18,8 @@
     # exportConfiguration = lib.mkForce true;
     libinput.enable = true;
     # ideally i would be able to set these in the bqn module... but maybe not
-    layout = "us,bqn";
+    layout = "us,apl";
+    xkbVariant = ",dyalog";
     xkbOptions = "grp:switch,ctrl:nocaps,compose:menu";
     desktopManager.session = [
       {
