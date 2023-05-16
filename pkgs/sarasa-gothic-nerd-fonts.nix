@@ -1,18 +1,19 @@
-{ pkgs, lib, fetchzip }:
+{ pkgs, lib, fetchurl }:
 
 let
   pname = "sarasa-gothic-nerd-fonts";
   version = "0.40.7-0";
-in fetchzip {
+in fetchurl {
   name = "${pname}-${version}";
 
   url = "https://github.com/jonz94/Sarasa-Gothic-Nerd-Fonts/releases/download/v${version}/sarasa-mono-j-nerd-font.zip";
+  sha256 = "sha256-ce9oezo82StZT8g18CceceVNpFhnxT118JdrojpTtsk=";
 
-  sha256 = "sha256-8p15thg3xyvCA/8dH2jGQoc54nzESFDyv5m47FgWsSI=";
-
+  recursiveHash = true;
+  downloadToTemp = true;
   postFetch = ''
-    ${pkgs.unzip}/bin/unzip $downloadedFile
-    install -m444 -Dt $out/share/fonts/truetype */*.ttf
+    mkdir -p $out/share/fonts/truetype
+    ${pkgs.unzip}/bin/unzip -j $downloadedFile \*.ttf -d $out/share/fonts/truetype
   '';
 
   meta = with lib; {
@@ -24,7 +25,3 @@ in fetchzip {
     maintainers = with maintainers; [ ];
   };
 }
-  # postFetch = ''
-  #   mkdir -p $out/share/fonts/opentype
-  #   unzip -j $downloadedFile \*.otf -d $out/share/fonts/opentype
-  # '';
