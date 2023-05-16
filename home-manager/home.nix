@@ -302,30 +302,26 @@
     };
   };
 
-  # qt.style = {
-  #   package = pkgs.adwaita-qt;
-  #   name = "adwaita-dark";
-  # };
-  # gtk = {
-  #   enable = true;
-  #   theme = {
-  #     name = "Dracula";
-  #     package = pkgs.dracula-theme;
-  #   };
-  #   iconTheme = {
-  #     name = "Paper";
-  #     package = pkgs.paper-icon-theme;
-  #   };
-  # };
+  qt.style = {
+    package = pkgs.adwaita-qt;
+    name = "adwaita-dark";
+  };
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Dracula";
+      package = pkgs.dracula-theme;
+    };
+    iconTheme = {
+      name = "Paper";
+      package = pkgs.paper-icon-theme;
+    };
+  };
 
   programs.dircolors.enable = true;
-  fonts.fontconfig.enable = true;
 
-  # manual = {
-  #   html.enable = true;
-  #   manpages.enable = true;
-  #   json.enable = true;
-  # };
+  fonts.fontconfig.enable = true;
 
   news.display = "show";
   services.dunst = {

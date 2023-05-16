@@ -116,7 +116,7 @@ in {
           "${modifier}+f" = "fullscreen toggle";
           "${modifier}+m" = "layout tabbed";
           "${modifier}+n" = "layout toggle split";
-          "${modifier}+space" = "focus mode_toggle";
+          "${modifier}+space" = "focus toggle_mode";
           "${modifier}+a" = "focus parent";
           "${modifier}+d" = "focus child";
           "${modifier}+o" = "mode resize";
@@ -242,7 +242,7 @@ in {
               };
               # trayOutput = "DP-2";
               colors = {
-                background = h c.base01;
+                background = h c.base00;
                 statusline = h c.base03;
                 separator = h c.base03;
                 focusedWorkspace = {
@@ -251,8 +251,8 @@ in {
                   text = h c.base00;
                 };
                 inactiveWorkspace = {
-                  border = h c.base01;
-                  background = h c.base01;
+                  border = h c.base00;
+                  background = h c.base00;
                   text = h c.base03;
                 };
                 activeWorkspace = {
@@ -263,12 +263,12 @@ in {
                 bindingMode = {
                   border = h c.base08;
                   background = h c.base08;
-                  text = h c.base01;
+                  text = h c.base00;
                 };
                 urgentWorkspace = {
                   border = h c.base08;
                   background = h c.base08;
-                  text = h c.base01;
+                  text = h c.base00;
                 };
               };
             }

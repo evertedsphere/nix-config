@@ -1,15 +1,18 @@
 { config, lib, pkgs, ... }:
 
+let
+  c = config.colorScheme.colors;
+  h = x: "#${x}";
+in
 {
   programs.i3status-rust = {
     enable = true;
     bars.default = {
-      # TODO nix-colors
-      icons = "awesome6";
-      theme = "gruvbox-dark";
+      icons = "material-nf";
       blocks = [
         {
           block = "cpu";
+          format = " $icon $utilization ";
         }
         {
           block = "disk_space";
@@ -40,6 +43,26 @@
           format = " $timestamp.datetime(f:'%a %d/%m %R') ";
         }
       ];
+      settings = {
+        theme = {
+          overrides = {
+            end_separator = "";
+            separator = " / ";
+            separator_bg = h c.base00;
+            separator_fg = h c.base03;
+            idle_bg = h c.base00;
+            idle_fg = h c.base07;
+            info_bg = h c.base00;
+            info_fg = h c.base0D;
+            good_bg = h c.base00;
+            good_fg = h c.base0B;
+            warning_bg = h c.base00;
+            warning_fg = h c.base0A;
+            critical_bg = h c.base00;
+            critical_fg = h c.base08;
+          };
+        };
+      };
     };
   };
 }

@@ -7,7 +7,7 @@
   fonts = {
     enableDefaultFonts = false;
     fonts = with pkgs; [
-      sarasa-gothic
+      sarasa-gothic-nerd-fonts
       source-han-sans
       source-han-mono
       source-code-pro
