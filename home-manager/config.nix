@@ -13,5 +13,5 @@
     programs.terminalExe = "${pkgs.alacritty}/bin/alacritty";
   };
 
-  colorScheme = inputs.nix-colors.colorSchemes.grayscale-dark;
+  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 }
