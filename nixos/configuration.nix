@@ -69,7 +69,7 @@ in {
   networking.hostId = "44a15ee1";
   boot.kernelPackages = pkgs.linuxPackages_xanmod_latest; # config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/742e9b2a-dd82-4e82-b558-9508ccb6c9da";
-  boot.initrd.luks.devices."cryptdata".device = "/dev/disk/by-uuid/9ffbf99f-97b3-4931-9fbe-259a2b6498f3";
+  # boot.initrd.luks.devices."cryptdata".device = "/dev/disk/by-uuid/9ffbf99f-97b3-4931-9fbe-259a2b6498f3";
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     zfs rollback -r rpool/local/root@blank
   '';
