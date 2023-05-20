@@ -36,7 +36,7 @@
       # ~127ppi
       monitor=HDMI-A-2,preferred,auto,1.4
       #exec-once = xprop -root -f _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 1.4
-      exec-once = swaybg -i /persist/nix-config/seto_miyako.jpg
+      exec-once = swaybg -i ~/.local/share/walls/wall.jpg
 
       # set cursor for HL itself
       exec-once = hyprctl setcursor ${config.home.pointerCursor.name} ${toString config.home.pointerCursor.size}

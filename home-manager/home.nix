@@ -230,7 +230,7 @@
 
   # set a random background
   home.file.wallpaper = {
-    source = ../seto_miyako.jpg;
+    source = ../jellyfish.jpg;
     target = ".local/share/walls/wall.jpg";
   };
 
