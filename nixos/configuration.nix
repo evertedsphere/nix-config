@@ -34,6 +34,8 @@ in {
     };
   };
 
+
+
   # boot.kernelPatches = [
   #   {
   #     name = "enable RT_FULL";
@@ -48,6 +50,8 @@ in {
   #   }
   # ];
 
+  services.flatpak.enable = true;
+
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
@@ -60,6 +64,9 @@ in {
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
+      substituters = [ "https://ghc-nix.cachix.org" ];
+      trusted-public-keys = [ "ghc-nix.cachix.org-1:wI8l3tirheIpjRnr2OZh6YXXNdK2fVQeOI4SVz/X8nA=" ];
+      trusted-users = [ "s" "root" ];
     };
   };
 
@@ -189,14 +196,23 @@ in {
     ];
   };
 
+  virtualisation.docker = {
+    enable = true;
+    enableNvidia = true;
+  };
+
   environment.systemPackages = with pkgs; [
     firefox
-    vivaldi
+    godot_4
+    krita
+    docker-compose
 
     git
     # compilers and interpreters
     j
     gnuplot
+    rustup
+    nodejs
     # terminal utilities
     parallel
     rlwrap

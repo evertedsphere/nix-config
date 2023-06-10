@@ -56,7 +56,15 @@
   # };
 
   programs.home-manager.enable = true;
+
+  # zfs bug
   # programs.atuin.enable = true;
+
+  programs.rtorrent = {
+    enable = true;
+    extraConfig = ''
+    '';
+  };
 
   home.pointerCursor = {
     package = pkgs.bibata-cursors;

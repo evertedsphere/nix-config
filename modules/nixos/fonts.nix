@@ -34,7 +34,7 @@
       defaultFonts = {
         serif = ["Noto Serif" "Noto Color Emoji"];
         sansSerif = ["Noto Sans" "Noto Color Emoji"];
-        monospace = ["Iosevka" "BQN386 Unicode" "Noto Color Emoji"];
+        monospace = ["Sarasa Mono J Nerd Font" "BQN386 Unicode" "Noto Color Emoji"];
         emoji = ["Noto Color Emoji"];
       };
     };
