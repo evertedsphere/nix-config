@@ -206,6 +206,21 @@ in {
     godot_4
     krita
     docker-compose
+    qbittorrent
+    xfce.thunar
+   (pkgs.makeDesktopItem {
+     name = "pureref";
+     exec = "pureref";
+     comment = "Reference manager";
+     desktopName = "Pureref";
+     type = "Application";
+     mimeTypes = [ ];
+   })   
+
+    inotify-tools
+    unar
+    unzip
+    p7zip
 
     git
     # compilers and interpreters

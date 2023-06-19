@@ -7,4 +7,5 @@
   xserver = import ./xserver.nix;
   mullvad = import ./mullvad.nix;
   bqn = import ./bqn;
+  pureref = import ./pureref;
 }

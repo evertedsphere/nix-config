@@ -35,7 +35,6 @@
         ";" = "o";
         "'" = "'";
         "\\" = "\\";
-        "102nd" = "z";
         "z" = "x";
         "x" = "c";
         "c" = "d";
@@ -46,6 +45,33 @@
         "," = ",";
         "." = ".";
         "/" = "/";
+        "f12" = "toggle(enable_lefthand)";
+      };
+      enable_lefthand = {
+        "space" = "overload(lefthand, space)";
+        "leftshift" = "overload(shift, backspace)";
+        "leftcontrol" = "enter";
+      };
+      lefthand = {
+        # qwfpb jluy;
+        # arstg mneio'\
+        # xcdvz kh,./
+        "q" = ";";
+        "w" = "y";
+        "e" = "u";
+        "r" = "l";
+        "t" = "j";
+        "a" = "o";
+        "s" = "i";
+        "d" = "e";
+        "f" = "n";
+        "g" = "m";
+        "h" = "'";
+        "z" = "/";
+        "x" = ".";
+        "c" = ",";
+        "v" = "h";
+        "b" = "k";
       };
     };
   };
