@@ -81,7 +81,7 @@ in {
             key,
             dir,
           }: {
-            "${modifier}+${key}" = "focus ${dir}";
+            "${modifier}+${key}" = "exec --no-startup-id ~/.local/bin/winnav ${dir}";
             "${modifier}+Shift+${key}" = "move ${dir}";
           })
           movementKeys;

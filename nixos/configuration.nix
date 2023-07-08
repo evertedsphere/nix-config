@@ -83,6 +83,8 @@ in {
 
   networking.hostName = "malina";
   networking.networkmanager.enable = true;
+  networking.firewall.allowedTCPPortRanges = [ { from = 34340; to = 34350; } ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 34340; to = 34350; } ];
 
   # this also governs wayland
   services.xserver.videoDrivers = ["nvidia"];
@@ -130,6 +132,7 @@ in {
       "/root"
       "/etc/nixos"
       "/etc/NetworkManager/system-connections"
+      "/etc/mullvad-vpn"
     ];
     files = [
       "/etc/machine-id"
@@ -178,6 +181,7 @@ in {
   i18n.inputMethod.enabled = "fcitx5";
   i18n.inputMethod.fcitx5.addons = with pkgs; [fcitx5-mozc fcitx5-gtk];
 
+  users.defaultUserShell = pkgs.zsh;
   users.users.root = {
     initialPassword = "hunter2";
     shell = pkgs.zsh;
@@ -201,7 +205,19 @@ in {
     enableNvidia = true;
   };
 
+  services.tumbler.enable = true;
+
   environment.systemPackages = with pkgs; [
+    tmux
+    entr
+    xdotool
+    xfce.thunar
+    yt-dlp
+
+    kakoune
+    kak-lsp
+    mpv
+    zsh
     firefox
     godot_4
     krita
@@ -210,7 +226,7 @@ in {
     xfce.thunar
    (pkgs.makeDesktopItem {
      name = "pureref";
-     exec = "pureref";
+     exec = "${pkgs.pureref}/bin/pureref";
      comment = "Reference manager";
      desktopName = "Pureref";
      type = "Application";
