@@ -127,6 +127,7 @@
   ];
 
   # misc
+  xdg.enable = true;
   xdg.mimeApps = {
     enable = true;
     defaultApplications = let
@@ -136,6 +137,7 @@
       "video/mp4" = videoPlayer;
       "video/x-matroska" = videoPlayer;
       "x-www-browser" = "Firefox.desktop";
+      "inode/directory" = "thunar.desktop";
     };
   };
 
