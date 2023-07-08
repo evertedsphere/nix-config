@@ -94,12 +94,12 @@ in {
           });
         workspaceOutputAssign =
           # TODO primary/secondary outputs
-          assignWorkspace ["eDP-1" "HDMI-A-0" "HDMI-1"] smallMonitorWss
-          ++ assignWorkspace ["DP-2" "DisplayPort-0"] bigMonitorWss;
+          assignWorkspace ["HDMI-1"] smallMonitorWss
+          ++ assignWorkspace ["DP-2"] bigMonitorWss;
         run = x: "exec ${x}";
         spawn = x: "exec --no-startup-id ${x}";
         globalKeybinds = {
-          "F8" = spawn "dm-tool switch-to-greeter";
+          # "F8" = spawn "dm-tool switch-to-greeter";
           "Print" = spawn "flameshot screen -p ~/img/caps";
           "Shift+Print" = spawn "flameshot gui";
           "Ctrl+Print" = spawn "sleep 5 && flameshot gui";
