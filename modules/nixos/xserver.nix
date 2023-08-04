@@ -36,6 +36,8 @@
     ];
     displayManager = {
       lightdm.enable = true;
+      setupCommands = ''
+      '';
     };
   };
 

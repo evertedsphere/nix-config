@@ -17,7 +17,8 @@
 in {
   xsession = {
     enable = true;
-    initExtra = "";
+    initExtra = ''
+    '';
     scriptPath = ".hm-xsession";
     numlock.enable = true;
     windowManager.i3 = {

@@ -213,6 +213,8 @@ in {
     xdotool
     xfce.thunar
     yt-dlp
+    pavucontrol
+    ranger
 
     kakoune
     kak-lsp

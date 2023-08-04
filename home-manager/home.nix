@@ -310,6 +310,9 @@
     options = {
       window-title-basename = true;
     };
+    mappings = {
+      "space" = "navigate next";
+    };
   };
 
   qt.style = {
