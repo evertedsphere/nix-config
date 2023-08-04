@@ -5,8 +5,8 @@
   ...
 }: {
   fonts = {
-    enableDefaultFonts = false;
-    fonts = with pkgs; [
+    enableDefaultPackages = false;
+    packages = with pkgs; [
       sarasa-gothic-nerd-fonts
       source-han-sans
       source-han-mono

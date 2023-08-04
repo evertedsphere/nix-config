@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  fonts.fonts = [(pkgs.callPackage ./font.nix {})];
+  fonts.packages = [(pkgs.callPackage ./font.nix {})];
 
   environment.systemPackages = with pkgs; [
     cbqn
