@@ -195,7 +195,7 @@
     history.size = 100000;
 
     initExtra = ''
-      path=("$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.cabal/bin" $path)
+      path=("$HOME/.local/bin" "$HOME/.config/emacs/bin/doom" "$HOME/.cargo/bin" "$HOME/.cabal/bin" $path)
       fpath=("$HOME/.zfunc" $fpath)
       export PATH
 
