@@ -208,7 +208,7 @@
 
     prezto = {
       enable = true;
-      ssh = {identities = ["id_github_ed25519"];};
+      ssh = {identities = ["id_rsa"];};
       prompt.theme = "pure";
       pmodules = [
         "environment"
