@@ -78,29 +78,6 @@
     enable = true;
   };
 
-  programs.waybar = {
-    enable = true;
-    settings = {
-      mainBar = {
-        layer = "top";
-        position = "top";
-        height = 32;
-        output = [
-          "DP-2"
-          "HDMI-A-2"
-        ];
-        modules-left = ["wlr/workspaces" "wlr/taskbar"];
-        modules-center = [];
-        modules-right = ["temperature"];
-
-        "wlr/workspaces" = {
-          disable-scroll = true;
-          all-outputs = false;
-        };
-      };
-    };
-  };
-
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
