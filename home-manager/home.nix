@@ -198,12 +198,6 @@
       path=("$HOME/.local/bin" "$HOME/.config/emacs/bin/doom" "$HOME/.cargo/bin" "$HOME/.cabal/bin" $path)
       fpath=("$HOME/.zfunc" $fpath)
       export PATH
-
-      # kitty shell integration
-      # export KITTY_SHELL_INTEGRATION="enabled"
-      # autoload -Uz -- ${pkgs.kitty}/lib/kitty/shell-integration/zsh/kitty-integration
-      # kitty-integration
-      # unfunction kitty-integration
     '';
 
     initExtraBeforeCompInit = ''
