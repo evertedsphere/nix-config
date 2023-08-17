@@ -217,6 +217,7 @@ in {
     pavucontrol
     ranger
 
+    hugo
     kakoune
     kak-lsp
     mpv
