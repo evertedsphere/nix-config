@@ -218,6 +218,7 @@ in {
     ranger
 
     hugo
+    texlive.combined.scheme-medium
     kakoune
     kak-lsp
     mpv
