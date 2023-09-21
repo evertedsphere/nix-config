@@ -224,11 +224,12 @@ in {
     mpv
     zsh
     firefox
-    godot_4
     krita
     docker-compose
     qbittorrent
     xfce.thunar
+    goldendict-ng
+    anki
    (pkgs.makeDesktopItem {
      name = "pureref";
      exec = "${pkgs.pureref}/bin/pureref";
@@ -253,7 +254,7 @@ in {
     parallel
     rlwrap
     fd
-    exa
+    eza
     bat
     delta
     # data wrangling
