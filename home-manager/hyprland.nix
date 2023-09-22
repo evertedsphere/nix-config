@@ -16,11 +16,10 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    nvidiaPatches = true;
+    enableNvidiaPatches = true;
     xwayland.enable = true;
     extraConfig = ''
       $mod = SUPER
-
 
       # nvidia tweaks
       env = LIBVA_DRIVER_NAME,nvidia
@@ -32,11 +31,14 @@
       env = __GLX_VENDOR_LIBRARY_NAME,nvidia
 
       # ~133ppi
-      monitor=DP-2,preferred,auto,1.5
+      monitor=HDMI-A-1,3840x2160,0x0,1.5
+      monitor=DP-2,3840x2160,2560x0,1.5
       # ~127ppi
-      monitor=HDMI-A-2,preferred,auto,1.4
+      monitor=HDMI-A-2,2560x1440,2560x1440,1.4
+      monitor=,preferred,auto,1
+
       #exec-once = xprop -root -f _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 1.4
-      exec-once = swaybg -i ~/.local/share/walls/wall.jpg
+      exec-once = ${pkgs.swaybg}/bin/swaybg -i ~/.local/share/walls/wall.jpg
 
       # set cursor for HL itself
       exec-once = hyprctl setcursor ${config.home.pointerCursor.name} ${toString config.home.pointerCursor.size}
@@ -77,17 +79,16 @@
       }
 
       decoration {
-      rounding = 4
-      blur = true
-      blur_size = 3
-      blur_passes = 3
-      blur_new_optimizations = true
-      drop_shadow = true
-      shadow_ignore_window = true
-      shadow_offset = 0 5
-      shadow_range = 50
-      shadow_render_power = 3
-      col.shadow = rgba(00000099)
+        rounding = 2
+        # blur = true
+        # blur_size = 3
+        # blur_passes = 3
+        # drop_shadow = true
+        # shadow_ignore_window = true
+        # shadow_offset = 0 5
+        # shadow_range = 50
+        # shadow_render_power = 3
+        # col.shadow = rgba(00000099)
       }
 
 

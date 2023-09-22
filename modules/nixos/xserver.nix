@@ -15,7 +15,7 @@
 
   services.xserver = {
     wacom.enable = true;
-    enable = true;
+    enable = false;
     # # "This option enable propagating /etc/X11/xkb symlink, which is standard include path for xkbcomp."
     # # fsr extralayouts disables this unless you're using startx
     # exportConfiguration = lib.mkForce true;
@@ -35,7 +35,7 @@
       }
     ];
     displayManager = {
-      lightdm.enable = true;
+      lightdm.enable = false;
       setupCommands = ''
       '';
     };

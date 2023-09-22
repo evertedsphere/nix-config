@@ -16,13 +16,13 @@
   h = x: "#${x}";
 in {
   xsession = {
-    enable = true;
+    enable = false;
     initExtra = ''
     '';
     scriptPath = ".hm-xsession";
     numlock.enable = true;
     windowManager.i3 = {
-      enable = true;
+      enable = false;
       config = let
         modifier = "Mod4";
         # FIXME
@@ -96,7 +96,7 @@ in {
         workspaceOutputAssign =
           # TODO primary/secondary outputs
           assignWorkspace ["HDMI-1"] smallMonitorWss
-          ++ assignWorkspace ["DP-2"] bigMonitorWss;
+          ++ assignWorkspace ["HDMI-0"] bigMonitorWss;
         run = x: "exec ${x}";
         spawn = x: "exec --no-startup-id ${x}";
         globalKeybinds = {

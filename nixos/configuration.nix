@@ -27,6 +27,7 @@ in {
       outputs.overlays.unstable-packages
 
       # neovim-nightly-overlay.overlays.default
+      inputs.emacs-overlay.overlays.default
     ];
 
     config = {
@@ -64,8 +65,8 @@ in {
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
-      substituters = [ "https://ghc-nix.cachix.org" ];
-      trusted-public-keys = [ "ghc-nix.cachix.org-1:wI8l3tirheIpjRnr2OZh6YXXNdK2fVQeOI4SVz/X8nA=" ];
+      substituters = [ "https://ghc-nix.cachix.org" "https://nix-community.cachix.org" ];
+      trusted-public-keys = [ "ghc-nix.cachix.org-1:wI8l3tirheIpjRnr2OZh6YXXNdK2fVQeOI4SVz/X8nA=" "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
       trusted-users = [ "s" "root" ];
     };
   };
@@ -108,8 +109,11 @@ in {
   };
 
   security = {
+    polkit.enable = true;
     # allow wayland lockers to unlock the screen
-    #pam.services.swaylock.text = "auth include login";
+    pam.services.swaylock.text = ''
+      auth include login
+    '';
 
     # userland niceness
     rtkit.enable = true;
@@ -122,6 +126,7 @@ in {
   };
 
   time.timeZone = "Europe/Paris";
+
 
   # ---------------------------------------------------------
   # impermanence
@@ -269,12 +274,13 @@ in {
     alejandra
 
     neovim
-    (pkgs.emacsWithPackages (epkgs: [
-      # for org-roam, which fails to function otherwise
-      # also see note in packages.el
-      epkgs.emacsql-sqlite
-      epkgs.org-roam
-    ]))
+    emacs-pgtk
+    # (pkgs.emacsWithPackages (epkgs: [
+    #   # for org-roam, which fails to function otherwise
+    #   # also see note in packages.el
+    #   epkgs.emacsql-sqlite
+    #   epkgs.org-roam
+    # ]))
   ];
 
   services.openssh = {

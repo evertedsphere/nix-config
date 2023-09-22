@@ -11,6 +11,11 @@
     impermanence.url = "github:nix-community/impermanence";
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland-contrib.url = "github:hyprwm/contrib";
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs = {
@@ -19,6 +24,7 @@
     hyprland,
     hyprland-contrib,
     home-manager,
+    emacs-overlay,
     ...
   } @ inputs: let
     inherit (self) outputs;
