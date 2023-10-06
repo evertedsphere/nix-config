@@ -28,5 +28,8 @@ in {
         description = "Monospace font to use";
       };
     };
+    gapWidth = lib.mkOption {
+      type = lib.types.int;
+    };
   };
 }

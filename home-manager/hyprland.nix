@@ -15,7 +15,7 @@
   #systemd.user.services.swayidle.Install.WantedBy = lib.mkForce ["hyprland-session.target"];
 
   wayland.windowManager.hyprland = {
-    enable = true;
+    enable = false;
     enableNvidiaPatches = true;
     xwayland.enable = true;
     extraConfig = ''

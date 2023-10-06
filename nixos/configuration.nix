@@ -214,6 +214,8 @@ in {
   services.tumbler.enable = true;
 
   environment.systemPackages = with pkgs; [
+    gcc
+    sqlite
     tmux
     entr
     xdotool
@@ -274,13 +276,13 @@ in {
     alejandra
 
     neovim
-    emacs-pgtk
-    # (pkgs.emacsWithPackages (epkgs: [
-    #   # for org-roam, which fails to function otherwise
-    #   # also see note in packages.el
-    #   epkgs.emacsql-sqlite
-    #   epkgs.org-roam
-    # ]))
+    # emacs-lsp
+    (pkgs.emacsWithPackages (epkgs: [
+      # for org-roam, which fails to function otherwise
+      # also see note in packages.el
+      epkgs.emacsql-sqlite
+      epkgs.org-roam
+    ]))
   ];
 
   services.openssh = {

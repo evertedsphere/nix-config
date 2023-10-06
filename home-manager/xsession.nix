@@ -16,13 +16,13 @@
   h = x: "#${x}";
 in {
   xsession = {
-    enable = false;
+    enable = true;
     initExtra = ''
     '';
     scriptPath = ".hm-xsession";
     numlock.enable = true;
     windowManager.i3 = {
-      enable = false;
+      enable = true;
       config = let
         modifier = "Mod4";
         # FIXME
@@ -55,8 +55,10 @@ in {
           wsKey = y;
         };
         smallMonitorWss =
-          map (x: mkWs x x) ["1" "2" "3" "4" "5" "6" "7" "8" "9" "0"];
-        bigMonitorWss = [
+          map (x: mkWs x x) ["9" "0"];
+        leftMonitorWss =
+          map (x: mkWs x x) ["1" "2" "3" "4" "5" "6" "7" "8"];
+        rightMonitorWss = [
           (mkWs "10" "q")
           (mkWs "11" "w")
           (mkWs "12" "e")
@@ -75,7 +77,7 @@ in {
             "${modifier}+${wsKey}" = "workspace number ${wsName}";
             "${modifier}+Shift+${wsKey}" = "move container to workspace number ${wsName}";
           })
-          (smallMonitorWss ++ bigMonitorWss);
+          (smallMonitorWss ++ leftMonitorWss ++ rightMonitorWss);
         containerKeybinds =
           renderTemplates
           ({
@@ -95,8 +97,9 @@ in {
           });
         workspaceOutputAssign =
           # TODO primary/secondary outputs
-          assignWorkspace ["HDMI-1"] smallMonitorWss
-          ++ assignWorkspace ["HDMI-0"] bigMonitorWss;
+          assignWorkspace ["HDMI-0"] smallMonitorWss
+          ++ assignWorkspace ["HDMI-1"] leftMonitorWss
+          ++ assignWorkspace ["DP-2"] rightMonitorWss;
         run = x: "exec ${x}";
         spawn = x: "exec --no-startup-id ${x}";
         globalKeybinds = {

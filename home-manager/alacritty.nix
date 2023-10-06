@@ -10,6 +10,7 @@ in {
   programs.alacritty = {
     enable = true;
     settings = {
+      # shell.program = "${pkgs.nushell}/bin/nu";
       colors = {
         primary = {
           background = h c.base00;
@@ -74,8 +75,8 @@ in {
         };
         padding = {
           # i3 gap width
-          x = 12;
-          y = 12;
+          x = config.local.gapWidth;
+          y = config.local.gapWidth;
         };
         dynamic_padding = false;
         decorations = "None";
@@ -91,7 +92,7 @@ in {
         normal = {
           family = config.local.fonts.monospaceFont;
         };
-        size = 12.0;
+        size = 11.0;
       };
     };
   };
