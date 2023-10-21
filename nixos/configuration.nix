@@ -65,8 +65,14 @@ in {
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
-      substituters = [ "https://ghc-nix.cachix.org" "https://nix-community.cachix.org" ];
-      trusted-public-keys = [ "ghc-nix.cachix.org-1:wI8l3tirheIpjRnr2OZh6YXXNdK2fVQeOI4SVz/X8nA=" "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
+      substituters = [
+        "https://ghc-nix.cachix.org"
+        "https://nix-community.cachix.org"
+        "https://hasktorch.cachix.org"
+      ];
+      trusted-public-keys = [
+        "ghc-nix.cachix.org-1:wI8l3tirheIpjRnr2OZh6YXXNdK2fVQeOI4SVz/X8nA=" "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" "hasktorch.cachix.org-1:wLjNS6HuFVpmzbmv01lxwjdCOtWRD8pQVR3Zr/wVoQc="
+      ];
       trusted-users = [ "s" "root" ];
     };
   };
