@@ -233,6 +233,10 @@ in {
     yt-dlp
     pavucontrol
     ranger
+    syncplay
+    ffmpeg
+    simplescreenrecorder
+    osu-lazer
 
     hugo
     texlive.combined.scheme-medium
