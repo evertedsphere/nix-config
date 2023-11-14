@@ -120,7 +120,7 @@ in {
           "${modifier}+f" = "fullscreen toggle";
           "${modifier}+m" = "layout tabbed";
           "${modifier}+n" = "layout toggle split";
-          "${modifier}+space" = "focus toggle_mode";
+          "${modifier}+space" = "focus mode_toggle";
           "${modifier}+a" = "focus parent";
           "${modifier}+d" = "focus child";
           "${modifier}+o" = "mode resize";
