@@ -1,12 +1,7 @@
-{
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: let
-  zdradaSshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCwG0xwG+Q73dHW5M7Yyos1ns7DdNMZ4Vho8AKueTG116wLe92JChjxg7+cOzit026zz1Ni+B2/jS9/RF3WZAVWpTjFv2c3DaCy1TR/LlOqWp4qZJMmJBtymQ83wm0p49ELIkY5XOw3xtZKi3PurKa1yo2gbGnu7u91Tm4LP/rOi52F6vJFR28OR2O5HuQeu48zEQE2BHXfd0tBJt2bMS+2wRYwKdz02XUS7bpSK/8EC7Dou/El7Vm3faqIuQk5/63kxc4LZVHq7IAhcRYYZWOdEeBWat7AFDA3w/8upAdWQrZBh6X+XnGclRgNJAzU4QJ+Vkp8UqHFbrMy82b4QyHAo1pS1/VWU6lN5A8ccVbJYzZWRpT+Nijj1nJepeRsqE7xKDjMyfAEFiUCApoalCB/Qcout6fQFOn/bOa/1EYlHZh6jppu5Fpl4ZxTshpZgAwC7cNp2O4r9K6l0Cslt5fz0Hfq3Y/+1Y/soPg0BH9YwluXKvhJJAbHME2WNGlmkVE= k@zdrada";
+{ inputs, outputs, lib, config, pkgs, ... }:
+let
+  zdradaSshKey =
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCwG0xwG+Q73dHW5M7Yyos1ns7DdNMZ4Vho8AKueTG116wLe92JChjxg7+cOzit026zz1Ni+B2/jS9/RF3WZAVWpTjFv2c3DaCy1TR/LlOqWp4qZJMmJBtymQ83wm0p49ELIkY5XOw3xtZKi3PurKa1yo2gbGnu7u91Tm4LP/rOi52F6vJFR28OR2O5HuQeu48zEQE2BHXfd0tBJt2bMS+2wRYwKdz02XUS7bpSK/8EC7Dou/El7Vm3faqIuQk5/63kxc4LZVHq7IAhcRYYZWOdEeBWat7AFDA3w/8upAdWQrZBh6X+XnGclRgNJAzU4QJ+Vkp8UqHFbrMy82b4QyHAo1pS1/VWU6lN5A8ccVbJYzZWRpT+Nijj1nJepeRsqE7xKDjMyfAEFiUCApoalCB/Qcout6fQFOn/bOa/1EYlHZh6jppu5Fpl4ZxTshpZgAwC7cNp2O4r9K6l0Cslt5fz0Hfq3Y/+1Y/soPg0BH9YwluXKvhJJAbHME2WNGlmkVE= k@zdrada";
 in {
   imports = [
     outputs.nixosModules.fonts
@@ -30,12 +25,8 @@ in {
       inputs.emacs-overlay.overlays.default
     ];
 
-    config = {
-      allowUnfree = true;
-    };
+    config = { allowUnfree = true; };
   };
-
-
 
   # boot.kernelPatches = [
   #   {
@@ -56,11 +47,12 @@ in {
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
-    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
+    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
 
     # This will additionally add your inputs to the system's legacy channels
     # Making legacy nix commands consistent as well, awesome!
-    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
+    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
+      config.nix.registry;
 
     settings = {
       experimental-features = "nix-command flakes";
@@ -83,11 +75,12 @@ in {
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.supportedFilesystems = ["zfs" "ntfs"];
+  boot.supportedFilesystems = [ "zfs" "ntfs" ];
   networking.hostId = "44a15ee1";
   boot.zfs.enableUnstable = true;
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/742e9b2a-dd82-4e82-b558-9508ccb6c9da";
+  boot.initrd.luks.devices."cryptroot".device =
+    "/dev/disk/by-uuid/742e9b2a-dd82-4e82-b558-9508ccb6c9da";
   # boot.initrd.luks.devices."cryptdata".device = "/dev/disk/by-uuid/9ffbf99f-97b3-4931-9fbe-259a2b6498f3";
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     zfs rollback -r rpool/local/root@blank
@@ -95,11 +88,17 @@ in {
 
   networking.hostName = "malina";
   networking.networkmanager.enable = true;
-  networking.firewall.allowedTCPPortRanges = [ { from = 34340; to = 34350; } ];
-  networking.firewall.allowedUDPPortRanges = [ { from = 34340; to = 34350; } ];
+  networking.firewall.allowedTCPPortRanges = [{
+    from = 34340;
+    to = 34350;
+  }];
+  networking.firewall.allowedUDPPortRanges = [{
+    from = 34340;
+    to = 34350;
+  }];
 
   # this also governs wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.powerManagement.enable = true;
   # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -132,11 +131,11 @@ in {
 
   xdg.portal = {
     enable = true;
-    extraPortals = [pkgs.xdg-desktop-portal-gtk];
+    config.common.default = "*";
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   time.timeZone = "Europe/Paris";
-
 
   # ---------------------------------------------------------
   # impermanence
@@ -178,42 +177,38 @@ in {
 
   console = {
     earlySetup = true;
-    packages = with pkgs; [terminus_font];
+    packages = with pkgs; [ terminus_font ];
     keyMap = "us";
   };
 
   programs.zsh.enable = true;
-  environment.pathsToLink = ["/share/zsh"];
+  environment.pathsToLink = [ "/share/zsh" ];
   # this is needed or else lightdm doesn't show the user bc it thinks any user
   # with a shell not in /etc/shells is a system user
-  environment.shells = with pkgs; [bashInteractive zsh];
+  environment.shells = with pkgs; [ bashInteractive zsh ];
 
-  boot.kernelModules = ["uinput"];
+  boot.kernelModules = [ "uinput" ];
   # for kmonad, but i'll leave it in
   services.udev.extraRules = ''
     KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput", GROUP="input", MODE="0660"
   '';
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.inputMethod.enabled = "fcitx5";
-  i18n.inputMethod.fcitx5.addons = with pkgs; [fcitx5-mozc fcitx5-gtk];
+  i18n.inputMethod.fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk fcitx5-rime ];
 
   users.defaultUserShell = pkgs.zsh;
   users.users.root = {
     initialPassword = "hunter2";
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [
-      zdradaSshKey
-    ];
+    openssh.authorizedKeys.keys = [ zdradaSshKey ];
   };
 
   users.users.s = {
     isNormalUser = true;
-    extraGroups = ["wheel" "docker"];
+    extraGroups = [ "wheel" "docker" ];
     initialPassword = "hunter2";
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [
-      zdradaSshKey
-    ];
+    openssh.authorizedKeys.keys = [ zdradaSshKey ];
   };
 
   virtualisation.docker = {
@@ -251,14 +246,14 @@ in {
     xfce.thunar
     goldendict-ng
     anki
-   (pkgs.makeDesktopItem {
-     name = "pureref";
-     exec = "${pkgs.pureref}/bin/pureref";
-     comment = "Reference manager";
-     desktopName = "Pureref";
-     type = "Application";
-     mimeTypes = [ ];
-   })   
+    (pkgs.makeDesktopItem {
+      name = "pureref";
+      exec = "${pkgs.pureref}/bin/pureref";
+      comment = "Reference manager";
+      desktopName = "Pureref";
+      type = "Application";
+      mimeTypes = [ ];
+    })
 
     inotify-tools
     unar
@@ -267,7 +262,7 @@ in {
 
     git
     # compilers and interpreters
-    j
+    # j
     gnuplot
     rustup
     nodejs
