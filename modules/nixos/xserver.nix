@@ -11,10 +11,11 @@
   # allegedly fixes e.g. sort order in file pickers not being persisted
   programs.dconf.enable = true;
 
-  services.udev.packages = [ pkgs.libwacom ];
+  # services.udev.packages = [ pkgs.libwacom ];
 
   services.xserver = {
-    wacom.enable = true;
+    # wacom.enable = true;
+    digimend.enable = true;
     enable = true;
     # # "This option enable propagating /etc/X11/xkb symlink, which is standard include path for xkbcomp."
     # # fsr extralayouts disables this unless you're using startx
