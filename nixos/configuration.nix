@@ -188,13 +188,13 @@ in {
   environment.shells = with pkgs; [ bashInteractive zsh ];
 
   boot.kernelModules = [ "uinput" ];
-  # for kmonad, but i'll leave it in
-  services.udev.extraRules = ''
-    KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput", GROUP="input", MODE="0660"
-  '';
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.inputMethod.enabled = "fcitx5";
-  i18n.inputMethod.fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk fcitx5-rime ];
+  i18n.inputMethod.fcitx5.addons = with pkgs; [
+    fcitx5-mozc
+    fcitx5-gtk
+    fcitx5-rime
+  ];
 
   users.defaultUserShell = pkgs.zsh;
   users.users.root = {
@@ -261,6 +261,7 @@ in {
     p7zip
 
     git
+    graphviz
     # compilers and interpreters
     # j
     gnuplot
