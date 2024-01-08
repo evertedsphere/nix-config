@@ -66,7 +66,7 @@
       malina = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./nixos/configuration.nix
+          ./hosts/malina/configuration.nix
         ];
       };
     };
@@ -80,7 +80,6 @@
         modules = [
           ./home-manager/config.nix
           ./home-manager/home.nix
-          # hyprland.homeManagerModules.default
         ];
       };
     };
