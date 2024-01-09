@@ -9,8 +9,6 @@
     nix-colors.url = "github:misterio77/nix-colors";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-contrib.url = "github:hyprwm/contrib";
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,7 +64,8 @@
       malina = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./hosts/malina/configuration.nix
+          ./nixos/configuration.nix
+          ./hosts/malina/hardware-configuration.nix
         ];
       };
     };
@@ -80,6 +79,7 @@
         modules = [
           ./home-manager/config.nix
           ./home-manager/home.nix
+          ./hosts/malina/home-manager/home.nix
         ];
       };
     };

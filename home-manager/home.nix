@@ -226,7 +226,6 @@ in {
 
   # set a random background
   home.file.wallpaper = {
-    source = ../seto_miyako.jpg;
     target = ".local/share/walls/wall.jpg";
   };
 
@@ -262,7 +261,7 @@ in {
   services.gpg-agent = {
     enable = true;
     enableSshSupport = true;
-    pinentryFlavor = "gtk2";
+    pinentryFlavor = "gnome3";
   };
 
   services.udiskie = {
@@ -282,7 +281,7 @@ in {
 
   # x
   services.picom = {
-    enable = false;
+    enable = true;
     backend = "xrender";
     fade = true;
     vSync = true;
@@ -350,21 +349,6 @@ in {
         transparency = 0;
         word_wrap = true;
       };
-      # urgency_low = {
-      #   background = "${color2}";
-      #   foreground = "${background}";
-      #   timeout = 5;
-      # };
-      # urgency_normal = {
-      #   background = "${color3}";
-      #   foreground = "${background}";
-      #   timeout = 20;
-      # };
-      # urgency_critical = {
-      #   background = "${color1}";
-      #   foreground = "${background}";
-      #   timeout = 0;
-      # };
     };
   };
 }

@@ -87,15 +87,13 @@
       "locked": {
         "lastModified": 1704381437,
         "narHash": "sha256-Hg3Xvo2D/IhYJ6XLdmjv/RQ8FNujfI82F/XuUrcEo1E=",
-        "owner": "hyprwm",
-        "repo": "Hyprland",
+        "path": "/nix/store/miqmdpwz9z75rhc7a8sxbsvhhrsz038j-source",
         "rev": "880996b05339ba87066958a517885f1941185269",
-        "type": "github"
+        "type": "path"
       },
       "original": {
-        "owner": "hyprwm",
-        "repo": "Hyprland",
-        "type": "github"
+        "id": "hyprland",
+        "type": "indirect"
       }
     },
     "hyprland-contrib": {
@@ -105,15 +103,13 @@
       "locked": {
         "lastModified": 1704293951,
         "narHash": "sha256-wf72LCfp4w8bZ8gJE/1IN+ZWYyX7/TNC1tr6hN1u9ZQ=",
-        "owner": "hyprwm",
-        "repo": "contrib",
+        "path": "/nix/store/c02sxaw2dylmsdvbm4bmg0s68h498bgf-source",
         "rev": "fe26a90afdf9690052955899355bdc564c184e14",
-        "type": "github"
+        "type": "path"
       },
       "original": {
-        "owner": "hyprwm",
-        "repo": "contrib",
-        "type": "github"
+        "id": "hyprland-contrib",
+        "type": "indirect"
       }
     },
     "hyprland-protocols": {
