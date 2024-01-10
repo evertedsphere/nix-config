@@ -27,22 +27,7 @@ in {
     ./alacritty.nix
     ./neovim.nix
     ./i3status-rs.nix
-    # ./hyprland.nix
   ];
-
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-      inputs.emacs-overlay.overlays.default
-    ];
-    config = {
-      allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = _: true;
-    };
-  };
 
   home = {
     username = config.local.user.localUser;

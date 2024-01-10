@@ -66,6 +66,12 @@
         modules = [
           ./nixos/configuration.nix
           ./hosts/malina/configuration.nix
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.s = import ./hosts/malina/home-manager/home.nix;
+            home-manager.extraSpecialArgs = {inherit inputs outputs;};
+          }
         ];
       };
       work = nixpkgs.lib.nixosSystem {
@@ -73,31 +79,28 @@
         modules = [
           ./nixos/configuration.nix
           ./hosts/work/configuration.nix
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.s = import ./hosts/work/home-manager/home.nix;
+            home-manager.extraSpecialArgs = {inherit inputs outputs;};
+          }
         ];
       };
     };
 
     # home-manager --flake .#your-username@your-hostname
     # I do it this way because rebuilds are much faster.
-    homeConfigurations = {
-      "s@malina" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          ./home-manager/config.nix
-          ./home-manager/home.nix
-          ./hosts/malina/home-manager/home.nix
-        ];
-      };
-      "s@work" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          ./home-manager/config.nix
-          ./home-manager/home.nix
-          ./hosts/work/home-manager/home.nix
-        ];
-      };
-    };
+    # homeConfigurations = {
+    #   "s@malina" = home-manager.lib.homeManagerConfiguration {
+    #     pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    #     extraSpecialArgs = {inherit inputs outputs;};
+    #     modules = [
+    #       ./home-manager/config.nix
+    #       ./home-manager/home.nix
+    #       ./hosts/malina/home-manager/home.nix
+    #     ];
+    #   };
+    # };
   };
 }
