@@ -65,7 +65,14 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/configuration.nix
-          ./hosts/malina/hardware-configuration.nix
+          ./hosts/malina/configuration.nix
+        ];
+      };
+      work = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./nixos/configuration.nix
+          ./hosts/work/configuration.nix
         ];
       };
     };
@@ -80,6 +87,15 @@
           ./home-manager/config.nix
           ./home-manager/home.nix
           ./hosts/malina/home-manager/home.nix
+        ];
+      };
+      "s@work" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./home-manager/config.nix
+          ./home-manager/home.nix
+          ./hosts/work/home-manager/home.nix
         ];
       };
     };

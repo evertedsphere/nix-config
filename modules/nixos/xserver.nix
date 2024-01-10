@@ -4,10 +4,6 @@
   pkgs,
   ...
 }: {
-  imports = [
-    ./xserver/keyd.nix
-  ];
-
   # allegedly fixes e.g. sort order in file pickers not being persisted
   programs.dconf.enable = true;
 

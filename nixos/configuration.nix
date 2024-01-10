@@ -1,16 +1,10 @@
 { inputs, outputs, lib, config, pkgs, ... }:
-let
-  zdradaSshKey =
-    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCwG0xwG+Q73dHW5M7Yyos1ns7DdNMZ4Vho8AKueTG116wLe92JChjxg7+cOzit026zz1Ni+B2/jS9/RF3WZAVWpTjFv2c3DaCy1TR/LlOqWp4qZJMmJBtymQ83wm0p49ELIkY5XOw3xtZKi3PurKa1yo2gbGnu7u91Tm4LP/rOi52F6vJFR28OR2O5HuQeu48zEQE2BHXfd0tBJt2bMS+2wRYwKdz02XUS7bpSK/8EC7Dou/El7Vm3faqIuQk5/63kxc4LZVHq7IAhcRYYZWOdEeBWat7AFDA3w/8upAdWQrZBh6X+XnGclRgNJAzU4QJ+Vkp8UqHFbrMy82b4QyHAo1pS1/VWU6lN5A8ccVbJYzZWRpT+Nijj1nJepeRsqE7xKDjMyfAEFiUCApoalCB/Qcout6fQFOn/bOa/1EYlHZh6jppu5Fpl4ZxTshpZgAwC7cNp2O4r9K6l0Cslt5fz0Hfq3Y/+1Y/soPg0BH9YwluXKvhJJAbHME2WNGlmkVE= k@zdrada";
-in {
+{
   imports = [
+    outputs.nixosModules.keyd
     outputs.nixosModules.fonts
-    outputs.nixosModules.xserver
     outputs.nixosModules.audio
-    outputs.nixosModules.mullvad
     outputs.nixosModules.bqn
-    inputs.nixos-hardware.nixosModules.common-cpu-amd
-    inputs.impermanence.nixosModule
   ];
 
   nixpkgs = {
@@ -27,143 +21,61 @@ in {
     config = { allowUnfree = true; };
   };
 
-  # boot.kernelPatches = [
-  #   {
-  #     name = "enable RT_FULL";
-  #     patch = null;
-  #     extraConfig = ''
-  #       PREEMPT y
-  #       PREEMPT_BUILD y
-  #       PREEMPT_VOLUNTARY n
-  #       PREEMPT_COUNT y
-  #       PREEMPTION y
-  #     '';
-  #   }
-  # ];
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  services.flatpak.enable = true;
+  networking.networkmanager.enable = true;
+
+  time.timeZone = "Europe/Paris";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "en_GB.UTF-8";
+    LC_IDENTIFICATION = "en_GB.UTF-8";
+    LC_MEASUREMENT = "en_GB.UTF-8";
+    LC_MONETARY = "fr_FR.UTF-8";
+    LC_NAME = "en_GB.UTF-8";
+    LC_NUMERIC = "en_GB.UTF-8";
+    LC_PAPER = "en_GB.UTF-8";
+    LC_TELEPHONE = "en_GB.UTF-8";
+    LC_TIME = "en_GB.UTF-8";
+  };
 
   nix = {
-    # This will add each flake input as a registry
-    # To make nix3 commands consistent with your flake
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
-
-    # This will additionally add your inputs to the system's legacy channels
-    # Making legacy nix commands consistent as well, awesome!
-    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
-      config.nix.registry;
-
+    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
       substituters = [
+        "https://cache.nixos.org/"
         "https://ghc-nix.cachix.org"
         "https://nix-community.cachix.org"
-        "https://hasktorch.cachix.org"
-        "https://cache.iog.io"
       ];
       trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "ghc-nix.cachix.org-1:wI8l3tirheIpjRnr2OZh6YXXNdK2fVQeOI4SVz/X8nA="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "hasktorch.cachix.org-1:wLjNS6HuFVpmzbmv01lxwjdCOtWRD8pQVR3Zr/wVoQc="
-        "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
       ];
       trusted-users = [ "s" "root" ];
     };
   };
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.supportedFilesystems = [ "zfs" "ntfs" ];
-  networking.hostId = "44a15ee1";
-  boot.zfs.enableUnstable = true;
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.initrd.luks.devices."cryptroot".device =
-    "/dev/disk/by-uuid/742e9b2a-dd82-4e82-b558-9508ccb6c9da";
-  # boot.initrd.luks.devices."cryptdata".device = "/dev/disk/by-uuid/9ffbf99f-97b3-4931-9fbe-259a2b6498f3";
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    zfs rollback -r rpool/local/root@blank
-  '';
-
-  networking.hostName = "malina";
-  networking.networkmanager.enable = true;
-  networking.firewall.allowedTCPPortRanges = [{
-    from = 34340;
-    to = 34350;
-  }];
-  networking.firewall.allowedUDPPortRanges = [{
-    from = 34340;
-    to = 34350;
-  }];
-
-  # this also governs wayland
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.modesetting.enable = true;
-  hardware.nvidia.powerManagement.enable = true;
-  # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    jack.enable = true;
-    pulse.enable = true;
-  };
 
   security = {
     polkit.enable = true;
-    # allow wayland lockers to unlock the screen
-    pam.services.swaylock.text = ''
-      auth include login
-    '';
-
-    # userland niceness
-    rtkit.enable = true;
     sudo.wheelNeedsPassword = false;
   };
 
-  xdg.portal = {
-    enable = true;
-    config.common.default = "*";
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
 
-  time.timeZone = "Europe/Paris";
-
-  # ---------------------------------------------------------
-  # impermanence
-
-  fileSystems."/persist".neededForBoot = true;
-  environment.persistence."/persist" = {
-    hideMounts = true;
-    directories = [
-      "/root"
-      "/etc/nixos"
-      "/etc/NetworkManager/system-connections"
-      "/etc/mullvad-vpn"
-    ];
-    files = [
-      "/etc/machine-id"
-      "/etc/ssh/ssh_host_rsa_key"
-      "/etc/ssh/ssh_host_rsa_key.pub"
-      "/etc/ssh/ssh_host_ed25519_key"
-      "/etc/ssh/ssh_host_ed25519_key.pub"
-    ];
-  };
-
-  # services.xserver.enable = true;
   services.arbtt = {
     enable = true;
     sampleRate = 10;
   };
 
   zramSwap.enable = true;
+
   services.earlyoom = {
     freeMemThreshold = 5;
     freeSwapThreshold = 10;
@@ -185,34 +97,12 @@ in {
   # this is needed or else lightdm doesn't show the user bc it thinks any user
   # with a shell not in /etc/shells is a system user
   environment.shells = with pkgs; [ bashInteractive zsh ];
+  users.defaultUserShell = pkgs.zsh;
 
   boot.kernelModules = [ "uinput" ];
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.inputMethod.enabled = "fcitx5";
-  i18n.inputMethod.fcitx5.addons = with pkgs; [
-    fcitx5-mozc
-    fcitx5-gtk
-    fcitx5-rime
-  ];
-
-  users.defaultUserShell = pkgs.zsh;
-  users.users.root = {
-    initialPassword = "hunter2";
-    shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [ zdradaSshKey ];
-  };
-
-  users.users.s = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ];
-    initialPassword = "hunter2";
-    shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [ zdradaSshKey ];
-  };
 
   virtualisation.docker = {
     enable = true;
-    enableNvidia = true;
   };
 
   services.tumbler.enable = true;
@@ -230,39 +120,24 @@ in {
     syncplay
     ffmpeg
     simplescreenrecorder
-    osu-lazer
 
     hugo
     texlive.combined.scheme-medium
-    kakoune
-    kak-lsp
     mpv
     zsh
     firefox
     krita
     docker-compose
     qbittorrent
-    xfce.thunar
-    goldendict-ng
-    anki
-    (pkgs.makeDesktopItem {
-      name = "pureref";
-      exec = "${pkgs.pureref}/bin/pureref";
-      comment = "Reference manager";
-      desktopName = "Pureref";
-      type = "Application";
-      mimeTypes = [ ];
-    })
 
     inotify-tools
     unar
     unzip
     p7zip
 
+    shellcheck
     git
     graphviz
-    # compilers and interpreters
-    # j
     gnuplot
     rustup
     nodejs
@@ -283,7 +158,6 @@ in {
     lsof
     # formatters
     alejandra
-
     neovim
     # emacs-lsp
     (pkgs.emacsWithPackages (epkgs: [
@@ -296,12 +170,6 @@ in {
 
   services.openssh = {
     enable = true;
-    settings = {
-      PermitRootLogin = "without-password";
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-    };
   };
 
-  system.stateVersion = "22.11";
 }
