@@ -108,6 +108,7 @@
   services.tumbler.enable = true;
 
   environment.systemPackages = with pkgs; [
+    nix-output-monitor
     gcc
     sqlite
     tmux

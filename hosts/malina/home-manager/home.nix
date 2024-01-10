@@ -7,6 +7,11 @@
   ...
 }:
 {
+  imports = [
+    ../../../home-manager/config.nix
+    ../../../home-manager/home.nix
+  ];
+
   home.stateVersion = "22.11";
 
   home.file.wallpaper.source = ./seto_miyako.jpg;
