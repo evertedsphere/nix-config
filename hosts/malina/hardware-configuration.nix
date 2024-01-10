@@ -47,6 +47,11 @@
     fsType = "zfs";
   };
 
+  fileSystems."/home/s/.local/share/atuin" = {
+    device = "rpool/safe/atuin";
+    fsType = "zfs";
+  };
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/FCBD-96BA";
     fsType = "vfat";
