@@ -6,11 +6,11 @@
   pkgs,
   ...
 }: {
-  imports = [
-    outputs.nixosModules.keyd
-    outputs.nixosModules.fonts
-    outputs.nixosModules.audio
-    outputs.nixosModules.bqn
+  imports = with outputs.nixosModules; [
+    keyd
+    fonts
+    audio
+    bqn
   ];
 
   nixpkgs = {

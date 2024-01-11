@@ -54,7 +54,6 @@ in {
   #   };
   # };
 
-  # zfs bug
   programs.atuin = {
     enable = true;
   };
@@ -82,7 +81,7 @@ in {
       runtimeInputs = [];
       text = ''
         # FIXME fail unless alacritty
-        ${config.local.programs.terminalExe} -o font.normal.family="BQN386 Unicode"
+        ${config.local.programs.terminalExe} -o font.normal.family='"BQN386 Unicode"'
       '';
     })
     (makeDesktopItem {
