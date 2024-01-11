@@ -13,10 +13,7 @@ in {
   boot.initrd.luks.devices."luks-49f9bfd8-a480-4bb5-9ec6-26483d5bae0f".device = "/dev/disk/by-uuid/49f9bfd8-a480-4bb5-9ec6-26483d5bae0f";
   networking.hostName = "work";
 
-  # Enable the X11 windowing system.
   services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 

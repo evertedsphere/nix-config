@@ -15,6 +15,11 @@
 
   home.file.wallpaper.source = ./seto_miyako.jpg;
 
+  local = {
+    user.fullName = "Soham Chowdhury";
+    user.email = "evertedsphere@gmail.com";
+  };
+
   programs.rtorrent = {
     enable = true;
     extraConfig = ''
