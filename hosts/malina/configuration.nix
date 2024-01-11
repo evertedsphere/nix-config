@@ -121,5 +121,7 @@ in {
     };
   };
 
+  environment.sessionVariables.FLAKE = "/persist/nix-config";
+
   system.stateVersion = "22.11";
 }

@@ -2,6 +2,11 @@
   description = "Your new nix config";
 
   inputs = {
+    nil = {
+      url = "github:oxalica/nil";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     home-manager.url = "github:nix-community/home-manager";
@@ -9,18 +14,21 @@
     nix-colors.url = "github:misterio77/nix-colors";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
+    flake-utils.url = "github:numtide/flake-utils";
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
-      # inputs.flake-utils.follows = "flake-utils";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+    nh = {
+      url = "github:viperML/nh";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
   outputs = {
     self,
     nixpkgs,
-    hyprland,
-    hyprland-contrib,
     home-manager,
     emacs-overlay,
     ...
@@ -30,7 +38,7 @@
       "x86_64-linux"
       # "aarch64-linux" "i686-linux" "aarch64-darwin" "x86_64-darwin"
     ];
-  in rec {
+  in {
     # Your custom packages
     # Acessible through 'nix build', 'nix shell', etc
     packages = forAllSystems (
@@ -60,35 +68,34 @@
     homeManagerModules = import ./modules/home-manager;
 
     # nixos-rebuild --flake .#your-hostname
-    nixosConfigurations = {
-      malina = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./nixos/configuration.nix
-          ./hosts/malina/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.s = import ./hosts/malina/home-manager/home.nix;
-            home-manager.extraSpecialArgs = {inherit inputs outputs;};
-          }
-        ];
-      };
-      work = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./nixos/configuration.nix
-          ./hosts/work/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.s = import ./hosts/work/home-manager/home.nix;
-            home-manager.extraSpecialArgs = {inherit inputs outputs;};
-          }
-        ];
-      };
+    nixosConfigurations = let
+      mkSystem = hostname: let
+        nhConfig.nh = {
+          enable = true;
+          clean.enable = true;
+          clean.extraArgs = "--keep-since 10d --keep 10";
+        };
+        homeManagerConfig.home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          users.s = import ./hosts/${hostname}/home-manager/home.nix;
+          extraSpecialArgs = {inherit inputs outputs;};
+        };
+      in
+        nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs outputs;};
+          modules = [
+            ./nixos/configuration.nix
+            ./hosts/${hostname}/configuration.nix
+            home-manager.nixosModules.home-manager
+            homeManagerConfig
+            inputs.nh.nixosModules.default
+            nhConfig
+          ];
+        };
+    in {
+      malina = mkSystem "malina";
+      work = mkSystem "work";
     };
 
     # home-manager --flake .#your-username@your-hostname

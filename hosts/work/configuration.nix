@@ -16,8 +16,6 @@ in {
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
   services.xserver = {
     layout = "us";
   };
@@ -43,6 +41,8 @@ in {
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [malinaKey];
   };
+
+  environment.sessionVariables.FLAKE = "/home/s/nix-config";
 
   system.stateVersion = "23.11";
 }

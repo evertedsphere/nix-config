@@ -87,6 +87,7 @@
   };
 
   systemd.extraConfig = ''
+    DefaultTimeoutStartSec=30s
     DefaultTimeoutStopSec=30s
   '';
 
@@ -98,8 +99,6 @@
 
   programs.zsh.enable = true;
   environment.pathsToLink = ["/share/zsh"];
-  # this is needed or else lightdm doesn't show the user bc it thinks any user
-  # with a shell not in /etc/shells is a system user
   environment.shells = with pkgs; [bashInteractive zsh];
   users.defaultUserShell = pkgs.zsh;
 
@@ -112,9 +111,9 @@
   services.tumbler.enable = true;
 
   environment.systemPackages = with pkgs; [
+    inputs.nh.packages.${pkgs.hostPlatform.system}.default
     nix-output-monitor
-    gcc
-    sqlite
+
     tmux
     entr
     xdotool
@@ -150,7 +149,6 @@
     parallel
     rlwrap
     fd
-    eza
     bat
     delta
     # data wrangling
