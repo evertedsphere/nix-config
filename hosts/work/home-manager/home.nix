@@ -8,5 +8,7 @@
 
   home.file.wallpaper.source = ./flowers.jpg;
 
+  xsession.enable = true;
+
   home.stateVersion = "22.11";
 }
