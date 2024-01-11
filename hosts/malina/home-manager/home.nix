@@ -5,8 +5,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     ../../../home-manager/config.nix
     ../../../home-manager/home.nix

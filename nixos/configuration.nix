@@ -1,5 +1,11 @@
-{ inputs, outputs, lib, config, pkgs, ... }:
 {
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     outputs.nixosModules.keyd
     outputs.nixosModules.fonts
@@ -18,7 +24,7 @@
       inputs.emacs-overlay.overlays.default
     ];
 
-    config = { allowUnfree = true; };
+    config = {allowUnfree = true;};
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -43,7 +49,7 @@
   };
 
   nix = {
-    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
+    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
     settings = {
       experimental-features = "nix-command flakes";
@@ -58,16 +64,14 @@
         "ghc-nix.cachix.org-1:wI8l3tirheIpjRnr2OZh6YXXNdK2fVQeOI4SVz/X8nA="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
-      trusted-users = [ "s" "root" ];
+      trusted-users = ["s" "root"];
     };
   };
-
 
   security = {
     polkit.enable = true;
     sudo.wheelNeedsPassword = false;
   };
-
 
   services.arbtt = {
     enable = true;
@@ -88,18 +92,18 @@
 
   console = {
     earlySetup = true;
-    packages = with pkgs; [ terminus_font ];
+    packages = with pkgs; [terminus_font];
     keyMap = "us";
   };
 
   programs.zsh.enable = true;
-  environment.pathsToLink = [ "/share/zsh" ];
+  environment.pathsToLink = ["/share/zsh"];
   # this is needed or else lightdm doesn't show the user bc it thinks any user
   # with a shell not in /etc/shells is a system user
-  environment.shells = with pkgs; [ bashInteractive zsh ];
+  environment.shells = with pkgs; [bashInteractive zsh];
   users.defaultUserShell = pkgs.zsh;
 
-  boot.kernelModules = [ "uinput" ];
+  boot.kernelModules = ["uinput"];
 
   virtualisation.docker = {
     enable = true;
@@ -172,5 +176,4 @@
   services.openssh = {
     enable = true;
   };
-
 }

@@ -5,9 +5,7 @@
   config,
   pkgs,
   ...
-}:
-let
-
+}: let
   renderTemplates = renderTemplate: data: let
     attrsToList = attrSet:
       lib.zipListsWith (name: value: {inherit name value;})
@@ -18,7 +16,6 @@ let
     builtins.listToAttrs (builtins.concatMap f data);
   c = config.colorScheme.colors;
   h = x: "#${x}";
-
 in {
   imports = [
     inputs.nix-colors.homeManagerModules.default

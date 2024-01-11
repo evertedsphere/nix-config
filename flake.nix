@@ -66,7 +66,8 @@
         modules = [
           ./nixos/configuration.nix
           ./hosts/malina/configuration.nix
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.s = import ./hosts/malina/home-manager/home.nix;
@@ -79,7 +80,8 @@
         modules = [
           ./nixos/configuration.nix
           ./hosts/work/configuration.nix
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.s = import ./hosts/work/home-manager/home.nix;

@@ -1,11 +1,13 @@
-{ inputs, outputs, lib, config, pkgs, ... }:
-
-let
-  zdradaSshKey =
-    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCwG0xwG+Q73dHW5M7Yyos1ns7DdNMZ4Vho8AKueTG116wLe92JChjxg7+cOzit026zz1Ni+B2/jS9/RF3WZAVWpTjFv2c3DaCy1TR/LlOqWp4qZJMmJBtymQ83wm0p49ELIkY5XOw3xtZKi3PurKa1yo2gbGnu7u91Tm4LP/rOi52F6vJFR28OR2O5HuQeu48zEQE2BHXfd0tBJt2bMS+2wRYwKdz02XUS7bpSK/8EC7Dou/El7Vm3faqIuQk5/63kxc4LZVHq7IAhcRYYZWOdEeBWat7AFDA3w/8upAdWQrZBh6X+XnGclRgNJAzU4QJ+Vkp8UqHFbrMy82b4QyHAo1pS1/VWU6lN5A8ccVbJYzZWRpT+Nijj1nJepeRsqE7xKDjMyfAEFiUCApoalCB/Qcout6fQFOn/bOa/1EYlHZh6jppu5Fpl4ZxTshpZgAwC7cNp2O4r9K6l0Cslt5fz0Hfq3Y/+1Y/soPg0BH9YwluXKvhJJAbHME2WNGlmkVE= k@zdrada";
-in
-
 {
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: let
+  zdradaSshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCwG0xwG+Q73dHW5M7Yyos1ns7DdNMZ4Vho8AKueTG116wLe92JChjxg7+cOzit026zz1Ni+B2/jS9/RF3WZAVWpTjFv2c3DaCy1TR/LlOqWp4qZJMmJBtymQ83wm0p49ELIkY5XOw3xtZKi3PurKa1yo2gbGnu7u91Tm4LP/rOi52F6vJFR28OR2O5HuQeu48zEQE2BHXfd0tBJt2bMS+2wRYwKdz02XUS7bpSK/8EC7Dou/El7Vm3faqIuQk5/63kxc4LZVHq7IAhcRYYZWOdEeBWat7AFDA3w/8upAdWQrZBh6X+XnGclRgNJAzU4QJ+Vkp8UqHFbrMy82b4QyHAo1pS1/VWU6lN5A8ccVbJYzZWRpT+Nijj1nJepeRsqE7xKDjMyfAEFiUCApoalCB/Qcout6fQFOn/bOa/1EYlHZh6jppu5Fpl4ZxTshpZgAwC7cNp2O4r9K6l0Cslt5fz0Hfq3Y/+1Y/soPg0BH9YwluXKvhJJAbHME2WNGlmkVE= k@zdrada";
+in {
   imports = [
     outputs.nixosModules.xserver
     outputs.nixosModules.mullvad
@@ -17,7 +19,7 @@ in
   xdg.portal = {
     enable = true;
     config.common.default = "*";
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
   };
 
   hardware.opengl = {
@@ -26,26 +28,29 @@ in
     driSupport32Bit = true;
   };
 
-  boot.supportedFilesystems = [ "zfs" "ntfs" ];
+  boot.supportedFilesystems = ["zfs" "ntfs"];
   networking.hostId = "44a15ee1";
   boot.zfs.enableUnstable = true;
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.initrd.luks.devices."cryptroot".device =
-    "/dev/disk/by-uuid/742e9b2a-dd82-4e82-b558-9508ccb6c9da";
+  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/742e9b2a-dd82-4e82-b558-9508ccb6c9da";
   # boot.initrd.luks.devices."cryptdata".device = "/dev/disk/by-uuid/9ffbf99f-97b3-4931-9fbe-259a2b6498f3";
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     zfs rollback -r rpool/local/root@blank
   '';
 
   networking.hostName = "malina";
-  networking.firewall.allowedTCPPortRanges = [{
-    from = 34340;
-    to = 34350;
-  }];
-  networking.firewall.allowedUDPPortRanges = [{
-    from = 34340;
-    to = 34350;
-  }];
+  networking.firewall.allowedTCPPortRanges = [
+    {
+      from = 34340;
+      to = 34350;
+    }
+  ];
+  networking.firewall.allowedUDPPortRanges = [
+    {
+      from = 34340;
+      to = 34350;
+    }
+  ];
 
   environment.systemPackages = with pkgs; [
     goldendict-ng
@@ -56,7 +61,7 @@ in
       comment = "Reference manager";
       desktopName = "Pureref";
       type = "Application";
-      mimeTypes = [ ];
+      mimeTypes = [];
     })
   ];
 
@@ -92,18 +97,18 @@ in
   users.users.root = {
     initialPassword = "hunter2";
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [ zdradaSshKey ];
+    openssh.authorizedKeys.keys = [zdradaSshKey];
   };
 
   users.users.s = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = ["wheel" "docker"];
     initialPassword = "hunter2";
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [ zdradaSshKey ];
+    openssh.authorizedKeys.keys = [zdradaSshKey];
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.powerManagement.enable = true;
   virtualisation.docker.enableNvidia = true;

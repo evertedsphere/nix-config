@@ -1,10 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   c = config.colorScheme.colors;
   h = x: "#${x}";
-in
-{
+in {
   programs.i3status-rust = {
     enable = true;
     bars.default = {
