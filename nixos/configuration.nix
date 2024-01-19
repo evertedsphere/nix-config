@@ -124,6 +124,7 @@
     syncplay
     ffmpeg
     simplescreenrecorder
+    nix-tree
 
     hugo
     texlive.combined.scheme-medium

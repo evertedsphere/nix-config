@@ -24,6 +24,7 @@
       url = "github:viperML/nh";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+  nur.url = "github:nix-community/NUR";
   };
 
   outputs = {
@@ -91,6 +92,7 @@
             homeManagerConfig
             inputs.nh.nixosModules.default
             nhConfig
+            inputs.nur.nixosModules.nur
           ];
         };
     in {
