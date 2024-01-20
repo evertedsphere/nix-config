@@ -22,6 +22,8 @@ in {
     config.common.default = "*";
     extraPortals = [pkgs.xdg-desktop-portal-gtk];
   };
+  services.xserver.enable = true;
+  services.picom.enable = true;
 
   hardware.opengl = {
     enable = true;

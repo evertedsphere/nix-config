@@ -167,7 +167,7 @@
     alejandra
     neovim
     # emacs-lsp
-    ((pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (epkgs: [
+    ((pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages (epkgs: [
       # for org-roam, which fails to function otherwise
       # also see note in packages.el
       epkgs.emacsql-sqlite

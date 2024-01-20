@@ -76,7 +76,7 @@ in {
         key,
         dir,
       }: {
-        "${modifier}+${key}" = "exec --no-startup-id ~/.local/bin/winnav ${dir}";
+        "${modifier}+${key}" = "focus ${dir}";
         "${modifier}+Shift+${key}" = "move ${dir}";
       })
       movementKeys;
@@ -89,8 +89,8 @@ in {
       });
     workspaceOutputAssign =
       # TODO primary/secondary outputs
-      assignWorkspace ["HDMI-A-0"] smallMonitorWss
-      ++ assignWorkspace ["HDMI-A-1"] leftMonitorWss
+      assignWorkspace ["HDMI-A-1"] smallMonitorWss
+      ++ assignWorkspace ["HDMI-A-2"] leftMonitorWss
       ++ assignWorkspace ["DP-2"] rightMonitorWss;
     run = x: "exec ${x}";
     spawn = x: "exec --no-startup-id ${x}";
@@ -175,7 +175,6 @@ in {
     };
     # FIXME
   in {
-    enable = true;
     config = lib.mkOptionDefault {
       inherit modifier colors;
       output = {
@@ -185,12 +184,13 @@ in {
           scale = "1.1";
         };
         "DP-2" = {
-          pos = "0 2160";
+          pos = "0 0";
           res = "3840x2160";
           scale = "1.4";
+          #bg = "~/.local/share/walls/wall.jpg stretch";
         };
         "HDMI-A-2" = {
-          pos = "0 0";
+          pos = "0 2160";
           res = "3840x2160";
           scale = "1.4";
         };

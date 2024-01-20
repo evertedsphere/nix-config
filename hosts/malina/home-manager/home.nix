@@ -30,6 +30,8 @@
     discord
   ];
 
+  wayland.windowManager.sway.enable = false;
+
   services.screen-locker = {
     enable = true;
     lockCmd = "${pkgs.i3lock}/bin/i3lock -n -i ${config.home.file.wallpaper.target}";
