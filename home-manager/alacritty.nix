@@ -92,7 +92,7 @@ in {
         normal = {
           family = config.local.fonts.monospaceFont;
         };
-        size = 11.0;
+        size = 18.0;
       };
     };
   };

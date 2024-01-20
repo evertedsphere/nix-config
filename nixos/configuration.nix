@@ -69,6 +69,7 @@
   };
 
   security = {
+    # for sway
     polkit.enable = true;
     sudo.wheelNeedsPassword = false;
   };
@@ -113,6 +114,8 @@
   environment.systemPackages = with pkgs; [
     inputs.nh.packages.${pkgs.hostPlatform.system}.default
     nix-output-monitor
+
+    vulkan-validation-layers
 
     tmux
     entr
@@ -164,7 +167,7 @@
     alejandra
     neovim
     # emacs-lsp
-    (pkgs.emacsWithPackages (epkgs: [
+    ((pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (epkgs: [
       # for org-roam, which fails to function otherwise
       # also see note in packages.el
       epkgs.emacsql-sqlite

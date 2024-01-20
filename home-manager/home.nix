@@ -20,7 +20,7 @@ in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
     outputs.homeManagerModules.local
-    ./xsession.nix
+    ./sway.nix
     ./alacritty.nix
     ./neovim.nix
     ./i3status-rs.nix

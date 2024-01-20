@@ -24,7 +24,7 @@
       url = "github:viperML/nh";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  nur.url = "github:nix-community/NUR";
+    nur.url = "github:nix-community/NUR";
   };
 
   outputs = {

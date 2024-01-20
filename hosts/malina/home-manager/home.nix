@@ -35,15 +35,6 @@
     lockCmd = "${pkgs.i3lock}/bin/i3lock -n -i ${config.home.file.wallpaper.target}";
   };
 
-  services.picom = {
-    enable = true;
-    backend = "xrender";
-    fade = true;
-    vSync = true;
-    fadeDelta = 3;
-    fadeSteps = [0.04 0.04];
-  };
-
   qt.style = {
     package = pkgs.adwaita-qt;
     name = "adwaita-dark";
