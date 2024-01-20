@@ -196,6 +196,10 @@ in {
           done
           vterm_printf "51;E$vterm_elisp"
       }
+
+      find_file() {
+          vterm_cmd find-file "$(realpath "''${@:-.}")"
+      }
     '';
 
     initExtraBeforeCompInit = ''
