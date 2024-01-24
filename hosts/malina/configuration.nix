@@ -40,6 +40,20 @@ in {
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     zfs rollback -r rpool/local/root@blank
   '';
+  services.sanoid = {
+    enable = true;
+    datasets = {
+      "rpool/safe" = {
+        autoprune = true;
+        autosnap = true;
+        hourly = 10;
+        daily = 7;
+        monthly = 2;
+        yearly = 0;
+        recursive = "zfs";
+      };
+    };
+  };
 
   networking.hostName = "malina";
   networking.firewall.allowedTCPPortRanges = [
