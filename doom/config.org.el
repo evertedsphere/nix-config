@@ -32,8 +32,7 @@
           ("c" "org-protocol-capture" entry (file ,org-default-notes-file)
            "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)))
   (setq org-protocol-default-template-key "c")
-  (org-auctex-mode)
-  )
+  (org-auctex-mode))
 
 (use-package! websocket
   :after org-roam)

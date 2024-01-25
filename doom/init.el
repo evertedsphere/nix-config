@@ -15,26 +15,17 @@
 ;;      directory (for easy access to its source code).
 
 (doom! :input
-       ;;bidi
-       ;;chinese
-       ;;japanese
-       ;;layout
 
        :completion
        company
-       ;;helm
-       ;;ido
-       ;;ivy
        vertico
 
        :ui
-       ;;deft
        doom
        doom-dashboard
        ;;doom-quit
-       ;;(emoji +unicode)
+       ;; (emoji +unicode)
        hl-todo
-       ;;hydra
        ;;indent-guides
        ;;ligatures
        ;;minimap
@@ -57,9 +48,8 @@
        file-templates
        fold
        (format +onsave)
-       ;;god
        lispy
-       multiple-cursors
+       ;; multiple-cursors
        ;;objed
        ;;parinfer
        ;;rotate-text
@@ -75,8 +65,6 @@
 
        :term
        eshell
-       shell
-       ;;term
        vterm
 
        :checkers
@@ -87,25 +75,24 @@
        :tools
        ;;ansible
        ;;biblio
-       ;;debugger
+       (debugger +lsp)
        direnv
-       docker
+       ;;docker
        ;;editorconfig
-       ein
+       ;; ein
        (eval +overlay)
-       ;;gist
        lookup
        lsp
        magit
        ;;make
-       ;;pass
+       ;;(pass +auth)
        ;;pdf
        ;;prodigy
        ;;rgb
        ;;taskrunner
        ;;terraform
-       tmux
-       tree-sitter
+       ;;tmux
+       ;;tree-sitter
        ;;upload
 
        :os
@@ -117,14 +104,14 @@
        ;;beancount
        cc
        ;;clojure
-       common-lisp
+       ;;common-lisp
        ;;coq
        ;;crystal
        ;;csharp
        data
        ;;(dart +flutter)
        ;;dhall
-       (elixir +lsp)
+       ;;(elixir +lsp)
        ;;elm
        emacs-lisp
        ;;erlang
@@ -134,25 +121,25 @@
        ;;fortran
        ;;fsharp
        ;;fstar
-       (gdscript +lsp)
+       ;;(gdscript +lsp)
        ;;(go +lsp)
        ;;(graphql +lsp)
        (haskell +lsp)
        ;;hy
        ;;idris
-       ;;json
+       json
        ;;(java +lsp)
-       javascript
+       ;;javascript
        ;;julia
        ;;kotlin
-       latex
+       ;;latex
        ;;lean
        ;;ledger
        ;;lua
        markdown
        ;;nim
        nix
-       (ocaml +lsp +tree-sitter)
+       ;;(ocaml +lsp +tree-sitter)
        (org +roam2
             +dragndrop
             +hugo
@@ -167,7 +154,7 @@
        ;;purescript
        python
        ;;qt
-       racket
+       ;;racket
        ;;raku
        ;;rest
        ;;rst
@@ -181,7 +168,7 @@
        ;;swift
        ;;terra
        web
-       ;;yaml
+       yaml
        ;;zig
 
        :email
@@ -190,12 +177,11 @@
        ;;(wanderlust +gmail)
 
        :app
-       calendar
+       ;;calendar
        ;;emms
        ;;everywhere
        ;;irc
        ;;(rss +org)
-       ;;twitter
 
        :config
        ;;literate

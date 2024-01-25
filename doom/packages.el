@@ -16,12 +16,12 @@
 (package! vulpea)
 (package! ox-tufte)
 (package! flycheck-projectile)
-(package! fcitx)
 
 (unpin! jupyter)
 (package! org-ql :pin "d09608aa35090df8a02cc372e9c862566b0169f4")
 
 (package! vterm :built-in t)
+(package! fcitx :built-in t)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
@@ -65,3 +65,4 @@
                                         ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
                                         ;(unpin! t)
+; (package! fcitx :built-in t)
