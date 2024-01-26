@@ -23,6 +23,7 @@ in {
     ./xsession.nix
     ./alacritty.nix
     ./neovim.nix
+    ./sway.nix
     ./i3status-rs.nix
   ];
 
@@ -271,7 +272,8 @@ in {
   services.gpg-agent = {
     enable = true;
     enableSshSupport = true;
-    pinentryFlavor = "gnome3";
+    # gnome3 does not work
+    pinentryFlavor = "qt";
   };
 
   services.udiskie = {

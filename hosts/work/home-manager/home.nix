@@ -21,4 +21,6 @@
   xsession.enable = true;
 
   home.stateVersion = "22.11";
+
+  wayland.windowManager.sway.enable = true;
 }
