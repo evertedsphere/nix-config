@@ -79,7 +79,7 @@
         homeManagerConfig.home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
-          users.s = import ./hosts/${hostname}/home-manager/home.nix;
+          users.s.imports = [ ./hosts/${hostname}/home-manager/home.nix ];
           extraSpecialArgs = {inherit inputs outputs;};
         };
       in

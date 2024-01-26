@@ -7,13 +7,13 @@
   # allegedly fixes e.g. sort order in file pickers not being persisted
   programs.dconf.enable = true;
 
-   services.picom = {
-     backend = "xrender";
-     fade = true;
-     vSync = true;
-     fadeDelta = 3;
-     fadeSteps = [0.04 0.04];
-   };
+  services.picom = {
+    backend = "xrender";
+    fade = true;
+    vSync = true;
+    fadeDelta = 3;
+    fadeSteps = [0.04 0.04];
+  };
 
   services.xserver = {
     # wacom.enable = true;

@@ -38,6 +38,7 @@ in {
   home.extraOutputsToInstall = ["doc" "info" "devdoc"];
   systemd.user.startServices = "sd-switch";
   xsession.enable = true;
+  services.blueman-applet.enable = true;
 
   programs.wofi.enable = true;
   programs.qutebrowser = {

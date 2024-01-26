@@ -105,6 +105,8 @@
 
   boot.kernelModules = ["uinput"];
 
+  services.dbus.packages = [ pkgs.blueman ];
+
   virtualisation.docker = {
     enable = true;
   };

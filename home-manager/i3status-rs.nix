@@ -44,6 +44,10 @@ in {
           interval = 5;
           format = " $timestamp.datetime(f:'%a %d/%m %R') ";
         }
+        {
+          block = "battery";
+          interval = 60;
+        }
       ];
       settings = {
         theme = {
