@@ -20,7 +20,7 @@ in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
     outputs.homeManagerModules.local
-    ./xsession.nix
+    ./i3.nix
     ./alacritty.nix
     ./neovim.nix
     ./sway.nix
@@ -37,6 +37,7 @@ in {
   home.enableNixpkgsReleaseCheck = true;
   home.extraOutputsToInstall = ["doc" "info" "devdoc"];
   systemd.user.startServices = "sd-switch";
+  xsession.enable = true;
 
   programs.wofi.enable = true;
   programs.qutebrowser = {
