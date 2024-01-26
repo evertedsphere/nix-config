@@ -113,6 +113,12 @@
 
   services.tumbler.enable = true;
 
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
+
   environment.systemPackages = with pkgs; [
     inputs.nh.packages.${pkgs.hostPlatform.system}.default
     nix-output-monitor

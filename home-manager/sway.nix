@@ -175,9 +175,20 @@ in {
     };
     # FIXME
   in {
+    wrapperFeatures.gtk = true;
+    extraSessionCommands = ''
+      export SDL_VIDEODRIVER=wayland
+      export QT_QPA_PLATFORM=wayland
+      export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+      export _JAVA_AWT_WM_NONREPARENTING=1
+      export MOZ_ENABLE_WAYLAND=1
+    '';
     config = lib.mkOptionDefault {
       inherit modifier colors;
       output = {
+        "eDP-1" = {
+          bg = "~/.local/share/walls/wall.jpg fill";
+        };
         "HDMI-A-1" = {
           pos = "3840 2160";
           res = "2560x1600";
@@ -187,7 +198,6 @@ in {
           pos = "0 0";
           res = "3840x2160";
           scale = "1.4";
-          #bg = "~/.local/share/walls/wall.jpg stretch";
         };
         "HDMI-A-2" = {
           pos = "0 2160";

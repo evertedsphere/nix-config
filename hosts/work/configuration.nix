@@ -13,10 +13,6 @@ in {
   boot.initrd.luks.devices."luks-49f9bfd8-a480-4bb5-9ec6-26483d5bae0f".device = "/dev/disk/by-uuid/49f9bfd8-a480-4bb5-9ec6-26483d5bae0f";
   networking.hostName = "work";
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
-
   nix.settings = {
     substituters = [
       "https://storage.googleapis.com/zeuslogics-nix-cache-github"
@@ -25,6 +21,8 @@ in {
       "zeuslogics-nix-cache-github:RpfcOgIp6w2cvPyhTfErGcWkR9QSHc1gpp4UwyH3ovU="
     ];
   };
+
+  security.pam.services.swaylock = {};
 
   users.users.root = {
     shell = pkgs.zsh;

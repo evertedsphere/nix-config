@@ -25,12 +25,6 @@ in {
   services.xserver.enable = true;
   services.picom.enable = true;
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
-
   boot.supportedFilesystems = ["zfs" "ntfs"];
   networking.hostId = "44a15ee1";
   boot.zfs.enableUnstable = true;
