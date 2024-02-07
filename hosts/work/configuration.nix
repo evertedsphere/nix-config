@@ -1,4 +1,6 @@
 {
+  inputs,
+  outputs,
   config,
   lib,
   pkgs,
@@ -8,6 +10,9 @@
 in {
   imports = [
     ./hardware-configuration.nix
+    outputs.nixosModules.xserver
+    inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad
   ];
 
   boot.initrd.luks.devices."luks-49f9bfd8-a480-4bb5-9ec6-26483d5bae0f".device = "/dev/disk/by-uuid/49f9bfd8-a480-4bb5-9ec6-26483d5bae0f";
@@ -22,7 +27,10 @@ in {
     ];
   };
 
-  security.pam.services.swaylock = {};
+  # security.pam.services.swaylock = {};
+
+  services.xserver.enable = true;
+  services.picom.enable = true;
 
   users.users.root = {
     shell = pkgs.zsh;

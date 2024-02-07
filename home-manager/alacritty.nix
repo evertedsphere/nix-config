@@ -92,9 +92,7 @@ in {
         normal = {
           family = config.local.fonts.monospaceFont;
         };
-        size = 11.0;
-        # sway
-        # size = 18.0;
+        size = config.local.fonts.alacrittyFontSize;
       };
     };
   };

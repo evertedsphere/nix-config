@@ -27,6 +27,14 @@ in {
         example = "Iosevka Term";
         description = "Monospace font to use";
       };
+      alacrittyFontSize = lib.mkOption {
+        type = lib.types.float;
+      };
+      i3barFontSize = lib.mkOption {
+        type = lib.types.float;
+        example = 20.0;
+        description = "Monospace font size for i3bar";
+      };
     };
     gapWidth = lib.mkOption {
       type = lib.types.int;

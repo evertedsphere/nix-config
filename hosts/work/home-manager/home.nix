@@ -14,13 +14,15 @@
   local = {
     user.fullName = "Soham Chowdhury";
     user.email = "soham.chowdhury@tweag.io";
+    fonts.i3barFontSize = 20.0;
+    fonts.alacrittyFontSize = 8.0;
   };
 
   home.file.wallpaper.source = ./flowers.jpg;
 
   home.stateVersion = "22.11";
 
-  wayland.windowManager.sway.enable = true;
+  wayland.windowManager.sway.enable = false;
 
   programs.swaylock = {
     enable = true;

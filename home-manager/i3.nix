@@ -241,7 +241,7 @@ in {
               statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
               fonts = {
                 names = [config.local.fonts.monospaceFont];
-                size = 12.0;
+                size = config.local.fonts.i3barFontSize;
               };
               # trayOutput = "DP-2";
               colors = {
