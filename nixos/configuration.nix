@@ -171,6 +171,9 @@
     wget
     htop
     lsof
+    # random
+    tokei
+
     # formatters
     alejandra
     neovim

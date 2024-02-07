@@ -6,3 +6,5 @@
 (setq display-line-numbers-type 'relative)
 ;; Only has an effect on emacs-pgtk, but let's leave it in.
 (add-to-list 'default-frame-alist '(alpha-background . 90))
+
+(setq evil-want-minibuffer nil)

@@ -178,7 +178,7 @@
 
        :app
        ;;calendar
-       ;;emms
+       ;;;emms
        ;;everywhere
        ;;irc
        ;;(rss +org)

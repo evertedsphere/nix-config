@@ -1,6 +1,7 @@
 ;;; config.nav.el -*- lexical-binding: t; -*-
 
 (map! :nv "C-s" 'avy-goto-char-2)
+(map! :nv "C-e" '+vterm/toggle)
 
 (defun vertico-quick-embark (&optional arg)
   "Embark on candidate using quick keys."
@@ -13,3 +14,12 @@
       "C-'" #'vertico-quick-embark
       ;; use C-q ' for a literal quote
       "'" #'vertico-quick-exit)
+
+(map!
+ :map rust-mode-map
+ :localleader
+ :prefix ("m" . "custom")
+ :desc "move up" :n "k" #'lsp-rust-analyzer-move-item-up
+ :desc "move down" :n "j" #'lsp-rust-analyzer-move-item-down
+ :desc "open docs" :n "d" #'lsp-rust-analyzer-open-external-docs
+ )

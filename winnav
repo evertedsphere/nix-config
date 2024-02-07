@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+nav() {
+  win_name="$(xdotool getactivewindow getwindowname)"
+  if [[ "$win_name" =~ ^tmux: ]]; then
+    target="$(echo "$win_name" | sed -E 's/^tmux:(.+)/\1:/')"
+    pane_at_edge="$(tmux display -t "$target" -p "#{pane_at_$3}")"
+    if [[ "$pane_at_edge" =~ "0" ]]; then
+      tmux select-pane -t "$target" "-$1"
+      return
+    fi
+  fi
+  i3-msg focus "$2"
+}
+
+case "$1" in
+  down) nav D down bottom ;;
+  up) nav U up top ;;
+  left) nav L left left ;;
+  right) nav R right right ;;
+  *) exit 1 ;;
+esac
