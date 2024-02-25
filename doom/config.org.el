@@ -94,6 +94,10 @@
    (python . t)))
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         "* %?"
+         :target (file+datetree "journal.org" day))))
 
 (require 'org-chef-utils)
 (require 'dom)
