@@ -11,8 +11,6 @@
 (package! citar-org-roam)
 (package! org-protocol-capture-html)
 (package! consult-org-roam)
-(package! org-auctex-mode
-  :recipe (:host github :repo "karthink/org-auctex"))
 (package! vulpea)
 (package! ox-tufte)
 (package! flycheck-projectile)
@@ -21,7 +19,7 @@
 (package! org-ql :pin "d09608aa35090df8a02cc372e9c862566b0169f4")
 
 (package! vterm :built-in t)
-(package! fcitx :built-in t)
+(package! fcitx)
 (package! org-chef)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
@@ -66,4 +64,3 @@
                                         ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
                                         ;(unpin! t)
-; (package! fcitx :built-in t)

@@ -30,9 +30,6 @@
            entry (file+olp ,org-default-notes-file "Web")
            "* %c :website:\n%U %?%:initial")
           ("c" "org-protocol-capture" entry (file ,org-default-notes-file)
-           "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)))
-  (setq org-protocol-default-template-key "c")
-  (org-auctex-mode))
            "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
           ("k" "Cookbook" entry (file "~/o/cookbook.org")
            "%(org-chef-get-recipe-from-url)"
@@ -40,6 +37,7 @@
           ("m" "Manual Cookbook" entry (file "~/org/cookbook.org")
            "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
           ))
+  (setq org-protocol-default-template-key "c"))
 
 (use-package! websocket
   :after org-roam)
