@@ -33,6 +33,13 @@
            "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)))
   (setq org-protocol-default-template-key "c")
   (org-auctex-mode))
+           "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
+          ("k" "Cookbook" entry (file "~/o/cookbook.org")
+           "%(org-chef-get-recipe-from-url)"
+           :empty-lines 1)
+          ("m" "Manual Cookbook" entry (file "~/org/cookbook.org")
+           "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
+          ))
 
 (use-package! websocket
   :after org-roam)
@@ -88,3 +95,23 @@
    (shell . t)
    (python . t)))
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+
+
+(require 'org-chef-utils)
+(require 'dom)
+
+(advice-add 'org-chef-xiachufang-extract-ingredients :override
+            #'(lambda (dom)
+                "Get the ingredients for a recipe from a xiachufang DOM."
+                (split-string
+                 (car (mapcar #'(lambda (n) (org-chef-xiachufang-sanitize (dom-texts n "\n")))
+                              (dom-elements dom 'class "^ings$")))
+                 "\n")))
+
+(advice-add 'org-chef-xiachufang-extract-directions :override
+            #'(lambda (dom)
+                "Get the directions for a recipe from a xiachufang DOM."
+                (split-string
+                 (car (mapcar #'(lambda (n) (org-chef-xiachufang-sanitize (dom-texts n "\n")))
+                              (dom-elements dom 'class "^steps$")))
+                 "\n")))

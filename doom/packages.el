@@ -22,6 +22,7 @@
 
 (package! vterm :built-in t)
 (package! fcitx :built-in t)
+(package! org-chef)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
