@@ -28,6 +28,13 @@
     '';
   };
 
+  services.syncthing = {
+    enable = true;
+    tray = {
+      enable = true;
+    };
+  };
+
   home.packages = with pkgs; [
     discord
   ];
