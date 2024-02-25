@@ -15,6 +15,11 @@
   :hook
   (org-mode . (lambda () (add-hook 'org-babel-after-execute-hook #'display-ansi-colors))))
 
+(use-package! org-tidy
+  :after org
+  :hook
+  (org-mode . org-tidy-mode))
+
 (use-package! org-habit
   :after org
   :config

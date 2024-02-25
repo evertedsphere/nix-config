@@ -21,6 +21,8 @@
 (package! vterm :built-in t)
 (package! fcitx)
 (package! org-chef)
+;; hide properties
+(package! org-tidy)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
