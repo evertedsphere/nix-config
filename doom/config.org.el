@@ -27,7 +27,7 @@
         `(("i" "inbox" entry (file ,org-default-notes-file)
            "* TODO %?")
           ("w" "Web site"
-           entry (file+olp "~/org/inbox.org" "Web")
+           entry (file+olp ,org-default-notes-file "Web")
            "* %c :website:\n%U %?%:initial")
           ("c" "org-protocol-capture" entry (file ,org-default-notes-file)
            "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)))
