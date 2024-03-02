@@ -1,6 +1,6 @@
 ;;; config.ui.el -*- lexical-binding: t; -*-
 
-(setq doom-theme 'modus-vivendi)
+(setq doom-theme 'doom-tomorrow-night)
 (setq doom-font (font-spec :family "Sarasa Mono J Nerd Font" :size 24 :weight 'semi-light)
       doom-big-font (font-spec :family "Sarasa Mono J Nerd Font" :size 30 :weight 'semi-light))
 (setq display-line-numbers-type 'relative)

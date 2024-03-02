@@ -141,14 +141,14 @@
        nix
        ;;(ocaml +lsp +tree-sitter)
        (org +roam2
-            +dragndrop
-            +hugo
-            +babel
-            ;; +jupyter
-            +gnuplot
-            +pandoc
-            +noter
-            +pomodoro)
+            ;; +dragndrop
+            ;; +hugo
+            ;; +babel
+            ;; +gnuplot
+            ;; +pandoc
+            ;; +noter
+            ;; +pomodoro
+            )
        ;;php
        ;;plantuml
        ;;purescript

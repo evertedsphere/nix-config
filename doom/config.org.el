@@ -4,7 +4,10 @@
 (defvar local/org-roam-subdir "kb"
   "Subdirectory of org-directory to use for org-roam.")
 (setq org-roam-directory (f-join org-directory local/org-roam-subdir))
-(setq org-agenda-files (list org-directory org-roam-directory (f-join org-directory "daily/")))
+(defvar local/org-sync-subdir "sync"
+  "Subdirectory of org-roam-directory to sync.")
+(setq org-sync-directory (f-join org-roam-directory local/org-sync-subdir))
+(setq org-agenda-files (list org-directory org-roam-directory org-sync-directory (f-join org-roam-directory "daily/journal.org")))
 (setq org-default-notes-file (f-join org-directory "inbox.org"))
 
 (use-package! org
@@ -15,10 +18,10 @@
   :hook
   (org-mode . (lambda () (add-hook 'org-babel-after-execute-hook #'display-ansi-colors))))
 
-(use-package! org-tidy
-  :after org
-  :hook
-  (org-mode . org-tidy-mode))
+;; (use-package! org-tidy
+;;   :after org
+;;   :hook
+;;   (org-mode . org-tidy-mode))
 
 (use-package! org-habit
   :after org
@@ -27,22 +30,34 @@
         org-habit-preceding-days 35
         org-habit-show-habits t))
 
+(setq org-capture-templates
+      `(("i" "inbox" entry (file ,org-default-notes-file)
+         "* TODO %?")
+        ;; https://github.com/alphapapa/org-protocol-capture-html
+        ("w" "Web site" entry (file ,org-default-notes-file)
+         "* %a :website:\n%U\n%:initial" :immediate-finish t)
+        ("s" "Web site (whole page)" entry (file ,org-default-notes-file)
+         "%(org-web-tools--url-as-readable-org \"%L\")"
+         :immediate-finish t)
+        ("c" "org-protocol-capture" entry (file ,org-default-notes-file)
+         "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
+        ("k" "Cookbook" entry (file "~/o/cookbook.org")
+         "%(org-chef-get-recipe-from-url)"
+         :empty-lines 1)
+        ("m" "Manual Cookbook" entry (file "~/org/cookbook.org")
+         "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
+        ))
+
 (after! org
-  (setq org-capture-templates
-        `(("i" "inbox" entry (file ,org-default-notes-file)
-           "* TODO %?")
-          ("w" "Web site"
-           entry (file+olp ,org-default-notes-file "Web")
-           "* %c :website:\n%U %?%:initial")
-          ("c" "org-protocol-capture" entry (file ,org-default-notes-file)
-           "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
-          ("k" "Cookbook" entry (file "~/o/cookbook.org")
-           "%(org-chef-get-recipe-from-url)"
-           :empty-lines 1)
-          ("m" "Manual Cookbook" entry (file "~/org/cookbook.org")
-           "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
-          ))
-  (setq org-protocol-default-template-key "c"))
+
+
+  (setq org-protocol-default-template-key "c")
+  (setq org-agenda-skip-scheduled-if-done t
+        org-agenda-show-future-repeats nil
+        org-clock-continuously t
+        org-agenda-skip-deadline-if-done t
+        org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i)" "DONE(d)" "CANCELED(x)"))
+        org-todo-keywords-for-agenda '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i)" "DONE(d)" "CANCELED(x)"))))
 
 (use-package! websocket
   :after org-roam)
@@ -56,8 +71,10 @@
 
 (after! org-roam
   (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry "* <%<%F %a %H:%M>> %?" :target
-           (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")))))
+        '(("d" "default" entry
+           "* %?"
+           :clock-in t :clock-resume t
+           :target (file+datetree "journal.org" day)))))
 
 (defun local/tag-new-node-as-draft ()
   (org-roam-tag-add '("draft")))
@@ -99,10 +116,7 @@
    (python . t)))
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
-(setq org-roam-dailies-capture-templates
-      '(("d" "default" entry
-         "* %?"
-         :target (file+datetree "journal.org" day))))
+
 
 (require 'org-chef-utils)
 (require 'dom)
@@ -122,3 +136,6 @@
                  (car (mapcar #'(lambda (n) (org-chef-xiachufang-sanitize (dom-texts n "\n")))
                               (dom-elements dom 'class "^steps$")))
                  "\n")))
+
+;; hack for the annoying org-element warnings
+(setq warning-minimum-level :error)

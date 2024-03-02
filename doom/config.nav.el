@@ -21,5 +21,4 @@
  :prefix ("m" . "custom")
  :desc "move up" :n "k" #'lsp-rust-analyzer-move-item-up
  :desc "move down" :n "j" #'lsp-rust-analyzer-move-item-down
- :desc "open docs" :n "d" #'lsp-rust-analyzer-open-external-docs
- )
+ :desc "open docs" :n "d" #'lsp-rust-analyzer-open-external-docs)
