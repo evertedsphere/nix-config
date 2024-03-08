@@ -190,6 +190,9 @@ in {
             size = 11.0;
           };
           workspaceAutoBackAndForth = true;
+          focus = {
+            newWindow = "urgent";
+          };
           gaps = {
             inner = 14;
             outer = 0;
