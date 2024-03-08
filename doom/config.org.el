@@ -8,7 +8,7 @@
   "Subdirectory of org-roam-directory to sync.")
 (setq org-sync-directory (f-join org-roam-directory local/org-sync-subdir))
 (setq org-agenda-files (list org-directory org-roam-directory org-sync-directory (f-join org-roam-directory "daily/journal.org")))
-(setq org-default-notes-file (f-join org-directory "inbox.org"))
+(setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
 
 (use-package! org
   :init
