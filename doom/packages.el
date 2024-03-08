@@ -6,7 +6,7 @@
 (package! org-roam-ui)
 (package! citar-org-roam)
 (package! org-protocol-capture-html)
-(package! consult-org-roam)
+;; (package! consult-org-roam)
 (package! vulpea)
 (package! ox-tufte)
 (package! flycheck-projectile)
