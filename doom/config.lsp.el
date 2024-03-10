@@ -40,3 +40,10 @@
 
 (set-formatter! 'pg-formatter '("pg_format" "-f" "1" "-U" "1" "-u" "1" "-s" "2"))
 (setq-hook! 'sql-mode-hook +format-with 'pg-formatter)
+
+(defun local/python-shell-send ()
+  (interactive)
+  (with-current-buffer (python-shell-get-buffer) (comint-clear-buffer))
+  (python-shell-send-buffer))
+
+(map! :localleader :map python-mode-map :desc "Clear and send buffer" :n "r" #'local/python-shell-send)
