@@ -1,15 +1,5 @@
 ;;; config/org.el -*- lexical-binding: t; -*-
 
-(setq org-directory "~/o/")
-(defvar local/org-roam-subdir "kb"
-  "Subdirectory of org-directory to use for org-roam.")
-(setq org-roam-directory (f-join org-directory local/org-roam-subdir))
-(defvar local/org-sync-subdir "sync"
-  "Subdirectory of org-roam-directory to sync.")
-(setq org-sync-directory (f-join org-roam-directory local/org-sync-subdir))
-(setq org-agenda-files (list org-directory org-roam-directory org-sync-directory (f-join org-roam-directory "daily/journal.org")))
-(setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
-
 (use-package! org
   :init
   (defun display-ansi-colors ()
@@ -30,6 +20,25 @@
         org-habit-preceding-days 35
         org-habit-show-habits t))
 
+(setq org-directory "~/o/")
+(defvar local/org-roam-subdir "kb"
+  "Subdirectory of org-directory to use for org-roam.")
+(setq org-roam-directory (f-join org-directory local/org-roam-subdir))
+(defvar local/org-sync-subdir "sync"
+  "Subdirectory of org-roam-directory to sync.")
+(setq org-sync-directory (f-join org-roam-directory local/org-sync-subdir))
+(setq org-agenda-files (list org-directory org-roam-directory org-sync-directory (f-join org-roam-directory "daily/journal.org")))
+(setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
+(setq +org-capture-notes-file org-default-notes-file)
+(setq org-protocol-default-template-key "c")
+(setq org-clock-continuously t
+      org-clock-persist t
+      org-log-done 'time
+      org-log-into-drawer t
+      org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i!)" "DONE(d!)" "CANCELLED(x!)"))
+      org-todo-keywords-for-agenda '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i!)" "DONE(d!)" "CANCELLED(x!)"))
+      org-attach-id-dir ".attachments/")
+
 (setq org-capture-templates
       `(("i" "inbox" entry (file ,org-default-notes-file)
          "* TODO %?")
@@ -44,20 +53,50 @@
         ("k" "Cookbook" entry (file "~/o/cookbook.org")
          "%(org-chef-get-recipe-from-url)"
          :empty-lines 1)
-        ("m" "Manual Cookbook" entry (file "~/org/cookbook.org")
+        ("m" "Manual Cookbook" entry (file "~/o/cookbook.org")
          "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
         ))
 
+(setq org-super-agenda-groups
+      '((:name "Clocked today"
+         :discard (:log state)
+         :log clocked
+         :log closed)
+        (:name "Important"
+         :priority "A")
+        (:name "Overdue" :deadline past)
+        (:name "Today"
+         :and (:deadline today :not (:habit t))
+         :and (:scheduled today :not (:habit t)))
+        (:name "Less important"
+         :priority "B")
+        (:name "L2"
+         :tag "l2@read"
+         :tag "l2@listen"
+         :tag "l2@drill")
+        (:name "Consistency checks" :tag "habit" :habit t)))
+
+;; TODO: keep everything but hjkl
+(setq org-super-agenda-header-map (make-sparse-keymap))
+
 (after! org
+  (org-clock-persistence-insinuate))
 
-
-  (setq org-protocol-default-template-key "c")
-  (setq org-agenda-skip-scheduled-if-done t
+(use-package! org-agenda
+  :init
+  (map! "<f1>" #'local/switch-to-agenda)
+  (setq org-agenda-block-separator nil
+        org-agenda-skip-scheduled-if-done t
         org-agenda-show-future-repeats nil
-        org-clock-continuously t
         org-agenda-skip-deadline-if-done t
-        org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i)" "DONE(d)" "CANCELED(x)"))
-        org-todo-keywords-for-agenda '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i)" "DONE(d)" "CANCELED(x)"))))
+        org-agenda-sticky t
+        org-agenda-start-with-log-mode t
+        org-agenda-use-time-grid nil
+        org-agenda-log-mode-items '(closed clock state))
+  ;; from jethrokuan
+  (defun local/switch-to-agenda ()
+    (interactive)
+    (org-agenda nil "a")))
 
 (use-package! websocket
   :after org-roam)
@@ -69,18 +108,22 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start nil))
 
-(after! org-roam
+(use-package! org-roam
+  :config
+  (add-hook 'org-roam-mode-hook #'turn-on-visual-line-mode)
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry
            "* %?"
            :clock-in t :clock-resume t
            :target (file+datetree "journal.org" day)))))
 
+;; from jethrokuan
 (defun local/tag-new-node-as-draft ()
   (org-roam-tag-add '("draft")))
 
 (add-hook 'org-roam-capture-new-node-hook #'local/tag-new-node-as-draft)
 
+;; doom is smart, too smart
 (advice-remove #'org-babel-do-load-languages #'ignore)
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -112,3 +155,19 @@
 
 ;; hack for the annoying org-element warnings
 (setq warning-minimum-level :error)
+
+;; stolen from neeasade's :harass-myself timer
+
+(require 'notifications)
+(require 'named-timer)
+
+(defvar clock-check-interval 30)
+
+(named-timer-run
+    :clock-check t clock-check-interval
+    (lambda ()
+      (let ((idle-time (ceiling (org-user-idle-seconds))))
+        (if (not (org-clocking-p))
+            (notifications-notify
+             :title "Not clocked in"
+             :body (format "Idle for %s seconds: Clock in to a task." idle-time))))))

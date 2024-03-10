@@ -8,3 +8,4 @@
 (add-to-list 'default-frame-alist '(alpha-background . 90))
 
 (setq evil-want-minibuffer nil)
+

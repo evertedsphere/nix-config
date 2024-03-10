@@ -18,7 +18,7 @@
 
        :completion
        company
-       vertico
+       (vertico +orderless +icons)
 
        :ui
        doom
@@ -26,7 +26,8 @@
        ;;doom-quit
        ;; (emoji +unicode)
        hl-todo
-       ;;indent-guides
+       hydra
+       indent-guides
        ;;ligatures
        ;;minimap
        modeline
@@ -41,7 +42,7 @@
        vi-tilde-fringe
        ;;window-select
        workspaces
-       ;;zen
+       zen
 
        :editor
        (evil +everywhere)
@@ -68,13 +69,13 @@
        vterm
 
        :checkers
-       syntax
+       (syntax +childframe)
        ;;(spell +flyspell)
        ;;grammar
 
        :tools
        ;;ansible
-       ;;biblio
+       biblio
        (debugger +lsp)
        direnv
        ;;docker
@@ -143,25 +144,25 @@
        (org +roam2
             ;; +dragndrop
             ;; +hugo
-            ;; +babel
+            +babel
             ;; +gnuplot
             ;; +pandoc
             ;; +noter
-            ;; +pomodoro
+            +pomodoro
             )
        ;;php
        ;;plantuml
        ;;purescript
        python
        ;;qt
-       ;;racket
+       racket
        ;;raku
        ;;rest
        ;;rst
        ;;(ruby +rails)
        (rust +lsp)
        ;;scala
-       ;;(scheme +guile)
+       (scheme +guile)
        sh
        ;;sml
        ;;solidity

@@ -12,6 +12,15 @@
 (package! flycheck-projectile)
 (package! org-web-tools)
 
+;; org-slack-export-to-clipboard-as-slack
+;; on the slack side, you can quickly apply the formatting by pressing Ctrl Shift F (Linux/Windows) or ⌘ Shift F (Mac).
+(package! ox-slack)
+;; (package! org-gcal)
+(package! org-super-agenda)
+(package! doct)
+(package! named-timer)
+(package! tokei)
+
 ;; (package! org-ql :pin "d09608aa35090df8a02cc372e9c862566b0169f4")
 ;; (package! embark :pin "e0ee1c78620c7cdc81bd786fb44bf0e2ee918e31")
 
