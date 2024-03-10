@@ -17,7 +17,7 @@
 (doom! :input
 
        :completion
-       company
+       (company +childframe)
        (vertico +orderless +icons)
 
        :ui
@@ -93,7 +93,7 @@
        ;;taskrunner
        ;;terraform
        ;;tmux
-       ;;tree-sitter
+       tree-sitter
        ;;upload
 
        :os
@@ -153,7 +153,7 @@
        ;;php
        ;;plantuml
        ;;purescript
-       python
+       (python +lsp +pyright +poetry +tree-sitter)
        ;;qt
        racket
        ;;raku

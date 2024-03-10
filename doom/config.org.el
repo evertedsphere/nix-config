@@ -57,11 +57,10 @@
          "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
         ))
 
+(setq! org-super-agenda-final-group-separator ?┄)
 (setq org-super-agenda-groups
       '((:name "Clocked today"
-         :discard (:log state)
-         :log clocked
-         :log closed)
+         :log t)
         (:name "Important"
          :priority "A")
         (:name "Overdue" :deadline past)
@@ -87,12 +86,12 @@
   (map! "<f1>" #'local/switch-to-agenda)
   (setq org-agenda-block-separator nil
         org-agenda-skip-scheduled-if-done t
-        org-agenda-show-future-repeats nil
+        org-agenda-show-future-repeats t
         org-agenda-skip-deadline-if-done t
         org-agenda-sticky t
         org-agenda-start-with-log-mode t
         org-agenda-use-time-grid nil
-        org-agenda-log-mode-items '(closed clock state))
+        org-agenda-log-mode-items '(closed clock))
   ;; from jethrokuan
   (defun local/switch-to-agenda ()
     (interactive)
@@ -160,6 +159,7 @@
 
 (require 'notifications)
 (require 'named-timer)
+(require 'org-pomodoro)
 
 (defvar clock-check-interval 30)
 
@@ -167,7 +167,7 @@
     :clock-check t clock-check-interval
     (lambda ()
       (let ((idle-time (ceiling (org-user-idle-seconds))))
-        (if (not (org-clocking-p))
+        (if (and (not (org-clocking-p)) (not (-contains-p '(:short-break :long-break) org-pomodoro-state)))
             (notifications-notify
              :title "Not clocked in"
              :body (format "Idle for %s seconds: Clock in to a task." idle-time))))))
