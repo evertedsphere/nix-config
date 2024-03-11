@@ -29,3 +29,5 @@
 (package! org-chef)
 ;; hide properties
 ;; (package! org-tidy)
+(package! rg)
+(package! keycast)
