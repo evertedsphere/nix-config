@@ -33,11 +33,13 @@
 (setq org-protocol-default-template-key "c")
 (setq org-clock-continuously t
       org-clock-persist t
+      org-clock-into-drawer "CLOCK_LOG"
       org-log-done 'time
-      org-log-into-drawer t
+      org-log-into-drawer "STATE_CHANGES"
       org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i!)" "DONE(d!)" "CANCELLED(x!)"))
       org-todo-keywords-for-agenda '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i!)" "DONE(d!)" "CANCELLED(x!)"))
       org-attach-id-dir ".attachments/")
+
 
 (setq org-capture-templates
       `(("i" "inbox" entry (file ,org-default-notes-file)
