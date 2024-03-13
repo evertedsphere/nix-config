@@ -79,6 +79,7 @@
         indicate_hidden = true;
         line_height = 0;
         markup = "full";
+        monitor = 2;
         max_icon_size = 60;
         padding = 8;
         separator_color = "#00000000";
