@@ -169,13 +169,43 @@ scheduled for the given date."
 (require 'named-timer)
 (require 'org-pomodoro)
 
-(defvar clock-check-interval 30)
+
+(defvar clock-check-interval 30
+  "How often to harass the user if they are not clocked in.")
+(defvar clock-reminder-interval 120
+  "How often to gently remind the user to stay focused.")
+
+(named-timer-run
+    :clock-reminder t clock-reminder-interval
+    (lambda ()
+      (if (not (-contains-p '(:short-break :long-break) org-pomodoro-state))
+          (if (org-clocking-p)
+              (notifications-notify
+               :title "Clocked in"
+               :body (format "Working on task \"%s\"." org-clock-heading))
+            ))))
 
 (named-timer-run
     :clock-check t clock-check-interval
     (lambda ()
       (let ((idle-time (ceiling (org-user-idle-seconds))))
-        (if (and (not (org-clocking-p)) (not (-contains-p '(:short-break :long-break) org-pomodoro-state)))
-            (notifications-notify
-             :title "Not clocked in"
-             :body (format "Idle for %s seconds: Clock in to a task." idle-time))))))
+        (if (not (-contains-p '(:short-break :long-break) org-pomodoro-state))
+            (if (not (org-clocking-p))
+                (notifications-notify
+                 :title "Not clocked in"
+                 :body (format "Idle for %s seconds: Clock in to a task." idle-time))
+              )))))
+
+(add-hook! 'org-pomodoro-finished-hook
+  (defun local/pomodoro/notify-on-finish ()
+    (notifications-notify :title "Time for a break"
+                          :body "Pomodoro finished, time for a break.")))
+
+(add-hook! 'org-pomodoro-break-finished-hook
+  (defun local/pomodoro/notify-on-break-finish ()
+    (notifications-notify :title "Time to get back to work"
+                          :body "Break over, start another pomodoro.")))
+
+(defun org-babel-edit-prep:python (babel-info)
+  (setq-local buffer-file-name (->> babel-info caddr (alist-get :tangle)))
+  (lsp))
