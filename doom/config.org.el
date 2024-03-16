@@ -60,15 +60,20 @@
         ))
 
 (setq! org-super-agenda-final-group-separator ?┄)
+
+(defun local/deadline-or-scheduled-on (when-scheduled)
+  "Generates an org-super-agenda-mode selector for items with a deadline on or
+scheduled for the given date."
+  `(:and (:deadline ,when-scheduled :not (:habit t))
+    :and (:scheduled ,when-scheduled :not (:habit t))))
+
 (setq org-super-agenda-groups
-      '((:name "Clocked today"
+      `((:name "Clocked today"
          :log t)
         (:name "Important"
          :priority "A")
-        (:name "Overdue" :deadline past)
-        (:name "Today"
-         :and (:deadline today :not (:habit t))
-         :and (:scheduled today :not (:habit t)))
+        (:name "Overdue" ,@(local/deadline-or-scheduled-on 'past))
+        (:name "Today" ,@(local/deadline-or-scheduled-on 'today))
         (:name "Less important"
          :priority "B")
         (:name "L2"
@@ -93,6 +98,7 @@
         org-agenda-sticky t
         org-agenda-start-with-log-mode t
         org-agenda-use-time-grid nil
+        ;; the state change items are superfluous
         org-agenda-log-mode-items '(closed clock))
   ;; from jethrokuan
   (defun local/switch-to-agenda ()
