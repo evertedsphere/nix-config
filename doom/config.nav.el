@@ -1,6 +1,7 @@
 ;;; config.nav.el -*- lexical-binding: t; -*-
 
-(map! :nv "C-s" 'avy-goto-char-2)
+(setq avy-all-windows t)
+(map! :nv "C-s" 'avy-goto-char-timer)
 (map! :nv "C-e" '+vterm/toggle)
 
 (defun vertico-quick-embark (&optional arg)
