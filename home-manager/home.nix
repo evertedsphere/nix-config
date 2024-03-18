@@ -275,7 +275,7 @@ in {
     enable = true;
     enableSshSupport = true;
     # gnome3 does not work
-    pinentryFlavor = "qt";
+    pinentryPackage = pkgs.pinentry-qt;
   };
 
   services.udiskie = {

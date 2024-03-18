@@ -27,7 +27,7 @@ in {
 
   boot.supportedFilesystems = ["zfs" "ntfs"];
   networking.hostId = "44a15ee1";
-  boot.zfs.enableUnstable = true;
+  boot.zfs.package = pkgs.zfs_unstable;
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/742e9b2a-dd82-4e82-b558-9508ccb6c9da";
   # boot.initrd.luks.devices."cryptdata".device = "/dev/disk/by-uuid/9ffbf99f-97b3-4931-9fbe-259a2b6498f3";
@@ -122,6 +122,7 @@ in {
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.powerManagement.enable = true;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   virtualisation.docker.enableNvidia = true;
 
   services.openssh = {
