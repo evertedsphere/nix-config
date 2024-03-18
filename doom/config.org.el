@@ -115,6 +115,10 @@ scheduled for the given date."
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start nil))
 
+;; TODO add template entries here
+;; each logs into a datetree in a file/heading
+;; the habit metadata could be updated via some code that runs around capture…
+;; the subheading's clock duration would be imputed to the parent, so that would be easily sorted
 (use-package! org-roam
   :config
   (add-hook 'org-roam-mode-hook #'turn-on-visual-line-mode)
@@ -139,6 +143,21 @@ scheduled for the given date."
    (python . t)))
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
+(setq org-structure-template-alist
+      '(("a" . "export ascii")
+        ("c" . "center")
+        ("C" . "comment")
+        ("e" . "example")
+        ("E" . "export")
+        ("h" . "export html")
+        ("l" . "export latex")
+        ("q" . "quote")
+        ("s" . "src")
+        ("v" . "verse")
+        ("pt" . "src python :results value :post matrix(*this*) :exports results")
+        ("po" . "src python :results output :exports both")
+        ("pv" . "src python :results value :exports both")
+        ("ps" . "src python :results silent :exports code")))
 
 
 (require 'org-chef-utils)
