@@ -17,7 +17,7 @@
 (doom! :input
 
        :completion
-       (company +childframe)
+       (corfu +orderless +icons)
        (vertico +orderless +icons)
 
        :ui
