@@ -18,5 +18,11 @@
     (if keycast-mode
         (add-hook 'pre-command-hook 'keycast--update t)
       (remove-hook 'pre-command-hook 'keycast--update)))
-  (add-to-list 'global-mode-string '("" keycast-mode-line))
-  (keycast-mode))
+  (add-to-list 'global-mode-string '("" keycast-mode-line)))
+
+(use-package! gif-screencast
+  :config
+  ;; TODO $HOME:$XDG_VIDEOS_DIR
+  (setq gif-screencast-output-directory "~/media")
+  (setq gif-screencast-countdown 0))
+(map! "<f9>" 'gif-screencast-start-or-stop)

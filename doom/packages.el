@@ -30,4 +30,6 @@
 ;; hide properties
 ;; (package! org-tidy)
 (package! rg)
+
 (package! keycast)
+(package! gif-screencast)

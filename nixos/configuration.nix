@@ -125,6 +125,9 @@
 
     vulkan-validation-layers
 
+    gifsicle
+    scrot
+    imagemagick
     tmux
     entr
     xdotool
