@@ -42,4 +42,15 @@
       { event = "lock"; command = "lock"; }
     ];
   };
+
+  services.dunst.settings = {
+    global = {
+      font = "${config.local.fonts.monospaceFont} 22";
+      # TODO use scale factor?
+      width = 750;
+      height = 400;
+      origin = "top-right";
+      offset = "25x25";
+    };
+  };
 }

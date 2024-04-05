@@ -300,4 +300,36 @@ in {
 
   programs.dircolors.enable = true;
   fonts.fontconfig.enable = true;
+
+  services.dunst = {
+    enable = true;
+    settings = {
+      global = rec {
+        alignment = "left";
+        bounce_freq = 0;
+        corner_radius = 6;
+        format = "<b>%s</b>\\n%b";
+        horizontal_padding = 8;
+        idle_threshold = 120;
+        ignore_newline = false;
+        indicate_hidden = true;
+        line_height = 0;
+        markup = "full";
+        max_icon_size = 60;
+        padding = 8;
+        show_age_threshold = 30;
+        sort = true;
+        startup_notification = false;
+        sticky_history = true;
+        transparency = 0;
+        word_wrap = true;
+        gap_size = padding;
+      };
+      urgency_normal = {
+        background = h c.base00;
+        frame_color = h c.base03;
+        foreground = h c.base07;
+      };
+    };
+  };
 }

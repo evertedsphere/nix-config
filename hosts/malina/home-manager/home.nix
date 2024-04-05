@@ -63,34 +63,15 @@
     };
   };
 
-  services.dunst = {
-    enable = true;
-    settings = {
-      global = {
-        alignment = "center";
-        bounce_freq = 0;
-        corner_radius = 6;
-        font = config.local.fonts.monospaceFont;
-        format = "<b>%s</b>\\n%b";
-        geometry = "350x5-25+25";
-        horizontal_padding = 8;
-        idle_threshold = 120;
-        ignore_newline = false;
-        indicate_hidden = true;
-        line_height = 0;
-        markup = "full";
-        monitor = 2;
-        max_icon_size = 60;
-        padding = 8;
-        separator_color = "#00000000";
-        separator_height = 5;
-        show_age_threshold = 30;
-        sort = true;
-        startup_notification = false;
-        sticky_history = true;
-        transparency = 0;
-        word_wrap = true;
-      };
+  services.dunst.settings = {
+    global = {
+      font = "${config.local.fonts.monospaceFont} 14";
+      # TODO use scale factor?
+      width = 600;
+      height = 250;
+      origin = "top-right";
+      offset = "25x25";
+      monitor = 2;
     };
   };
 }
