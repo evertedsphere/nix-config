@@ -70,8 +70,8 @@
 (after! marginalia
   (setq marginalia-censor-variables nil)
 
-  (defadvice! +marginalia--anotate-local-file-colorful (cand)
-    "Just a more colourful version of `marginalia--anotate-local-file'."
+  (defadvice! +marginalia--annotate-local-file-colorful (cand)
+    "Just a more colourful version of `marginalia--annotate-local-file'."
     :override #'marginalia--annotate-local-file
     (when-let (attrs (file-attributes (substitute-in-file-name
                                        (marginalia--full-candidate cand))
