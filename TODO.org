@@ -1,1 +1,0 @@
-* shell history sync with that atuin thing

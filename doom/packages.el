@@ -17,11 +17,16 @@
 (package! ox-slack)
 ;; (package! org-gcal)
 (package! org-super-agenda)
+(package! org-fc
+  :recipe (
+           :type git :repo "https://git.sr.ht/~l3kn/org-fc"
+           :files (:defaults "awk" "demo.org"))
+  )
 (package! doct)
 (package! named-timer)
 (package! tokei)
 
-;; (package! org-ql :pin "d09608aa35090df8a02cc372e9c862566b0169f4")
+(package! org-ql)
 ;; (package! embark :pin "e0ee1c78620c7cdc81bd786fb44bf0e2ee918e31")
 
 (package! vterm :built-in t)
