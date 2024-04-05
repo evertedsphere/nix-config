@@ -31,7 +31,7 @@
 (setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
 (setq +org-capture-notes-file org-default-notes-file)
 (setq org-protocol-default-template-key "c")
-(setq org-clock-continuously t
+(setq org-clock-continuously nil
       org-clock-persist t
       org-clock-into-drawer "CLOCK_LOG"
       org-log-done 'time
