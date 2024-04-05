@@ -8,7 +8,6 @@
       '("config.ui.el"
         "config.lsp.el"
         "config.org.el"
-        "config.agenda.el"
         "config.input.el"
         "config.nav.el"
         "config.magit.el"))

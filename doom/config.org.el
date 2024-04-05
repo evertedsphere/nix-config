@@ -27,7 +27,9 @@
 (defvar local/org-sync-subdir "sync"
   "Subdirectory of org-roam-directory to sync.")
 (setq org-sync-directory (f-join org-roam-directory local/org-sync-subdir))
-(setq org-agenda-files (list org-directory org-roam-directory org-sync-directory (f-join org-roam-directory "daily/journal.org")))
+(setq org-agenda-files (list org-directory org-roam-directory org-sync-directory
+                             (f-join org-roam-directory "work")
+                             (f-join org-roam-directory "daily/journal.org")))
 (setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
 (setq +org-capture-notes-file org-default-notes-file)
 (setq org-protocol-default-template-key "c")
@@ -228,3 +230,111 @@ scheduled for the given date."
 (defun org-babel-edit-prep:python (babel-info)
   (setq-local buffer-file-name (->> babel-info caddr (alist-get :tangle)))
   (lsp))
+
+(use-package! org-fc
+  :custom (org-fc-directories (list org-directory))
+  :config
+  (require 'org-fc-hydra))
+
+(use-package! vulpea
+  :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable)))
+(use-package! vulpea-buffer)
+
+;; strip the ugly roam timestamp from the agenda
+(setq org-agenda-prefix-format
+      '((agenda . " %i %-50(local/agenda-prefix)%?-20t% s")
+        (todo . " %i %-50(local/agenda-prefix) ")
+        (tags . " %i %-50(local/agenda-prefix) ")
+        (search . " %i %-50(local/agenda-prefix) ")))
+
+;; Adapted from:
+;; https://d12frosted.io/posts/2020-06-24-task-management-with-roam-vol2.html
+(defun local/agenda-prefix ()
+  "Get category of item at point for agenda.
+Refer to `org-agenda-prefix-format' for more information."
+  (let* ((file-name (when buffer-file-name
+                      (file-name-sans-extension
+                       (file-name-nondirectory buffer-file-name))))
+         (title (vulpea-buffer-title-get))
+         (category (org-get-category))
+         (category-pretty (or (if (and
+                                   title
+                                   (string-equal category file-name))
+                                  title
+                                ;; there is no title, or the category is not the default one
+                                category)
+                              ""))
+         (breadcrumbs (org-format-outline-path (take 2 (org-get-outline-path)) nil nil " > ")))
+    (if (string-empty-p breadcrumbs) category-pretty
+      (format "%s: %s" category-pretty breadcrumbs))))
+
+;; (defun org-entry-properties-inherit-deadline (orig-fun &optional pom which)
+;;   "Call ORIG-FUN with POM, but if WHICH is `DEADLINE' do it recursively."
+
+;;   (if (or (string= which "DEADLINE") (string= which "SCHEDULED"))
+;;       (org-with-point-at pom
+;;         (let (value)
+;;           (while (not (or (setq value (funcall orig-fun (point) which))
+;;                           (not (org-up-heading-safe)))))
+;;           value)
+;;         (funcall orig-fun pom which))))
+;; (advice-add 'org-entry-properties :around #'org-entry-properties-inherit-deadline)
+;;
+
+(defun local/reading-speed-table-content ()
+  (interactive)
+  (let ((table-content
+         (save-excursion
+           (org-back-to-heading t)
+           (save-restriction
+             (org-narrow-to-element)
+             (let* ((buf (buffer-string))
+                    (entries (save-match-data
+                               (let ((regexp "CLOCK:.*? =>  \\(.*?\\):\\(..\\)\n.*?Stopped at \\(.*?\\)c.")
+                                     (pos 0)
+                                     matches)
+                                 (while (string-match regexp buf pos)
+                                   (let* ((minutes (string-to-number (match-string 2 buf)))
+                                          (hours (string-to-number (match-string 1 buf)))
+                                          (minutes-taken (+ minutes (* 60 hours)))
+                                          (end-pos (string-to-number (match-string 3 buf))))
+                                     (push (list end-pos minutes-taken) matches))
+                                   (setq pos (match-end 0)))
+                                 matches)))
+                    (diffs (let ((end-char 0)
+                                 (total-time 0))
+                             ;; There surprisingly seems to be no inverse to `org-table-to-lisp', so we use
+                             ;; `org-table-convert-region' instead.
+                             (with-temp-buffer
+                               (erase-buffer)
+                               (insert "Start pos;End pos;Chars read;Time taken (min);Speed (cph)\n")
+                               (mapc #'(lambda (elt)
+                                         (let* ((this-end-char (car elt))
+                                                (this-min-taken (cadr elt))
+                                                (this-char-diff (- this-end-char end-char))
+                                                (this-speed (* 60 (/ this-char-diff this-min-taken))))
+                                           (insert (format "%d;%d;%d;%d;%d\n"
+                                                           end-char
+                                                           this-end-char
+                                                           this-char-diff
+                                                           this-min-taken
+                                                           this-speed))
+                                           (setq end-char this-end-char)
+                                           (setq total-time (+ total-time this-min-taken))))
+                                     entries)
+                               (let ((net-speed (* 60 (/ end-char total-time))))
+                                 (insert (format  ";;%d;%d;%d\n" end-char total-time net-speed)))
+                               (org-table-convert-region (point-min) (point-max) ";")
+                               ;; Add a header line
+                               (goto-char (point-min))
+                               (org-ctrl-c-minus)
+                               ;; And one for the totals
+                               (goto-char (point-max))
+                               (forward-line -2)
+                               (org-ctrl-c-minus)
+                               (s-trim (buffer-string))))))
+               diffs)))))
+    table-content))
+
+(defun org-dblock-write:reading-speed-table (params)
+  (insert (local/reading-speed-table-content)))
