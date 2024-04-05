@@ -1,12 +1,18 @@
 ;;; config.ui.el -*- lexical-binding: t; -*-
 
-(setq doom-theme 'doom-tomorrow-night)
-(setq doom-font (font-spec :family "Sarasa Mono J Nerd Font" :size 24 :weight 'semi-light)
-      doom-big-font (font-spec :family "Sarasa Mono J Nerd Font" :size 30 :weight 'semi-light))
+(setq doom-theme 'modus-operandi)
+
+(let
+    ((font-size
+      (cond
+       ((string= (system-name) "malina") 24)
+       ((string= (system-name) "work") 30)
+       (t 30))))
+  (setq doom-font (font-spec :family "Sarasa Mono J Nerd Font" :size font-size :weight 'semi-light)))
+
 (setq display-line-numbers-type 'relative)
 ;; Only has an effect on emacs-pgtk, but let's leave it in.
 (add-to-list 'default-frame-alist '(alpha-background . 90))
-
 
 (setq evil-want-minibuffer nil)
 
