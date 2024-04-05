@@ -235,10 +235,10 @@ scheduled for the given date."
   (setq-local buffer-file-name (->> babel-info caddr (alist-get :tangle)))
   (lsp))
 
-(use-package! org-fc
-  :custom (org-fc-directories (list org-directory))
-  :config
-  (require 'org-fc-hydra))
+                                        ; (use-package! org-fc
+                                        ;   :custom (org-fc-directories (list org-directory))
+                                        ;   :config
+                                        ;   (require 'org-fc-hydra))
 
 (use-package! vulpea
   :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable)))

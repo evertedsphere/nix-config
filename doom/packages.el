@@ -17,11 +17,7 @@
 (package! ox-slack)
 ;; (package! org-gcal)
 (package! org-super-agenda)
-(package! org-fc
-  :recipe (
-           :type git :repo "https://git.sr.ht/~l3kn/org-fc"
-           :files (:defaults "awk" "demo.org"))
-  )
+;; (package! org-fc :recipe ( :type git :repo "https://git.sr.ht/~l3kn/org-fc" :files (:defaults "awk" "demo.org")))
 (package! doct)
 (package! named-timer)
 (package! tokei)
