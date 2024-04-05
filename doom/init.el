@@ -141,8 +141,9 @@
        ;;nim
        nix
        ;;(ocaml +lsp +tree-sitter)
-       (org +roam2
-            ;; +dragndrop
+       (org +pretty
+            +roam2
+            +dragndrop
             ;; +hugo
             +babel
             ;; +gnuplot
