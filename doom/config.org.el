@@ -70,7 +70,7 @@ scheduled for the given date."
     :and (:scheduled ,when-scheduled :not (:habit t))))
 
 (setq org-super-agenda-groups
-      `((:name "Clocked today"
+      `((:name "Log"
          :log t)
         (:name "Important"
          :priority "A")
@@ -90,6 +90,12 @@ scheduled for the given date."
 (after! org
   (org-clock-persistence-insinuate))
 
+(defun local/switch-to-agenda ()
+  (interactive)
+  (let ((org-agenda-start-day "-1d")
+        (org-agenda-span 3))
+    (org-agenda nil "a")))
+
 (use-package! org-agenda
   :init
   (map! "<f1>" #'local/switch-to-agenda)
@@ -103,9 +109,7 @@ scheduled for the given date."
         ;; the state change items are superfluous
         org-agenda-log-mode-items '(closed clock))
   ;; from jethrokuan
-  (defun local/switch-to-agenda ()
-    (interactive)
-    (org-agenda nil "a")))
+  )
 
 (use-package! websocket
   :after org-roam)
