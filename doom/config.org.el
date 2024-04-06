@@ -25,9 +25,14 @@
   "Subdirectory of org-directory to use for org-roam.")
 (setq org-roam-directory (f-join org-directory local/org-roam-subdir))
 (defvar local/org-sync-subdir "sync"
-  "Subdirectory of org-roam-directory to sync.")
+  "Subdirectory of org-roam-directory to sync to all personal devices.")
 (setq org-sync-directory (f-join org-roam-directory local/org-sync-subdir))
-(setq org-agenda-files (list org-directory org-roam-directory org-sync-directory
+(setq org-agenda-files (list org-directory org-roam-directory
+                             org-sync-directory
+                             ;; TODO this is a fucking mess
+                             "~/sync/work-org/"
+                             "~/sync/work-org/kb/"
+                             "~/sync/work-org/daily/journal.org"
                              (f-join org-roam-directory "work")
                              (f-join org-roam-directory "daily/journal.org")))
 (setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
