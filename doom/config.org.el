@@ -342,3 +342,13 @@ Refer to `org-agenda-prefix-format' for more information."
 
 (defun org-dblock-write:reading-speed-table (params)
   (insert (local/reading-speed-table-content)))
+
+(font-lock-add-keywords
+ 'org-mode
+ '(("\{\{\\(.*?\\)::\\(.*?\\)\}\}"
+    (0
+     (progn
+       (put-text-property (match-beginning 0) (match-beginning 2) 'invisible t)
+       (put-text-property (match-end 2) (match-end 0) 'invisible t)
+       nil))
+    (2 font-lock-keyword-face))))

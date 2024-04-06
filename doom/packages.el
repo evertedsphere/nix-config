@@ -34,3 +34,10 @@
 
 (package! keycast)
 (package! gif-screencast)
+
+(package! org-transclusion)
+(package! anki-editor
+  :recipe (:fork "orgtre"))
+
+(package! anki-editor-ui
+  :recipe (:host github :repo "louietan/anki-editor" :fork "orgtre"))
