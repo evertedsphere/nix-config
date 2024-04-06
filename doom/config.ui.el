@@ -35,7 +35,7 @@
 
 ;; gyy -> comment and clone
 (after! (:and lispy lispyville)
-  (lispy-define-key lispy-mode-map "v" #'lispyville-toggle-mark-type)
+  ;; (lispy-define-key lispy-mode-map "v" #'lispyville-toggle-mark-type)
   (lispyville-set-key-theme
    '((operators normal)
      c-w
@@ -44,8 +44,8 @@
      additional-wrap                                 ; useful?
      slurp/barf-lispy
      commentary
-     mark
-     mark-toggle
+     ;; mark
+     ;; mark-toggle
      ;; escape
      ;;
      ;; mark-special
