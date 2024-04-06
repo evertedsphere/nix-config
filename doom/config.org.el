@@ -99,7 +99,10 @@ scheduled for the given date."
   (interactive)
   (let ((org-agenda-start-day "-1d")
         (org-agenda-span 3))
-    (org-agenda nil "a")))
+    (org-agenda nil "a")
+    (org-super-agenda-mode)
+    ;; uhh
+    (org-agenda-redo)))
 
 (use-package! org-agenda
   :init
