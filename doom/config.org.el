@@ -52,6 +52,7 @@
       org-clock-persist t
       org-startup-folded 'show2levels
       org-clock-into-drawer "CLOCK_LOG"
+      org-hide-emphasis-markers t
       org-log-done 'time
       org-log-into-drawer "STATE_CHANGES"
       org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i!)" "DONE(d!)" "CANCELLED(x!)"))
