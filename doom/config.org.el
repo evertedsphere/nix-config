@@ -21,20 +21,30 @@
         org-habit-show-habits t))
 
 (setq org-directory "~/o/")
+
 (defvar local/org-roam-subdir "kb"
   "Subdirectory of org-directory to use for org-roam.")
-(setq org-roam-directory (f-join org-directory local/org-roam-subdir))
-(defvar local/org-sync-subdir "sync"
-  "Subdirectory of org-roam-directory to sync to all personal devices.")
-(setq org-sync-directory (f-join org-roam-directory local/org-sync-subdir))
-(setq org-agenda-files (list org-directory org-roam-directory
-                             org-sync-directory
-                             ;; TODO this is a fucking mess
-                             "~/sync/work-org/"
-                             "~/sync/work-org/kb/"
-                             "~/sync/work-org/daily/journal.org"
-                             (f-join org-roam-directory "work")
-                             (f-join org-roam-directory "daily/journal.org")))
+(defvar local/org-work-subdir "kb/work"
+  "Subdirectory of org-directory to use for work tasks.")
+(defvar local/org-sync-subdir "kb/sync"
+  "Subdirectory of org-roam-directory to sync.")
+
+(setq local/org-work-dir (f-join org-directory local/org-work-subdir))
+(setq local/org-sync-dir (f-join org-directory local/org-sync-subdir))
+
+(let
+    ((rd
+      (cond
+       ((string= (system-name) "malina") local/org-roam-subdir)
+       ((string= (system-name) "work") local/org-work-subdir)
+       (t local/org-roam-subdir))))
+  (setq org-roam-directory (f-join org-directory rd)))
+
+(setq org-agenda-files (list org-directory
+                             org-roam-directory
+                             local/org-sync-dir
+                             local/org-work-dir))
+
 (setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
 (setq +org-capture-notes-file org-default-notes-file)
 (setq org-protocol-default-template-key "c")
@@ -137,8 +147,9 @@ scheduled for the given date."
 (use-package! org-roam
   :config
   (add-hook 'org-roam-mode-hook #'turn-on-visual-line-mode)
+  (setq org-roam-dailies-directory ".")
   (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry
+        `(("d" "default" entry
            "* %?"
            :clock-in t :clock-resume t
            :target (file+datetree "journal.org" day)))))
