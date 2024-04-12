@@ -40,6 +40,7 @@
 (setq org-protocol-default-template-key "c")
 (setq org-clock-continuously nil
       org-clock-persist t
+      org-startup-folded 'show2levels
       org-clock-into-drawer "CLOCK_LOG"
       org-log-done 'time
       org-log-into-drawer "STATE_CHANGES"
@@ -360,3 +361,26 @@ Refer to `org-agenda-prefix-format' for more information."
        (put-text-property (match-end 2) (match-end 0) 'invisible t)
        nil))
     (2 font-lock-keyword-face))))
+
+(use-package! org-expiry
+  :init
+  (setq
+   org-expiry-created-property-name "CREATED" ; Name of property when an item is created
+   org-expiry-inactive-timestamps   t ; Don't have everything in the agenda view
+   )
+  :config
+  (org-expiry-insinuate))
+
+(defun local/org-mode-autosave-settings ()
+  (add-hook 'auto-save-hook 'org-save-all-org-buffers nil nil))
+(add-hook 'org-mode-hook 'local/org-mode-autosave-settings)
+
+(defmacro local/const (fnc)
+  "Return function that ignores its arguments and invokes FNC."
+  `(lambda (&rest _rest)
+     (funcall ,fnc)))
+
+(advice-add 'org-deadline       :after (local/const #'org-save-all-org-buffers))
+(advice-add 'org-schedule       :after (local/const #'org-save-all-org-buffers))
+(advice-add 'org-store-log-note :after (local/const #'org-save-all-org-buffers))
+(advice-add 'org-todo           :after (local/const #'org-save-all-org-buffers))
