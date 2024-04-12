@@ -24,6 +24,8 @@
 
   wayland.windowManager.sway.enable = false;
 
+  xsession.windowManager.i3.config.fonts.size = 20.0;
+
   programs.swaylock = {
     enable = true;
     settings = {

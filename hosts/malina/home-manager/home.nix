@@ -28,16 +28,11 @@
     '';
   };
 
-  services.syncthing = {
-    enable = true;
-    tray = {
-      enable = true;
-    };
-  };
-
   home.packages = with pkgs; [
     discord
   ];
+
+  xsession.windowManager.i3.config.fonts.size = 11.0;
 
   wayland.windowManager.sway.enable = false;
 

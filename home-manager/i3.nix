@@ -182,12 +182,11 @@ in {
         };
         # FIXME
       in
-        lib.mkOptionDefault {
+         {
           inherit modifier colors;
           terminal = config.local.programs.terminalExe;
           fonts = {
             names = [config.local.fonts.monospaceFont];
-            size = 11.0;
           };
           workspaceAutoBackAndForth = true;
           focus = {
