@@ -377,15 +377,6 @@ Refer to `org-agenda-prefix-format' for more information."
        nil))
     (2 font-lock-keyword-face))))
 
-(use-package! org-expiry
-  :init
-  (setq
-   org-expiry-created-property-name "CREATED" ; Name of property when an item is created
-   org-expiry-inactive-timestamps   t ; Don't have everything in the agenda view
-   )
-  :config
-  (org-expiry-insinuate))
-
 (defun local/org-mode-autosave-settings ()
   (add-hook 'auto-save-hook 'org-save-all-org-buffers nil nil))
 (add-hook 'org-mode-hook 'local/org-mode-autosave-settings)
@@ -399,3 +390,12 @@ Refer to `org-agenda-prefix-format' for more information."
 (advice-add 'org-schedule       :after (local/const #'org-save-all-org-buffers))
 (advice-add 'org-store-log-note :after (local/const #'org-save-all-org-buffers))
 (advice-add 'org-todo           :after (local/const #'org-save-all-org-buffers))
+
+(defun local/log-todo-creation-date (&rest _)
+  "Log TODO creation time in the property drawer under the key 'CREATED'."
+  (when (and t
+             (not (org-entry-get nil "CREATED")))
+    (org-entry-put nil "CREATED"
+                   (format-time-string "[%F %a %H:%M]" (org-current-time)))))
+
+(add-hook 'org-insert-heading-hook #'local/log-todo-creation-date)
