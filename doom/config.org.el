@@ -400,3 +400,16 @@ Refer to `org-agenda-prefix-format' for more information."
                    (format-time-string "[%F %a %H:%M]" (org-current-time)))))
 
 (add-hook 'org-insert-heading-hook #'local/log-todo-creation-date)
+
+;; stupid fucking org image handling
+
+(defadvice! no-errors/+org-inline-image-data-fn (_protocol link _description)
+  :override #'+org-inline-image-data-fn
+  "Interpret LINK as base64-encoded image data. Ignore all errors."
+  (ignore-errors
+    (base64-decode-string link)))
+
+(defun local/org-roam-buffer-display-images ()
+  (org-display-inline-images))
+
+(setq org-roam-buffer-postrender-functions '(local/org-roam-buffer-display-images))
