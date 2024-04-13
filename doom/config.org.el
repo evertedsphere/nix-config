@@ -55,6 +55,7 @@
       org-hide-emphasis-markers t
       org-log-done 'time
       org-log-into-drawer "STATE_CHANGES"
+      org-image-actual-width '(768)
       org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i!)" "DONE(d!)" "CANCELLED(x!)"))
       org-todo-keywords-for-agenda '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i!)" "DONE(d!)" "CANCELLED(x!)"))
       org-attach-id-dir ".attachments/")
@@ -410,6 +411,9 @@ Refer to `org-agenda-prefix-format' for more information."
     (base64-decode-string link)))
 
 (defun local/org-roam-buffer-display-images ()
+  ;; Smaller previews are better in the Roam buffer, since we just want an idea
+  ;; of what's there without crowding out other backlinks.
+  (setq-local org-image-actual-width '(512))
   (org-display-inline-images))
 
 (setq org-roam-buffer-postrender-functions '(local/org-roam-buffer-display-images))
