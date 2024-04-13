@@ -24,25 +24,28 @@
 
 (defvar local/org-roam-subdir "kb"
   "Subdirectory of org-directory to use for org-roam.")
-(defvar local/org-work-subdir "kb/work"
+(defvar local/org-work-subdir "work"
   "Subdirectory of org-directory to use for work tasks.")
-(defvar local/org-sync-subdir "kb/sync"
+(defvar local/org-sync-subdir "sync"
   "Subdirectory of org-roam-directory to sync.")
+(defvar local/org-lit-subdir "lit"
+  "Subdirectory of org-roam-directory to use for literature notes.")
 
-(setq local/org-work-dir (f-join org-directory local/org-work-subdir))
-(setq local/org-sync-dir (f-join org-directory local/org-sync-subdir))
+(setq local/org-roam-dir (f-join org-directory local/org-roam-subdir))
+(setq local/org-work-dir (f-join local/org-roam-dir local/org-work-subdir))
+(setq local/org-sync-dir (f-join local/org-roam-dir local/org-sync-subdir))
+(setq local/org-lit-dir (f-join local/org-roam-dir local/org-lit-subdir))
 
-(let
-    ((rd
+(setq org-roam-directory
       (cond
-       ((string= (system-name) "malina") local/org-roam-subdir)
-       ((string= (system-name) "work") local/org-work-subdir)
-       (t local/org-roam-subdir))))
-  (setq org-roam-directory (f-join org-directory rd)))
+       ((string= (system-name) "malina") local/org-roam-dir)
+       ((string= (system-name) "work") local/org-work-dir)
+       (t local/org-roam-dir)))
 
 (setq org-agenda-files (list org-directory
-                             org-roam-directory
+                             local/org-roam-dir
                              local/org-sync-dir
+                             local/org-lit-dir
                              local/org-work-dir))
 
 (setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
