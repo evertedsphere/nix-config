@@ -155,10 +155,9 @@ scheduled for the given date."
            :unnarrowed t)))
   (setq org-roam-dailies-directory ".")
   (setq org-roam-dailies-capture-templates
-        `(("d" "default" entry
-           "* %?"
-           :clock-in t :clock-resume t
-           :target (file+datetree "journal.org" day)))))
+        (let ((base '(entry "* %?" :target (file+datetree "journal.org" day))))
+          `(("d" "persistent" ,@base :clock-in t :clock-resume t)
+            ("l" "background" ,@base :clock-in t :clock-keep t)))))
 
 ;; from jethrokuan
 (defun local/tag-new-node-as-draft ()
