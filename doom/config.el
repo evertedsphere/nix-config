@@ -8,6 +8,7 @@
       '("config.ui.el"
         "config.lsp.el"
         "config.org.el"
+        "config.citar.el"
         "config.anki.el"
         "config.input.el"
         "config.nav.el"

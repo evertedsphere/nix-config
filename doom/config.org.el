@@ -416,7 +416,7 @@ Refer to `org-agenda-prefix-format' for more information."
   ;; this is ugly, but required
   ;; the [[download:.*]] links don't respect `org-image-actual-width'
   ;; again, probably fixable, but I can't be bothered
-  (setq org-download-link-format (format "[[file:%s/%%s]]\n" org-download-image-dir)))
+  (setq-default org-download-link-format (format "[[file:%s/%%s]]\n" ".attach")))
 
 (defun local/org-roam-buffer-display-images ()
   "Display images in the Roam buffer.
