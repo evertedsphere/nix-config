@@ -402,18 +402,26 @@ Refer to `org-agenda-prefix-format' for more information."
 
 (add-hook 'org-insert-heading-hook #'local/log-todo-creation-date)
 
-;; stupid fucking org image handling
+;; image handling
+;; I don't use attachments; as far as I can tell they just don't fucking work because of the stupid buffer-local attachment path setup that I can't be bothered to figure out how to change.
+;; org-download also works just fine with screenshots from the clipboard, which is an added advantage.
 
-(defadvice! no-errors/+org-inline-image-data-fn (_protocol link _description)
-  :override #'+org-inline-image-data-fn
-  "Interpret LINK as base64-encoded image data. Ignore all errors."
-  (ignore-errors
-    (base64-decode-string link)))
+(use-package! org-download
+  :after org
+  :config
+  (setq org-download-method 'directory)
+  (setq-default org-download-image-dir ".attach")
+  ;; this is ugly, but required
+  ;; the [[download:.*]] links don't respect `org-image-actual-width'
+  ;; again, probably fixable, but I can't be bothered
+  (setq org-download-link-format (format "[[file:%s/%%s]]\n" org-download-image-dir)))
 
 (defun local/org-roam-buffer-display-images ()
-  ;; Smaller previews are better in the Roam buffer, since we just want an idea
-  ;; of what's there without crowding out other backlinks.
+  "Display images in the Roam buffer.
+Smaller previews are better here, since we just want an idea of what's there
+without crowding out other backlinks."
   (setq-local org-image-actual-width '(512))
   (org-display-inline-images))
 
-(setq org-roam-buffer-postrender-functions '(local/org-roam-buffer-display-images))
+(after! org-roam
+  (setq org-roam-buffer-postrender-functions '(local/org-roam-buffer-display-images)))

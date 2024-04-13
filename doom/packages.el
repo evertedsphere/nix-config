@@ -43,3 +43,4 @@
   :recipe (:host github :repo "louietan/anki-editor" :fork "orgtre"))
 
 (package! org-drill)
+(package! org-download)
