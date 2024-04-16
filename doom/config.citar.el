@@ -45,7 +45,7 @@
      '(("r" "reference" plain "%?" :if-new
         (file+head
          "%(concat (when citar-org-roam-subdir (concat citar-org-roam-subdir \"/\")) \"${citekey}.org\")"
-         "#+title: (${citekey}) ${title}
+         "#+title: ${title}
 #+authors: ${author}
 
 #+begin_src bibtex
