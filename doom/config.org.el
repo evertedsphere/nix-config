@@ -154,7 +154,7 @@ scheduled for the given date."
   (add-hook 'org-roam-mode-hook #'turn-on-visual-line-mode)
   (setq org-roam-capture-templates
         '(("d" "default" plain "%?" :target
-           (file+head "${slug}.org" "#+title: ${title}\n")
+           (file+head "%<%Y%m%d%H%M%S>.org" "#+title: ${title}\n")
            :unnarrowed t)))
   (setq org-roam-dailies-directory "daily/")
   (setq org-roam-dailies-capture-templates
