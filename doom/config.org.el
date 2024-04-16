@@ -427,3 +427,11 @@ without crowding out other backlinks."
 
 (after! org-roam
   (setq org-roam-buffer-postrender-functions '(local/org-roam-buffer-display-images)))
+
+(use-package! org-roam-protocol
+  :after org-roam
+  :config
+  (setq org-roam-capture-ref-templates
+        '(("r" "ref" plain "${body}\n$?" :target
+           (file+head "%<%Y%m%d%H%M%S>.org" "#+title: ${title}")
+           :unnarrowed t))))
