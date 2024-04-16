@@ -156,7 +156,7 @@ scheduled for the given date."
         '(("d" "default" plain "%?" :target
            (file+head "${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)))
-  (setq org-roam-dailies-directory ".")
+  (setq org-roam-dailies-directory "daily/")
   (setq org-roam-dailies-capture-templates
         (let ((base '(entry "* %?" :target (file+datetree "journal.org" day))))
           `(("d" "persistent" ,@base :clock-in t :clock-resume t)
