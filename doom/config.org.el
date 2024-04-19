@@ -127,7 +127,7 @@ scheduled for the given date."
         org-agenda-skip-scheduled-if-done t
         org-agenda-show-future-repeats t
         org-agenda-skip-deadline-if-done t
-        org-agenda-sticky t
+        org-agenda-sticky nil
         org-agenda-start-with-log-mode t
         org-agenda-use-time-grid nil
         ;; the state change items are superfluous
