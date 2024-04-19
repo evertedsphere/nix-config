@@ -46,7 +46,8 @@
                              local/org-roam-dir
                              local/org-sync-dir
                              local/org-lit-dir
-                             local/org-work-dir))
+                             local/org-work-dir
+                             (f-join local/org-roam-dir "daily/journal.org")))
 
 (setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
 (setq +org-capture-notes-file org-default-notes-file)

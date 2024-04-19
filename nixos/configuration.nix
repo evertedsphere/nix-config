@@ -126,6 +126,7 @@
     vulkan-validation-layers
 
     zotero_7
+    pandoc
     gifsicle
     scrot
     imagemagick
