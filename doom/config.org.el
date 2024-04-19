@@ -428,10 +428,30 @@ without crowding out other backlinks."
 (after! org-roam
   (setq org-roam-buffer-postrender-functions '(local/org-roam-buffer-display-images)))
 
+;; --------------------------------------------------------------------------------
+;; ref capture
+
+;; Adapted from org-protocol-capture-html
+(defun local/command-line-pandoc-filter (content)
+  "Convert input HTML string to org via pandoc."
+  (with-temp-buffer
+    (insert content)
+    (if (not (zerop (call-process-region
+                     (point-min) (point-max)
+                     "pandoc" t t nil "-f" "html" "-t" "org" "--wrap" "none")))
+        (alert (format "Pandoc failed: %s" (buffer-string)) :severity 'high)
+      (replace-regexp-in-string (rx "&nbsp;") " " (s-trim (buffer-string)) t t))))
+
+;; no olp because https://github.com/org-roam/org-roam/issues/2429
 (use-package! org-roam-protocol
   :after org-roam
   :config
   (setq org-roam-capture-ref-templates
-        '(("r" "ref" plain "${body}\n$?" :target
-           (file+head "%<%Y%m%d%H%M%S>.org" "#+title: ${title}")
-           :unnarrowed t))))
+        `(("r" "ref" plain
+           ,(format "#+begin_quote\n%%%S\n#+end_quote"
+                    '(local/command-line-pandoc-filter (plist-get org-roam-capture--info :body)))
+           :target (file+head "%<%Y%m%d%H%M%S>.org" "#+title: ${title}\n")
+           :empty-lines 1
+           :immediate-finish t
+           :jump-to-captured nil))))
+
