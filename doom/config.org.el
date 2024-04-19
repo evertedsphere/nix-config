@@ -456,3 +456,73 @@ without crowding out other backlinks."
            :immediate-finish t
            :jump-to-captured nil))))
 
+;; --------------------------------------------------------------------------------
+;; cache which files have TODO headings to make the agenda faster
+;; https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html
+
+(defun local/project-p ()
+  "Return non-nil if current buffer has any todo entry.
+
+TODO entries marked as done are ignored, meaning the this
+function returns nil if current buffer contains only completed
+tasks."
+  (let ((is-todo (lambda (h) (eq (org-element-property :todo-type h) 'todo))))
+    (org-element-map (org-element-parse-buffer 'headline) 'headline is-todo nil 'first-match)))
+
+(add-hook 'find-file-hook #'local/project-update-tag)
+(add-hook 'before-save-hook #'local/project-update-tag)
+
+(defun local/project-update-tag ()
+  "Update PROJECT tag in the current buffer."
+  (when (and (not (active-minibuffer-window))
+             (local/buffer-p))
+    (save-excursion
+      (goto-char (point-min))
+      (let* ((tags (vulpea-buffer-tags-get))
+             (original-tags tags))
+        (if (local/project-p)
+            (setq tags (cons "project" tags))
+          (setq tags (remove "project" tags)))
+
+        ;; cleanup duplicates
+        (setq tags (seq-uniq tags))
+
+        ;; update tags if changed
+        (when (or (seq-difference tags original-tags)
+                  (seq-difference original-tags tags))
+          (apply #'vulpea-buffer-tags-set tags))))))
+
+(defun local/buffer-p ()
+  "Return non-nil if the currently visited buffer is a note."
+  (and buffer-file-name
+       (string-prefix-p
+        (expand-file-name (file-name-as-directory org-roam-directory))
+        (file-name-directory buffer-file-name))))
+
+(defun local/project-files ()
+  "Return a list of note files containing PROJECT tag."
+  (seq-uniq
+   (seq-map
+    #'car
+    (org-roam-db-query
+     [:select [nodes:file]
+      :from tags
+      :left-join nodes
+      :on (= tags:node-id nodes:id)
+      :where (like tag (quote "%\"project\"%"))]))))
+
+(defun local/agenda-files-update (&rest _)
+  "Update the value of `org-agenda-files'."
+  (setq org-agenda-files (local/project-files)))
+
+(advice-add 'org-agenda :before #'local/agenda-files-update)
+(advice-add 'org-todo-list :before #'local/agenda-files-update)
+
+(defun local/refresh-agenda-files ()
+  (interactive)
+  (dolist (file (org-roam-list-files))
+    (message "processing %s" file)
+    (with-current-buffer (or (find-buffer-visiting file)
+                             (find-file-noselect file))
+      (local/project-update-tag)
+      (save-buffer))))
