@@ -39,9 +39,11 @@
 (defun local/citar-org-roam--create-capture-note (citekey entry)
   "Open or create org-roam node for CITEKEY and ENTRY."
   (let* ((author (citar-format--entry "${author editor}" entry))
+         (url (citar-format--entry "${url}" entry))
          (title  (citar-format--entry citar-org-roam-note-title-template entry)))
     (org-roam-capture-
      :templates
+     ;; TODO `:target'
      '(("r" "reference" plain "%?" :if-new
         (file+head
          "%(concat (when citar-org-roam-subdir (concat citar-org-roam-subdir \"/\")) \"${citekey}.org\")"
@@ -57,6 +59,8 @@
      :info (list :citekey citekey :author author)
      :node (org-roam-node-create :title title)
      :props '(:finalize find-file))
+    (when url
+      (org-roam-ref-add url))
     (org-roam-ref-add (concat "@" citekey))))
 (advice-add #'citar-org-roam--create-capture-note
             :override #'local/citar-org-roam--create-capture-note)
