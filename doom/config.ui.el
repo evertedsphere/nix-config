@@ -8,7 +8,8 @@
        ((string= (system-name) "malina") 24)
        ((string= (system-name) "work") 30)
        (t 30))))
-  (setq doom-font (font-spec :family "Sarasa Mono J Nerd Font" :size font-size :weight 'semi-light)))
+  (setq doom-font (font-spec :family "Sarasa Mono J" :size font-size :weight 'normal))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Gothic J" :size font-size :weight 'normal)))
 
 (setq display-line-numbers-type 'relative)
 ;; Only has an effect on emacs-pgtk, but let's leave it in.

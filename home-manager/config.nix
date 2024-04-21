@@ -5,7 +5,7 @@
 }: {
   local = {
     user.localUser = "s";
-    fonts.monospaceFont = "Sarasa Mono J Nerd Font";
+    fonts.monospaceFont = "Sarasa Mono J";
     programs.terminalExe = "${pkgs.alacritty}/bin/alacritty";
     gapWidth = 12;
   };

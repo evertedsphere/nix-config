@@ -7,7 +7,8 @@
   fonts = {
     enableDefaultPackages = false;
     packages = with pkgs; [
-      sarasa-gothic-nerd-fonts
+      sarasa-gothic
+      (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
       source-han-sans
       source-han-mono
       source-code-pro
@@ -34,7 +35,7 @@
       defaultFonts = {
         serif = ["Noto Serif" "Noto Color Emoji"];
         sansSerif = ["Noto Sans" "Noto Color Emoji"];
-        monospace = ["Sarasa Mono J Nerd Font" "BQN386 Unicode" "Noto Color Emoji"];
+        monospace = ["Sarasa Mono J" "BQN386 Unicode" "Noto Color Emoji"];
         emoji = ["Noto Color Emoji"];
       };
     };
