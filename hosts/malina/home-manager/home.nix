@@ -19,7 +19,7 @@
     user.fullName = "Soham Chowdhury";
     user.email = "evertedsphere@gmail.com";
     fonts.i3barFontSize = 12.0;
-    fonts.alacrittyFontSize = 10.0;
+    fonts.alacrittyFontSize = 12.0;
   };
 
   programs.rtorrent = {
