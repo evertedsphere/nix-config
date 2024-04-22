@@ -7,6 +7,7 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
+    keyd = prev.keyd-git;
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will

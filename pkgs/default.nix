@@ -1,3 +1,3 @@
 {pkgs ? (import ../nixpkgs.nix) {}}: {
-  # example = pkgs.callPackage ./example { };
+  keyd-git = pkgs.callPackage ./keyd.nix {  };
 }
