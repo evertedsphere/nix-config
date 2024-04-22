@@ -1,5 +1,10 @@
 ;;; config.ui.el -*- lexical-binding: t; -*-
 
+(pixel-scroll-precision-mode)
+
+;; (set-frame-parameter (selected-frame) 'alpha-background 90)
+;; (add-to-list 'default-frame-alist '(alpha-background . 90))
+
 (setq doom-theme 'modus-operandi)
 
 (let
@@ -114,24 +119,3 @@
     '(matches modals workspace-name window-number persp-name selection-info buffer-info remote-host debug vcs matches)
     '(github mu4e grip gnus misc-info repl lsp " ")))
 
-;; (set-frame-parameter (selected-frame) 'alpha-background 90)
-;; (add-to-list 'default-frame-alist '(alpha-background . 90))
-
-;; (setq-hook! org-mode
-;;   prettify-symbols-alist '(("#+end_quote" . "”")
-;;                            ("#+END_QUOTE" . "”")
-;;                            ("#+begin_quote" . "“")
-;;                            ("#+BEGIN_QUOTE" . "“")
-;;                            ("#+end_src" . "«")
-;;                            ("#+END_SRC" . "«")
-;;                            ("#+begin_src" . "»")
-;;                            ("#+BEGIN_SRC" . "»")
-;;                            ("#+name:" . "»")
-;;                            ("#+NAME:" . "»")))
-
-(setq org-superstar-item-bullet-alist '((?* . ?⋆)
-                                        (?+ . ?‣)
-                                        (?- . ?•)))
-(setq org-ellipsis " ▾")
-(setq org-startup-with-inline-images t)
-(setq org-image-actual-width 600)

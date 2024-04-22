@@ -526,3 +526,22 @@ tasks."
                              (find-file-noselect file))
       (local/project-update-tag)
       (save-buffer))))
+
+;; (setq-hook! org-mode
+;;   prettify-symbols-alist '(("#+end_quote" . "”")
+;;                            ("#+END_QUOTE" . "”")
+;;                            ("#+begin_quote" . "“")
+;;                            ("#+BEGIN_QUOTE" . "“")
+;;                            ("#+end_src" . "«")
+;;                            ("#+END_SRC" . "«")
+;;                            ("#+begin_src" . "»")
+;;                            ("#+BEGIN_SRC" . "»")
+;;                            ("#+name:" . "»")
+;;                            ("#+NAME:" . "»")))
+
+(setq org-superstar-item-bullet-alist '((?* . ?⋆)
+                                        (?+ . ?‣)
+                                        (?- . ?•)))
+(setq org-ellipsis " ▾")
+(setq org-startup-with-inline-images t)
+(setq org-image-actual-width 600)
