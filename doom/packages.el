@@ -44,3 +44,5 @@
 
 (package! org-drill)
 (package! org-download)
+
+(package! symex)

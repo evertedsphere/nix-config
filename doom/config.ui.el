@@ -39,32 +39,6 @@
   (setq gif-screencast-countdown 0))
 (map! "<f9>" 'gif-screencast-start-or-stop)
 
-;; gyy -> comment and clone
-(after! (:and lispy lispyville)
-  ;; (lispy-define-key lispy-mode-map "v" #'lispyville-toggle-mark-type)
-  (lispyville-set-key-theme
-   '((operators normal)
-     c-w
-     (prettify insert)
-     (atom-movement t)
-     additional-wrap                                 ; useful?
-     slurp/barf-lispy
-     commentary
-     ;; mark
-     ;; mark-toggle
-     ;; escape
-     ;;
-     ;; mark-special
-     ;; special
-     ;;
-     ;; doesn't work
-     ;; arrows
-     additional
-     additional-movement
-     additional-insert))
-  )
-
-(pixel-scroll-precision-mode)
 
 (setq which-key-allow-multiple-replacements t)
 (after! which-key
@@ -119,3 +93,21 @@
     '(matches modals workspace-name window-number persp-name selection-info buffer-info remote-host debug vcs matches)
     '(github mu4e grip gnus misc-info repl lsp " ")))
 
+(use-package! symex
+  :custom
+  (symex-modal-backend 'evil)
+  :config
+  (setq symex--user-evil-keyspec
+        '(("j" . symex-go-up)
+          ("k" . symex-go-down)
+          ("j" . symex-go-up)
+          ("C-j" . symex-climb-branch)
+          ("C-k" . symex-descend-branch)
+          ("M-j" . symex-goto-highest)
+          ("M-k" . symex-goto-lowest)))
+  (symex-initialize)
+  ;; (evil-define-key 'normal symex-mode-map
+  ;;   (kbd "<escape>") 'symex-mode-interface)
+  ;; (evil-define-key 'insert 'symex-mode-map
+  ;;   (kbd "<escape>") 'symex-mode-interface)
+  )
