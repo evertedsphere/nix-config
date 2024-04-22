@@ -105,7 +105,7 @@
 
   boot.kernelModules = ["uinput"];
 
-  services.dbus.packages = [ pkgs.blueman ];
+  services.dbus.packages = [pkgs.blueman];
 
   virtualisation.docker = {
     enable = true;
@@ -123,6 +123,7 @@
     inputs.nh.packages.${pkgs.hostPlatform.system}.default
     nix-output-monitor
 
+    keyd
     vulkan-validation-layers
 
     zotero_7

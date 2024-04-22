@@ -181,104 +181,103 @@ in {
           };
         };
         # FIXME
-      in
-         {
-          inherit modifier colors;
-          terminal = config.local.programs.terminalExe;
-          fonts = {
-            names = [config.local.fonts.monospaceFont];
-          };
-          workspaceAutoBackAndForth = true;
-          focus = {
-            newWindow = "urgent";
-          };
-          gaps = {
-            inner = 14;
-            outer = 0;
-          };
-          floating = {
-            inherit modifier;
-            titlebar = false;
-          };
-          assigns = {
-            "5:5" = [{class = "^Spotify$";}];
-            "7:7" = [{class = "^Discord$";} {class = "^Dragon";}];
-            "9:9" = [{class = "^qBittorrent$";}];
-          };
-          window = let
-            borderWidth = 2;
-          in {
-            border = borderWidth;
-            commands = [
-              {
-                command = "border pixel ${builtins.toString borderWidth}";
-                criteria = {class = ".*";};
-              }
-            ];
-          };
-          modes = {
-            resize = {
-              # TODO resize grow right etc
-              "${movementMap.down}" = "resize grow height 50 px or 10 ppt";
-              "${movementMap.left}" = "resize shrink width 50 px or 10 ppt";
-              "${movementMap.right}" = "resize grow width 50 px or 10 ppt";
-              "${movementMap.up}" = "resize shrink height 50 px or 10 ppt";
-              Escape = "mode default";
-            };
-          };
-          keybindings =
-            containerKeybinds
-            // workspaceKeybinds
-            // globalKeybinds
-            // controlKeybinds;
-          inherit workspaceOutputAssign;
-          bars = [
+      in {
+        inherit modifier colors;
+        terminal = config.local.programs.terminalExe;
+        fonts = {
+          names = [config.local.fonts.monospaceFont];
+        };
+        workspaceAutoBackAndForth = true;
+        focus = {
+          newWindow = "urgent";
+        };
+        gaps = {
+          inner = 14;
+          outer = 0;
+        };
+        floating = {
+          inherit modifier;
+          titlebar = false;
+        };
+        assigns = {
+          "5:5" = [{class = "^Spotify$";}];
+          "7:7" = [{class = "^Discord$";} {class = "^Dragon";}];
+          "9:9" = [{class = "^qBittorrent$";}];
+        };
+        window = let
+          borderWidth = 2;
+        in {
+          border = borderWidth;
+          commands = [
             {
-              mode = "dock";
-              hiddenState = "hide";
-              position = "top";
-              workspaceButtons = true;
-              workspaceNumbers = false;
-              # TODO don't hardcode
-              statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
-              fonts = {
-                names = [config.local.fonts.monospaceFont];
-                size = config.local.fonts.i3barFontSize;
-              };
-              # trayOutput = "DP-2";
-              colors = {
-                background = h c.base00;
-                statusline = h c.base03;
-                separator = h c.base03;
-                focusedWorkspace = {
-                  border = h c.base0A;
-                  background = h c.base0A;
-                  text = h c.base00;
-                };
-                inactiveWorkspace = {
-                  border = h c.base00;
-                  background = h c.base00;
-                  text = h c.base03;
-                };
-                activeWorkspace = {
-                  border = h c.base03;
-                  background = h c.base03;
-                  text = h c.base00;
-                };
-                bindingMode = {
-                  border = h c.base08;
-                  background = h c.base08;
-                  text = h c.base00;
-                };
-                urgentWorkspace = {
-                  border = h c.base08;
-                  background = h c.base08;
-                  text = h c.base00;
-                };
-              };
+              command = "border pixel ${builtins.toString borderWidth}";
+              criteria = {class = ".*";};
             }
           ];
         };
+        modes = {
+          resize = {
+            # TODO resize grow right etc
+            "${movementMap.down}" = "resize grow height 50 px or 10 ppt";
+            "${movementMap.left}" = "resize shrink width 50 px or 10 ppt";
+            "${movementMap.right}" = "resize grow width 50 px or 10 ppt";
+            "${movementMap.up}" = "resize shrink height 50 px or 10 ppt";
+            Escape = "mode default";
+          };
+        };
+        keybindings =
+          containerKeybinds
+          // workspaceKeybinds
+          // globalKeybinds
+          // controlKeybinds;
+        inherit workspaceOutputAssign;
+        bars = [
+          {
+            mode = "dock";
+            hiddenState = "hide";
+            position = "top";
+            workspaceButtons = true;
+            workspaceNumbers = false;
+            # TODO don't hardcode
+            statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
+            fonts = {
+              names = [config.local.fonts.monospaceFont];
+              size = config.local.fonts.i3barFontSize;
+            };
+            # trayOutput = "DP-2";
+            colors = {
+              background = h c.base00;
+              statusline = h c.base03;
+              separator = h c.base03;
+              focusedWorkspace = {
+                border = h c.base0A;
+                background = h c.base0A;
+                text = h c.base00;
+              };
+              inactiveWorkspace = {
+                border = h c.base00;
+                background = h c.base00;
+                text = h c.base03;
+              };
+              activeWorkspace = {
+                border = h c.base03;
+                background = h c.base03;
+                text = h c.base00;
+              };
+              bindingMode = {
+                border = h c.base08;
+                background = h c.base08;
+                text = h c.base00;
+              };
+              urgentWorkspace = {
+                border = h c.base08;
+                background = h c.base08;
+                text = h c.base00;
+              };
+            };
+          }
+        ];
+      };
     };
   };
 }

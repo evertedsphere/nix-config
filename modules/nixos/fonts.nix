@@ -8,7 +8,7 @@
     enableDefaultPackages = false;
     packages = with pkgs; [
       sarasa-gothic
-      (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+      (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
       source-han-sans
       source-han-mono
       source-code-pro
