@@ -28,7 +28,8 @@
           j = lettermod "meta" "j";
           k = lettermod "alt" "k";
           l = lettermod "shift" "l";
-          ";" = lettermod "control" ";";
+          ";" = lettermod "control" "enter";
+          "enter" = ";";
         };
       };
     };
