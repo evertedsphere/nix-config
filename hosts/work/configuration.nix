@@ -40,7 +40,7 @@ in {
   users.users.s = {
     isNormalUser = true;
     description = "Soham Chowdhury";
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = ["networkmanager" "wheel" "docker" "keyd"];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [malinaKey];
   };

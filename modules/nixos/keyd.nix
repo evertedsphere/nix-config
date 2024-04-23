@@ -4,6 +4,13 @@
   pkgs,
   ...
 }: {
+  users.groups.keyd = {};
+
+  systemd.services.keyd.serviceConfig.CapabilityBoundingSet = [
+    "CAP_SETGID"
+    "CAP_SYS_NICE"
+  ];
+
   services.keyd = {
     enable = true;
     keyboards.default = {

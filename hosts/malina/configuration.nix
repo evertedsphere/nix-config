@@ -113,7 +113,7 @@ in {
 
   users.users.s = {
     isNormalUser = true;
-    extraGroups = ["wheel" "docker"];
+    extraGroups = ["networkmanager" "wheel" "docker" "keyd"];
     initialPassword = "hunter2";
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [zdradaSshKey];
