@@ -7,9 +7,11 @@
   (setq lsp-rust-server 'rust-analyzer)
   (setq rustic-lsp-server 'rust-analyzer))
 
-(after! lsp-mode
+(use-package! lsp
+  :config
   (setq lsp-ui-doc-show-with-cursor t
         lsp-ui-doc-use-webkit t
+        lsp-enable-symbol-highlighting nil
         lsp-ui-doc-max-height 20
         lsp-ui-doc-max-width 110))
 
