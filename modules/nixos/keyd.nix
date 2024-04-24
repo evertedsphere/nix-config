@@ -10,17 +10,15 @@
       ids = ["*"];
       settings = {
         main = let
-          idleTimeout = 130;
-          holdTimeout = 170;
-          overloadTimeout = 200;
-          # infuriatingly…unsuited to my usage
-          # lettermod = layer: key: "lettermod(${layer}, ${key}, ${builtins.toString idleTimeout}, ${builtins.toString holdTimeout})";
+          overloadTimeout = 250;
           lettermod = layer: key: "overloadt(${layer}, ${key}, ${builtins.toString overloadTimeout})";
+          abandonTimeout = 500;
+          # This trick allows "cancelling" keypresses by holding them down for a while. This is particularly valuable for esc,
+          # because an unwanted esc in various applications may abandon message composition or similar.
+          modPrefMod = layer: key:  "timeout(overload(${layer}, ${key}), ${builtins.toString abandonTimeout}, layer(${layer}))";
         in {
-          # This trick prevents random `esc`s in situations where that's undesirable.
-          capslock = "timeout(overload(control, esc), 500, layer(control))";
-          # Might as well do it for the other thing.
-          tab = "timeout(overload(meta, tab), 500, layer(meta))";
+          capslock = modPrefMod "control" "esc";
+          tab = modPrefMod "meta" "tab";
           a = lettermod "control" "a";
           s = lettermod "shift" "s";
           d = lettermod "alt" "d";
