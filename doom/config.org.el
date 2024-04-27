@@ -396,15 +396,6 @@ Refer to `org-agenda-prefix-format' for more information."
 (advice-add 'org-store-log-note :after (local/const #'org-save-all-org-buffers))
 (advice-add 'org-todo           :after (local/const #'org-save-all-org-buffers))
 
-(defun local/log-todo-creation-date (&rest _)
-  "Log TODO creation time in the property drawer under the key 'CREATED'."
-  (when (and t
-             (not (org-entry-get nil "CREATED")))
-    (org-entry-put nil "CREATED"
-                   (format-time-string "[%F %a %H:%M]" (org-current-time)))))
-
-(add-hook 'org-insert-heading-hook #'local/log-todo-creation-date)
-
 ;; image handling
 ;; I don't use attachments; as far as I can tell they just don't fucking work because of the stupid buffer-local attachment path setup that I can't be bothered to figure out how to change.
 ;; org-download also works just fine with screenshots from the clipboard, which is an added advantage.
