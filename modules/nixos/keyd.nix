@@ -22,7 +22,7 @@
           abandonTimeout = 500;
           # This trick allows "cancelling" keypresses by holding them down for a while. This is particularly valuable for esc,
           # because an unwanted esc in various applications may abandon message composition or similar.
-          modPrefMod = layer: key:  "timeout(overload(${layer}, ${key}), ${builtins.toString abandonTimeout}, layer(${layer}))";
+          modPrefMod = layer: key: "timeout(overload(${layer}, ${key}), ${builtins.toString abandonTimeout}, layer(${layer}))";
         in {
           capslock = modPrefMod "control" "esc";
           tab = modPrefMod "meta" "tab";
