@@ -12,6 +12,7 @@
       source-han-sans
       source-han-mono
       source-code-pro
+      iosevka
       hanazono
       noto-fonts
       noto-fonts-extra
