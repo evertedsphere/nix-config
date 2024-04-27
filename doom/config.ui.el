@@ -106,6 +106,7 @@
           ("M-j" . symex-goto-highest)
           ("M-k" . symex-goto-lowest)))
   (symex-initialize)
+  (setq symex-common-lisp-backend 'sly)
   (evil-define-key 'normal symex-mode-map
     (kbd "<escape>") 'symex-mode-interface)
   (evil-define-key 'insert symex-mode-map
