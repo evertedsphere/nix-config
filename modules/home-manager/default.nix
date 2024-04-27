@@ -4,4 +4,5 @@
   # List your module files here
   # my-module = import ./my-module.nix;
   local = import ./local.nix;
+  keyd-application-mapper = import ./keyd-application-mapper.nix;
 }

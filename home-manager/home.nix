@@ -20,6 +20,7 @@ in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
     outputs.homeManagerModules.local
+    outputs.homeManagerModules.keyd-application-mapper
     ./i3.nix
     ./alacritty.nix
     ./neovim.nix
@@ -76,6 +77,26 @@ in {
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
+  };
+
+  services.keyd-application-mapper = {
+    enable = true;
+    extraOptions = ["-v"];
+    settings = {
+      discord = {
+        # list navigation
+        "alt.n" = "down";
+        "alt.p" = "up";
+        # channel navigation
+        "alt.j" = "A-down";
+        "alt.k" = "A-up";
+        "alt.shift.j" = "A-S-down";
+        "alt.shift.k" = "A-S-up";
+        # server navigation
+        "alt.h" = "C-S-tab";
+        "alt.l" = "C-tab";
+      };
+    };
   };
 
   home.packages = with pkgs; [
