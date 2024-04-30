@@ -47,7 +47,7 @@
                              local/org-sync-dir
                              local/org-lit-dir
                              local/org-work-dir
-                             (f-join local/org-roam-dir "daily/journal.org")))
+                             (f-join local/org-roam-dir "daily")))
 
 (setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
 (setq +org-capture-notes-file org-default-notes-file)
@@ -159,8 +159,10 @@ scheduled for the given date."
            :unnarrowed t)))
   (setq org-roam-dailies-directory "daily/")
   (setq org-roam-dailies-capture-templates
-        (let ((base '(entry "* %?" :target (file+datetree "journal.org" day))))
-          `(("d" "persistent" ,@base :clock-in t :clock-resume t)
+        (let ((base '(entry "* %?" :target
+                      (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+          `(("q" "quick" ,@base)
+            ("d" "leave open" ,@base :clock-in t :clock-resume t)
             ("l" "background" ,@base :clock-in t :clock-keep t)))))
 
 ;; from jethrokuan
