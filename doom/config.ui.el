@@ -10,7 +10,7 @@
 (let
     ((font-size
       (cond
-       ((string= (system-name) "malina") 24)
+       ((string= (system-name) "malina") 26)
        ((string= (system-name) "work") 30)
        (t 30))))
   (setq doom-font (font-spec :family "Sarasa Mono J" :size font-size :weight 'normal))
