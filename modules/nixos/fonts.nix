@@ -12,7 +12,8 @@
       source-han-sans
       source-han-mono
       source-code-pro
-      iosevka
+      (iosevka-bin.override {variant = "Aile";})
+      (iosevka-bin.override {variant = "Etoile";})
       hanazono
       noto-fonts
       noto-fonts-extra
