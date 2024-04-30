@@ -96,6 +96,8 @@
 (use-package! symex
   :custom
   (symex-modal-backend 'evil)
+  (symex-quote-prefix-list (list "'" "`" "#'" "#`"))
+  (symex-unquote-prefix-list (list "," ",@" "#,@"))
   :config
   (setq symex--user-evil-keyspec
         '(("j" . symex-go-up)
