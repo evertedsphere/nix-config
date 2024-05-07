@@ -544,3 +544,8 @@ tasks."
 (setq org-ellipsis " ▾")
 (setq org-startup-with-inline-images t)
 (setq org-image-actual-width 600)
+
+(map!
+ :leader
+ :prefix "n q"
+ :desc "find in agenda" :g "f" #'org-ql-find-in-agenda)
