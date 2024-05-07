@@ -38,7 +38,7 @@
 
   services.screen-locker = {
     enable = true;
-    lockCmd = "${pkgs.i3lock}/bin/i3lock -n -i ${config.home.file.wallpaper.target}";
+    lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
   };
 
   qt.style = {
