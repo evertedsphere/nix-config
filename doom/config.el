@@ -12,7 +12,8 @@
         "config.anki.el"
         "config.input.el"
         "config.nav.el"
-        "config.magit.el"))
+        "config.magit.el"
+        "config.nyxt.el"))
 
 (dolist (rel-path local-config-modules)
   (load-doom-dir-file rel-path))
