@@ -18,7 +18,8 @@
   :config
   (setq org-habit-following-days 7
         org-habit-preceding-days 35
-        org-habit-show-habits t))
+        org-habit-show-habits t
+        org-habit-show-all-today t))
 
 (setq org-directory "~/o/")
 
