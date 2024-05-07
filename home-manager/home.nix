@@ -79,25 +79,27 @@ in {
     VISUAL = "nvim";
   };
 
-  services.keyd-application-mapper = {
-    enable = true;
-    extraOptions = ["-v"];
-    settings = {
-      discord = {
-        # list navigation
-        "alt.n" = "down";
-        "alt.p" = "up";
-        # channel navigation
-        "alt.j" = "A-down";
-        "alt.k" = "A-up";
-        "alt.shift.j" = "A-S-down";
-        "alt.shift.k" = "A-S-up";
-        # server navigation
-        "alt.h" = "C-S-tab";
-        "alt.l" = "C-tab";
-      };
-    };
-  };
+  # services.keyd-application-mapper = {
+  #   enable = true;
+  #   extraOptions = ["-v"];
+  #   settings = {
+  #     discord = {
+  #       # list navigation
+  #       "alt.n" = "down";
+  #       "alt.p" = "up";
+  #       # channel navigation
+  #       "alt.j" = "A-down";
+  #       "alt.k" = "A-up";
+  #       "alt.shift.j" = "A-S-down";
+  #       "alt.shift.k" = "A-S-up";
+  #       # server navigation
+  #       "alt.h" = "C-S-tab";
+  #       "alt.l" = "C-tab";
+  #       # text editing
+  #       "ctrl.w" = "C-backspace";
+  #     };
+  #   };
+  # };
 
   home.packages = with pkgs; [
     (pkgs.writeShellApplication {
