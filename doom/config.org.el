@@ -460,7 +460,10 @@ without crowding out other backlinks."
 TODO entries marked as done are ignored, meaning the this
 function returns nil if current buffer contains only completed
 tasks."
-  (let ((is-todo (lambda (h) (eq (org-element-property :todo-type h) 'todo))))
+  (let ((is-todo (lambda (h)
+                   (let ((todo-type (org-element-property :todo-type h)))
+                     (or (eq todo-type 'todo)
+                         (eq todo-type 'done))))))
     (org-element-map (org-element-parse-buffer 'headline) 'headline is-todo nil 'first-match)))
 
 (add-hook 'find-file-hook #'local/project-update-tag)
