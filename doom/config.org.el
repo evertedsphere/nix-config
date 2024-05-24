@@ -55,6 +55,7 @@
 (setq org-protocol-default-template-key "c")
 (setq org-clock-continuously nil
       org-clock-persist t
+      org-extend-today-until 4
       org-startup-folded 'show2levels
       org-clock-into-drawer "CLOCK_LOG"
       org-hide-emphasis-markers t
@@ -431,6 +432,7 @@ without crowding out other backlinks."
   "Convert input HTML string to org via pandoc."
   (with-temp-buffer
     (insert content)
+
     (if (not (zerop (call-process-region
                      (point-min) (point-max)
                      "pandoc" t t nil "-f" "html" "-t" "org" "--wrap" "none")))
@@ -448,6 +450,13 @@ without crowding out other backlinks."
            :target (file+head "%<%Y%m%d%H%M%S>.org" "#+title: ${title}\n")
            :empty-lines 1
            :immediate-finish t
+           :jump-to-captured nil)
+          ("c" "ref-comment" plain
+           ,(format "#+begin_quote\n%%%S\n#+end_quote"
+                    '(local/command-line-pandoc-filter (plist-get org-roam-capture--info :body)))
+           :target (file+head "%<%Y%m%d%H%M%S>.org" "#+title: ${title}\n")
+           :empty-lines 1
+           :immediate-finish nil
            :jump-to-captured nil))))
 
 ;; --------------------------------------------------------------------------------
