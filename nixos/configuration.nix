@@ -183,14 +183,6 @@
     # formatters
     alejandra
     neovim
-    # emacs-lsp
-    ((pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages (epkgs: [
-      # for org-roam, which fails to function otherwise
-      # also see note in packages.el
-      epkgs.emacsql-sqlite
-      epkgs.org-roam
-      epkgs.vterm
-    ]))
   ];
 
   services.openssh = {

@@ -505,6 +505,8 @@ tasks."
         (expand-file-name (file-name-as-directory org-roam-directory))
         (file-name-directory buffer-file-name))))
 
+;; When half of the agenda is missing, run a force-sync (C-u M-x org-roam-db-sync)
+;; and then refresh the agenda file list. For why, look at the body of this function.
 (defun local/project-files ()
   "Return a list of note files containing PROJECT tag."
   (seq-uniq
@@ -525,6 +527,13 @@ tasks."
 (advice-add 'org-todo-list :before #'local/agenda-files-update)
 
 (defun local/refresh-agenda-files ()
+  "Update the list of agenda files by refreshing the org-roam database."
+  (interactive)
+  (org-roam-db-sync t)
+  (local/agenda-files-update))
+
+(defun local/recompute-agenda-file-tags ()
+  "Fix missing :PROJECT: tags on agenda files. Warning: slow as shit."
   (interactive)
   (dolist (file (org-roam-list-files))
     (message "processing %s" file)

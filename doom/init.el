@@ -93,7 +93,7 @@
        ;;taskrunner
        ;;terraform
        ;;tmux
-       tree-sitter
+       ;;tree-sitter
        ;;upload
 
        :os
@@ -154,7 +154,7 @@
        ;;php
        ;;plantuml
        ;;purescript
-       (python +lsp +pyright +poetry +tree-sitter)
+       (python +lsp +pyright +poetry)
        ;;qt
        racket
        ;;raku

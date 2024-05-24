@@ -19,6 +19,7 @@
 in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
+    inputs.nix-doom-emacs-unstraightened.hmModule
     outputs.homeManagerModules.local
     outputs.homeManagerModules.keyd-application-mapper
     ./i3.nix
@@ -134,6 +135,13 @@ in {
       "inode/directory" = "thunar.desktop";
     };
   };
+
+  programs.doom-emacs = {
+    enable = true;
+    doomDir = ../doom;
+    emacs = pkgs.emacs;
+  };
+  # services.emacs.enable = true;
 
   programs.git = {
     enable = true;
