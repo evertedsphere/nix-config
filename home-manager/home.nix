@@ -195,12 +195,9 @@ in {
 
     history.save = 100000;
     history.size = 100000;
- # "$HOME/.config/guix-profile/bin" "$HOME/.guix-profile"
     initExtra = ''
       path=("$HOME/.local/bin" "$HOME/.config/emacs/bin" "$HOME/.cargo/bin" "$HOME/.cabal/bin" $path)
       export PATH
-
-      source ~/.config/guix/current/etc/profile
 
       # emacs-libvterm helper code
       vterm_printf() {

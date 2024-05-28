@@ -74,7 +74,6 @@ in {
       type = "Application";
       mimeTypes = [];
     })
-    guix
   ];
 
   # ---------------------------------------------------------
@@ -133,8 +132,6 @@ in {
       KbdInteractiveAuthentication = false;
     };
   };
-
-  services.guix.enable = true;
 
   environment.sessionVariables.FLAKE = "/persist/nix-config";
 
