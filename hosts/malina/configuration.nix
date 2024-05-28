@@ -66,6 +66,17 @@ in {
   environment.systemPackages = with pkgs; [
     goldendict-ng
     anki
+    (gallery-dl.overrideAttrs {
+      # for this patch
+      # https://github.com/mikf/gallery-dl/commit/347af7f5c8423ce0f2ee9119d37143c0e319b590
+      src = pkgs.fetchFromGitHub {
+        owner = "mikf";
+        repo = "gallery-dl";
+        rev = "ea434963aed0cfb9c9a6fd412c42631cf5091e70";
+        sha256 = "sha256-66L5FH5zsNzUvALLNiJv21DlhOOl+FSNiWNun4zoH3w=";
+      };
+      patches = [];
+    })
     (pkgs.makeDesktopItem {
       name = "pureref";
       exec = "${pkgs.pureref}/bin/pureref";
