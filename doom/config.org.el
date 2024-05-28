@@ -55,7 +55,7 @@
 (setq org-protocol-default-template-key "c")
 (setq org-clock-continuously nil
       org-clock-persist t
-      org-extend-today-until 4
+      org-extend-today-until 0
       org-startup-folded 'show2levels
       org-clock-into-drawer "CLOCK_LOG"
       org-hide-emphasis-markers t
