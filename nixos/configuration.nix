@@ -119,9 +119,16 @@
     driSupport32Bit = true;
   };
 
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 10d --keep 10";
+  };
+
+
   environment.systemPackages = with pkgs; [
-    inputs.nh.packages.${pkgs.hostPlatform.system}.default
     nix-output-monitor
+    nh
 
     keyd
     vulkan-validation-layers

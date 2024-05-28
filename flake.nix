@@ -24,10 +24,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    nh = {
-      url = "github:viperML/nh";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nur.url = "github:nix-community/NUR";
     nix-doom-emacs-unstraightened = {
       url = "github:marienz/nix-doom-emacs-unstraightened";
@@ -79,11 +75,6 @@
     # nixos-rebuild --flake .#your-hostname
     nixosConfigurations = let
       mkSystem = hostname: let
-        nhConfig.nh = {
-          enable = true;
-          clean.enable = true;
-          clean.extraArgs = "--keep-since 10d --keep 10";
-        };
         homeManagerConfig.home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
@@ -98,8 +89,6 @@
             ./hosts/${hostname}/configuration.nix
             home-manager.nixosModules.home-manager
             homeManagerConfig
-            inputs.nh.nixosModules.default
-            nhConfig
             inputs.nur.nixosModules.nur
           ];
         };
