@@ -22,6 +22,7 @@ in {
     inputs.nix-doom-emacs-unstraightened.hmModule
     outputs.homeManagerModules.local
     outputs.homeManagerModules.keyd-application-mapper
+    outputs.homeManagerModules.org-protocol
     ./i3.nix
     ./alacritty.nix
     ./neovim.nix
@@ -110,14 +111,6 @@ in {
         # FIXME fail unless alacritty
         ${config.local.programs.terminalExe} -o font.normal.family='"BQN386 Unicode"'
       '';
-    })
-    (makeDesktopItem {
-      name = "org-protocol";
-      exec = "emacsclient %u";
-      comment = "org-protocol";
-      desktopName = "org-protocol";
-      type = "Application";
-      mimeTypes = ["x-scheme-handler/org-protocol"];
     })
   ];
 
