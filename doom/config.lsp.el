@@ -44,7 +44,7 @@
 (setq-hook! 'sql-mode-hook +format-with 'pg-formatter)
 
 (setq-hook! 'haskell-mode-hook +format-with-lsp t)
-(add-hook 'haskell-mode-hook (lambda () (add-hook 'before-save-hook #'+format/buffer nil t)))
+(add-hook 'haskell-mode-hook (lambda () (add-hook 'before-save-hook #'lsp-format-buffer nil t)))
 
 (defun local/python-shell-send ()
   (interactive)

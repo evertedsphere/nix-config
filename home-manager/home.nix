@@ -44,9 +44,6 @@ in {
   services.blueman-applet.enable = true;
 
   programs.wofi.enable = true;
-  programs.qutebrowser = {
-    enable = true;
-  };
 
   # services.gammastep = {
   #   enable = true;
@@ -309,7 +306,6 @@ in {
   };
 
   services.flameshot = {enable = true;};
-  services.fluidsynth.enable = true;
 
   programs.zathura = {
     enable = true;

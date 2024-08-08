@@ -162,7 +162,7 @@
        ;;rst
        ;;(ruby +rails)
        (rust +lsp)
-       ;;scala
+       (scala +lsp +tree-sitter)
        (scheme +guile)
        sh
        ;;sml

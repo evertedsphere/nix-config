@@ -18,10 +18,8 @@ in {
 
   nix.settings = {
     substituters = [
-      "https://storage.googleapis.com/zeuslogics-nix-cache-github"
     ];
     trusted-public-keys = [
-      "zeuslogics-nix-cache-github:RpfcOgIp6w2cvPyhTfErGcWkR9QSHc1gpp4UwyH3ovU="
     ];
   };
 
