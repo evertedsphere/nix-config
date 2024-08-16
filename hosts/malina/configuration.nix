@@ -70,7 +70,11 @@ in {
     }
   ];
 
+  services.udev.packages = with pkgs; [ via vial ];
+
   environment.systemPackages = with pkgs; [
+    vial
+    via
     goldendict-ng
     anki
     (gallery-dl.overrideAttrs {

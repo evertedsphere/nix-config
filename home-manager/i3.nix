@@ -101,6 +101,7 @@ in {
           ++ assignWorkspace ["DP-2"] rightMonitorWss;
         run = x: "exec ${x}";
         spawn = x: "exec --no-startup-id ${x}";
+        spawn-pactl = x: spawn "${pkgs.pulseaudio}/bin/pactl ${x}";
         globalKeybinds = {
           # "F8" = spawn "dm-tool switch-to-greeter";
           "Print" = spawn "flameshot screen -p ~/img/caps";
@@ -108,6 +109,11 @@ in {
           "Ctrl+Print" = spawn "sleep 5 && flameshot gui";
           "${modifier}+Return" = run config.local.programs.terminalExe;
           "${modifier}+p" = run "${pkgs.rofi}/bin/rofi -modi drun -show drun";
+          "XF86AudioRaiseVolume" = spawn-pactl "set-sink-volume @DEFAULT_SINK@ +10%";
+          "XF86AudioLowerVolume" = spawn-pactl "set-sink-volume @DEFAULT_SINK@ -10%";
+          "XF86AudioMute" = spawn-pactl "set-sink-mute @DEFAULT_SINK@ toggle";
+          # TODO should really be MicMute
+          "Ctrl+XF86AudioMute" = spawn-pactl "set-source-mute @DEFAULT_SOURCE@ toggle";
         };
         controlKeybinds = {
           "${modifier}+Ctrl+q" = "kill";
