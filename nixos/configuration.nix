@@ -106,6 +106,8 @@
   boot.kernelModules = ["uinput"];
 
   services.dbus.packages = [pkgs.blueman];
+  services.blueman.enable = true;
+  programs.kdeconnect.enable = true;
 
   virtualisation.docker = {
     enable = true;
@@ -123,7 +125,6 @@
     clean.enable = true;
     clean.extraArgs = "--keep-since 10d --keep 10";
   };
-
 
   environment.systemPackages = with pkgs; [
     nix-output-monitor

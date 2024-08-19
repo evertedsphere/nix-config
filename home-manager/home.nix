@@ -57,6 +57,10 @@ in {
   #   };
   # };
 
+  services.kdeconnect = {
+    enable = true;
+  };
+
   programs.atuin = {
     enable = true;
   };

@@ -1,10 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   org-protocol-mime = "x-scheme-handler/org-protocol";
   name = "org-protocol";
-in
-{
+in {
   # Without this, the default handler actually ends up being emacsclient,
   # which causes it to pop up a new frame and completely ignore the request.
   xdg.mimeApps.defaultApplications."${org-protocol-mime}" = "${name}.desktop";

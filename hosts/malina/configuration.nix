@@ -70,7 +70,7 @@ in {
     }
   ];
 
-  services.udev.packages = with pkgs; [ via vial ];
+  services.udev.packages = with pkgs; [via vial];
 
   environment.systemPackages = with pkgs; [
     vial

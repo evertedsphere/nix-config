@@ -8,7 +8,7 @@
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
     keyd = prev.keyd-git;
-    python312 = prev.python312.override { packageOverrides = _: pysuper: { nose = pysuper.pynose; }; };
+    python312 = prev.python312.override {packageOverrides = _: pysuper: {nose = pysuper.pynose;};};
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
