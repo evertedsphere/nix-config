@@ -120,12 +120,15 @@ in {
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
-  i18n.inputMethod.enabled = "fcitx5";
-  i18n.inputMethod.fcitx5.addons = with pkgs; [
-    fcitx5-mozc
-    fcitx5-gtk
-    fcitx5-rime
-  ];
+  i18n.inputMethod = {
+    enable = true;
+    type = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      fcitx5-mozc
+      fcitx5-gtk
+      fcitx5-rime
+    ];
+  };
 
   users.users.root = {
     initialPassword = "hunter2";
@@ -145,7 +148,7 @@ in {
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.powerManagement.enable = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  virtualisation.docker.enableNvidia = true;
+  hardware.nvidia-container-toolkit.enable = true;
 
   services.openssh = {
     settings = {

@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  c = config.colorScheme.colors;
+  c = config.colorScheme.palette;
   h = x: "#${x}";
 in {
   programs.alacritty = {

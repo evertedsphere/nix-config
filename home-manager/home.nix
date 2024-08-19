@@ -14,7 +14,7 @@
     f = arg: attrsToList (renderTemplate arg);
   in
     builtins.listToAttrs (builtins.concatMap f data);
-  c = config.colorScheme.colors;
+  c = config.colorScheme.palette;
   h = x: "#${x}";
 in {
   imports = [
@@ -136,7 +136,8 @@ in {
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
-    delta.enable = true;
+    # TODO fix delta
+    delta.enable = false;
     lfs.enable = true;
     ignores = [".direnv/" "result/"];
     extraConfig = {

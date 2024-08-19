@@ -15,17 +15,18 @@
     fadeSteps = [0.04 0.04];
   };
 
+  services.libinput.enable = true;
+
   services.xserver = {
     # wacom.enable = true;
     digimend.enable = true;
-    # # "This option enable propagating /etc/X11/xkb symlink, which is standard include path for xkbcomp."
-    # # fsr extralayouts disables this unless you're using startx
+    # "This option enable propagating /etc/X11/xkb symlink, which is standard include path for xkbcomp."
+    # fsr extralayouts disables this unless you're using startx
     # exportConfiguration = lib.mkForce true;
-    libinput.enable = true;
     # ideally i would be able to set these in the bqn module... but maybe not
-    layout = "us,apl";
-    xkbVariant = ",dyalog";
-    xkbOptions = "grp:switch,ctrl:nocaps,compose:menu";
+    xkb.layout = "us,apl";
+    xkb.variant = ",dyalog";
+    xkb.options = "grp:switch,ctrl:nocaps,compose:menu";
     desktopManager.session = [
       {
         name = "home-manager";

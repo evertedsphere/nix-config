@@ -12,7 +12,7 @@
     f = arg: attrsToList (renderTemplate arg);
   in
     builtins.listToAttrs (builtins.concatMap f data);
-  c = config.colorScheme.colors;
+  c = config.colorScheme.palette;
   h = x: "#${x}";
 in {
   wayland.windowManager.sway = let

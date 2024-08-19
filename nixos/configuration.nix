@@ -113,9 +113,9 @@
 
   services.tumbler.enable = true;
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   programs.nh = {
@@ -130,7 +130,7 @@
     nh
 
     keyd
-    vulkan-validation-layers
+    # vulkan-validation-layers
 
     zotero_7
     pandoc
@@ -154,6 +154,7 @@
     mpv
     zsh
     firefox
+    spotify
     krita
     docker-compose
     qbittorrent
@@ -174,7 +175,7 @@
     rlwrap
     fd
     bat
-    delta
+    # delta
     # data wrangling
     ripgrep
     jq

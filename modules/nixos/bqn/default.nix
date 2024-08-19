@@ -11,7 +11,7 @@
   ];
 
   # remember to use us,bqn and set a switch keybind
-  services.xserver.extraLayouts.bqn = {
+  services.xserver.xkb.extraLayouts.bqn = {
     description = "bqn symbols, available in xkeyboard-config >= 2.36";
     languages = ["eng"];
     symbolsFile = ./xkb_symbols;
