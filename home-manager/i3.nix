@@ -206,9 +206,10 @@ in {
           titlebar = false;
         };
         assigns = {
-          "5:5" = [{class = "^Spotify$";}];
-          "7:7" = [{class = "^Discord$";} {class = "^Dragon";}];
-          "9:9" = [{class = "^qBittorrent$";}];
+          "2:2" = [{class = "firefox";}];
+          "5:5" = [{class = "Spotify";}];
+          "7:7" = [{class = "discord";}];
+          "9:9" = [{class = "qBittorrent";}];
         };
         window = let
           borderWidth = 2;
