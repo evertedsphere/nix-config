@@ -26,7 +26,6 @@ in {
     ./i3.nix
     ./alacritty.nix
     ./neovim.nix
-    ./sway.nix
     ./i3status-rs.nix
   ];
 

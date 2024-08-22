@@ -26,37 +26,6 @@
 
   xsession.windowManager.i3.config.fonts.size = 20.0;
 
-  programs.swaylock = {
-    enable = true;
-    settings = {
-      image = "~/.local/share/walls/wall.jpg";
-    };
-  };
-
-  services.swayidle = {
-    enable = true;
-    timeouts = [
-      {
-        timeout = 60;
-        command = "${pkgs.swaylock}/bin/swaylock -fF";
-      }
-      {
-        timeout = 300;
-        command = "${pkgs.systemd}/bin/systemctl suspend";
-      }
-    ];
-    events = [
-      {
-        event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock -fF";
-      }
-      {
-        event = "lock";
-        command = "lock";
-      }
-    ];
-  };
-
   services.dunst.settings = {
     global = {
       font = "${config.local.fonts.monospaceFont} 22";
