@@ -129,6 +129,7 @@ in {
           "${modifier}+a" = "focus parent";
           "${modifier}+d" = "focus child";
           "${modifier}+o" = "mode resize";
+          "${modifier}+g" = "mode leader";
           "${modifier}+F10" = spawn "~/.local/bin/open-pdf";
         };
         colors = {
@@ -223,6 +224,9 @@ in {
           ];
         };
         modes = {
+          leader = {
+            "s" = spawn "systemd-user-unit-toggle screenkey.service, mode default";
+          };
           resize = {
             # TODO resize grow right etc
             "${movementMap.down}" = "resize grow height 50 px or 10 ppt";

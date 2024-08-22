@@ -55,7 +55,6 @@
 
           HDMI-1 = {
             enable = true;
-            primary = true;
             crtc = 2;
             mode = "3840x2160";
             position = "0x0";
@@ -65,6 +64,7 @@
 
           DP-2 = {
             enable = true;
+            primary = true;
             crtc = 0;
             mode = "3840x2160";
             position = "3840x0";

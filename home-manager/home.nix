@@ -112,6 +112,15 @@ in {
         ${config.local.programs.terminalExe} -o font.normal.family='"BQN386 Unicode"'
       '';
     })
+    (pkgs.writeShellApplication {
+      name = "systemd-user-unit-toggle";
+      text = ''
+        if systemctl --user is-active --quiet "$1";
+          then systemctl --user stop "$1";
+          else systemctl --user start "$1";
+        fi
+      '';
+    })
   ];
 
   # misc
@@ -136,6 +145,23 @@ in {
   };
   # services.emacs.enable = true;
 
+  systemd.user.services.screenkey = let
+    screenkey-script = pkgs.resholve.writeScript "run-screenkey" {
+      inputs = with pkgs; [ xorg.xrandr gnused gnugrep coreutils screenkey i3 jq ];
+      execer = [
+        "cannot:${pkgs.screenkey}/bin/screenkey"
+      ];
+      interpreter = "${pkgs.bash}/bin/bash";
+    } (builtins.readFile ./run-screenkey.sh);
+  in {
+    Unit = {
+      Description = "Run a screenkey instance";
+    };
+    Service = {
+      ExecStart = screenkey-script;
+    };
+  };
+
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
@@ -157,7 +183,6 @@ in {
       fcitx5-rime
     ];
   };
-
 
   programs.info.enable = true;
   programs.htop = {
