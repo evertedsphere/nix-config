@@ -147,7 +147,7 @@ in {
 
   systemd.user.services.screenkey = let
     screenkey-script = pkgs.resholve.writeScript "run-screenkey" {
-      inputs = with pkgs; [ xorg.xrandr gnused gnugrep coreutils screenkey i3 jq ];
+      inputs = with pkgs; [xorg.xrandr gnused gnugrep coreutils screenkey i3 jq];
       execer = [
         "cannot:${pkgs.screenkey}/bin/screenkey"
       ];
