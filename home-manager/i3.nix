@@ -130,7 +130,6 @@ in {
           "${modifier}+d" = "focus child";
           "${modifier}+o" = "mode resize";
           "${modifier}+g" = "mode leader";
-          "${modifier}+F10" = spawn "~/.local/bin/open-pdf";
         };
         colors = {
           # Background color of the window. Only applications which do not cover
@@ -226,6 +225,7 @@ in {
         modes = {
           leader = {
             "s" = spawn "systemd-user-unit-toggle screenkey.service, mode default";
+            "p" = spawn "open-pdf, mode default";
           };
           resize = {
             # TODO resize grow right etc

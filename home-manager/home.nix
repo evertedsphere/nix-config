@@ -121,6 +121,14 @@ in {
         fi
       '';
     })
+    (pkgs.writeShellApplication {
+      name = "open-pdf";
+      text = ''
+        cd ~/o/kb/refs
+        pdf_to_open="$(fd . . --extension=pdf | rofi -dmenu)"
+        if [ -n "$pdf_to_open" ]; then zathura "$pdf_to_open"; fi
+      '';
+    })
   ];
 
   # misc
