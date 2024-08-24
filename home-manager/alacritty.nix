@@ -68,7 +68,7 @@ in {
         ];
       };
       window = {
-        opacity = 0.93;
+        opacity = config.local.opacityFloat;
         dimensions = {
           columns = 100;
           lines = 85;

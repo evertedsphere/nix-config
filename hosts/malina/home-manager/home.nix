@@ -13,13 +13,14 @@
 
   home.stateVersion = "22.11";
 
-  home.file.wallpaper.source = ./seto_miyako.jpg;
+  home.file.wallpaper.source = ./yellow.jpg;
 
   local = {
     user.fullName = "Soham Chowdhury";
     user.email = "evertedsphere@gmail.com";
-    fonts.i3barFontSize = 12.0;
+    fonts.i3barFontSize = 13.0;
     fonts.alacrittyFontSize = 12.0;
+    hasBattery = false;
   };
 
   programs.rtorrent = {
@@ -114,9 +115,6 @@
       # TODO use scale factor?
       width = 600;
       height = 250;
-      origin = "top-right";
-      offset = "25x25";
-      monitor = 2;
     };
   };
 }

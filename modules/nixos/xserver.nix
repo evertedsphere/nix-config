@@ -7,12 +7,38 @@
   # allegedly fixes e.g. sort order in file pickers not being persisted
   programs.dconf.enable = true;
 
-  services.picom = {
-    backend = "xrender";
+  services.picom = let
+    special = [
+      "window_type *= 'menu'"
+      "window_type *= 'notification'"
+      "window_type *= 'utility'"
+      "bounding_shaped && !rounded_corners"];
+  in {
+    backend = "glx";
     fade = true;
     vSync = true;
-    fadeDelta = 3;
-    fadeSteps = [0.04 0.04];
+    fadeDelta = 6;
+    fadeSteps = [0.028 0.032];
+    fadeExclude = special;
+    shadow = true;
+    # shadowExclude = special ++ ["class_i = 'Dunst'"];
+    shadowExclude = special;
+    settings = {
+      # https://github.com/dunst-project/dunst/issues/697#issuecomment-1188107553
+      # prevents notifs from showing on lockscreen
+      # unredir-if-possible = true;
+      corner-radius = 8;
+      shadow-offset-x = -20;
+      shadow-offset-y = -20;
+      shadow-radius = 20;
+      shadow-opacity = 0.8;
+      rounded-corners-exclude = special;
+      blur = {
+        method = "dual_kawase";
+        strength = 8;
+      };
+      blur-background-exclude = special;
+    };
   };
 
   services.libinput.enable = true;
@@ -39,9 +65,6 @@
     ];
     displayManager = {
       lightdm.enable = true;
-      setupCommands = ''
-        # xrandr --output HDMI-0 --mode 2560x1440 --pos 3840x2160 --rotate normal --output DP-2 --mode 3840x2160 --pos 3840x0 --rotate normal --output HDMI-1 --mode 3840x2160 --pos 0x0 --rotate normal
-      '';
     };
   };
 

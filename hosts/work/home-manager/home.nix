@@ -16,6 +16,7 @@
     user.email = "soham.chowdhury@tweag.io";
     fonts.i3barFontSize = 20.0;
     fonts.alacrittyFontSize = 8.0;
+    hasBattery = true;
   };
 
   home.file.wallpaper.source = ./flowers.jpg;
@@ -32,8 +33,6 @@
       # TODO use scale factor?
       width = 750;
       height = 400;
-      origin = "top-right";
-      offset = "25x25";
     };
   };
 }

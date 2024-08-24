@@ -471,6 +471,9 @@ TODO entries marked as done are ignored, meaning the this
 function returns nil if current buffer contains only completed
 tasks."
   (let ((is-todo (lambda (h)
+                   ;; TODO add a condition that marks a note as a project if it has any clock time?
+                   ;; or just if it is a daily note, since otherwise i don't clock into non-TODO headings
+                   ;; or just mark any non-TODO heading done if i clock out on it
                    (let ((todo-type (org-element-property :todo-type h)))
                      (or (eq todo-type 'todo)
                          (eq todo-type 'done))))))

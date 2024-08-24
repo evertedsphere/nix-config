@@ -39,5 +39,17 @@ in {
     gapWidth = lib.mkOption {
       type = lib.types.int;
     };
+    opacityHex = lib.mkOption {
+      type = lib.types.str;
+    };
+    # TODO lol
+    opacityFloat = lib.mkOption {
+      type = lib.types.float;
+    };
+    hasBattery = lib.mkOption {
+      type = lib.types.bool;
+      example = false;
+      description = "Whether this device has a battery";
+    };
   };
 }

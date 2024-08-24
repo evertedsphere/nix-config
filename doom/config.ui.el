@@ -1,11 +1,11 @@
-;;; config.ui.el -*- lexical-binding: t; -*-
+;; config.ui.el -*- lexical-binding: t; -*-
 
 (pixel-scroll-precision-mode)
 
 ;; (set-frame-parameter (selected-frame) 'alpha-background 90)
 ;; (add-to-list 'default-frame-alist '(alpha-background . 90))
 
-(setq doom-theme 'modus-operandi)
+(setq doom-theme 'doom-gruvbox)
 
 (let
     ((font-size

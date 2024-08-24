@@ -14,6 +14,7 @@
     builtins.listToAttrs (builtins.concatMap f data);
   c = config.colorScheme.palette;
   h = x: "#${x}";
+  colour_with_transparency = tr: x: "#${x}${tr}";
 in {
   xsession = {
     scriptPath = ".hm-xsession";
@@ -114,6 +115,7 @@ in {
           "XF86AudioMute" = spawn-pactl "set-sink-mute @DEFAULT_SINK@ toggle";
           # TODO should really be MicMute
           "Ctrl+XF86AudioMute" = spawn-pactl "set-source-mute @DEFAULT_SOURCE@ toggle";
+          "${modifier}+Ctrl+e" = run "emacsclient -cnq";
         };
         controlKeybinds = {
           "${modifier}+Ctrl+q" = "kill";
@@ -198,7 +200,7 @@ in {
           newWindow = "urgent";
         };
         gaps = {
-          inner = 14;
+          inner = config.local.gapWidth;
           outer = 0;
         };
         floating = {
@@ -212,7 +214,7 @@ in {
           "9:9" = [{class = "qBittorrent";}];
         };
         window = let
-          borderWidth = 2;
+          borderWidth = 0;
         in {
           border = borderWidth;
           commands = [
@@ -255,34 +257,38 @@ in {
               names = [config.local.fonts.monospaceFont];
               size = config.local.fonts.i3barFontSize;
             };
-            # trayOutput = "DP-2";
-            colors = {
-              background = h c.base00;
-              statusline = h c.base03;
-              separator = h c.base03;
-              focusedWorkspace = {
-                border = h c.base0A;
-                background = h c.base0A;
-                text = h c.base00;
+            command = "i3bar --transparency";
+            trayOutput = "HDMI-0";
+            # separatorSymbol = " \ ";
+            colors = let
+              ht = colour_with_transparency config.local.opacityHex;
+            in {
+              background = ht c.base00;
+              statusline = ht c.base00;
+              separator = ht c.base00;
+              focusedWorkspace = rec {
+                border = background;
+                background = ht c.base00;
+                text = h c.base0A;
               };
-              inactiveWorkspace = {
-                border = h c.base00;
-                background = h c.base00;
+              inactiveWorkspace = rec {
+                border = background;
+                background = ht c.base00;
                 text = h c.base03;
               };
-              activeWorkspace = {
-                border = h c.base03;
-                background = h c.base03;
+              activeWorkspace = rec {
+                border = background;
+                background = ht c.base00;
+                text = h c.base04;
+              };
+              bindingMode = rec {
+                border = background;
+                background = ht c.base08;
                 text = h c.base00;
               };
-              bindingMode = {
-                border = h c.base08;
-                background = h c.base08;
-                text = h c.base00;
-              };
-              urgentWorkspace = {
-                border = h c.base08;
-                background = h c.base08;
+              urgentWorkspace = rec {
+                border = background;
+                background = ht c.base08;
                 text = h c.base00;
               };
             };

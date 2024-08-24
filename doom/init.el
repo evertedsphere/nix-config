@@ -26,7 +26,6 @@
        ;;doom-quit
        ;; (emoji +unicode)
        hl-todo
-       hydra
        indent-guides
        ;;ligatures
        ;;minimap

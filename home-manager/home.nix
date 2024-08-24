@@ -16,6 +16,8 @@
     builtins.listToAttrs (builtins.concatMap f data);
   c = config.colorScheme.palette;
   h = x: "#${x}";
+  colour_with_transparency = tr: x: "#${x}${tr}";
+  ht = colour_with_transparency config.local.opacityHex;
 in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
@@ -189,6 +191,11 @@ in {
       fcitx5-mozc
       fcitx5-gtk
       fcitx5-rime
+      fcitx5-table-extra
+      fcitx5-table-other
+      # themes
+      fcitx5-nord
+      fcitx5-rose-pine
     ];
   };
 
@@ -232,45 +239,7 @@ in {
 
     history.save = 100000;
     history.size = 100000;
-    initExtra = ''
-      path=("$HOME/.local/bin" "$HOME/.config/emacs/bin" "$HOME/.cargo/bin" "$HOME/.cabal/bin" $path)
-      export PATH
-
-      # emacs-libvterm helper code
-      vterm_printf() {
-          if [ -n "$TMUX" ] && ([ "''${TERM%%-*}" = "tmux" ] || [ "''${TERM%%-*}" = "screen" ]); then
-              # Tell tmux to pass the escape sequences through
-              printf "\ePtmux;\e\e]%s\007\e\\" "$1"
-          elif [ "''${TERM%%-*}" = "screen" ]; then
-              # GNU screen (screen, screen-256color, screen-256color-bce)
-              printf "\eP\e]%s\007\e\\" "$1"
-          else
-              printf "\e]%s\e\\" "$1"
-          fi
-      }
-
-      # prompt tracking
-      vterm_prompt_end() {
-          vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
-      }
-      setopt PROMPT_SUBST
-      PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
-
-      # execute emacs commands from within vterm
-      vterm_cmd() {
-          local vterm_elisp
-          vterm_elisp=""
-          while [ $# -gt 0 ]; do
-              vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
-              shift
-          done
-          vterm_printf "51;E$vterm_elisp"
-      }
-
-      find_file() {
-          vterm_cmd find-file "$(realpath "''${@:-.}")"
-      }
-    '';
+    initExtra = builtins.readFile ./zsh-init.zsh;
 
     initExtraBeforeCompInit = ''
       # fpath=("$HOME/.zfunc" $fpath)
@@ -369,10 +338,18 @@ in {
 
   services.dunst = {
     enable = true;
-    settings = {
-      global = rec {
+    settings = rec {
+      global = let
+        inner = config.xsession.windowManager.i3.config.gaps.inner;
+        border = config.xsession.windowManager.i3.config.window.border;
+        bar-height = 32;
+        margin = inner;
+        right = inner + border + margin;
+        top = bar-height + inner + border + margin;
+      in rec {
         alignment = "left";
-        bounce_freq = 0;
+        origin = "top-right";
+        offset = "${builtins.toString right}x${builtins.toString top}";
         corner_radius = 6;
         format = "<b>%s</b>\\n%b";
         horizontal_padding = 8;
@@ -380,20 +357,27 @@ in {
         ignore_newline = false;
         indicate_hidden = true;
         line_height = 0;
+        notification_limit = 5;
         markup = "full";
         max_icon_size = 60;
         padding = 8;
         show_age_threshold = 30;
         sort = true;
-        startup_notification = false;
         sticky_history = true;
         transparency = 0;
         word_wrap = true;
-        gap_size = padding;
+        gap_size = margin;
+        monitor = "HDMI-1";
       };
-      urgency_normal = {
-        background = h c.base00;
-        frame_color = h c.base03;
+      urgency_low = {
+        background = ht c.base01;
+        frame_color = ht c.base01;
+        foreground = h c.base06;
+      };
+      urgency_normal = urgency_low;
+      urgency_critical = {
+        background = ht c.base08;
+        frame_color = ht c.base08;
         foreground = h c.base07;
       };
     };
