@@ -57,7 +57,7 @@
        word-wrap
 
        :emacs
-       (dired +icons +ranger)
+       (dired +icons +dirvish)
        electric
        ibuffer
        undo
