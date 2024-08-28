@@ -18,8 +18,6 @@
 in {
   xsession = {
     scriptPath = ".hm-xsession";
-    initExtra = ''
-    '';
     numlock.enable = true;
     windowManager.i3 = {
       enable = true;
@@ -236,12 +234,16 @@ in {
             "p" = spawn "open-pdf, mode default";
             Escape = "mode default";
           };
-          resize = {
-            # TODO resize grow right etc
-            "${movementMap.down}" = "resize grow height 50 px or 10 ppt";
-            "${movementMap.left}" = "resize shrink width 50 px or 10 ppt";
-            "${movementMap.right}" = "resize grow width 50 px or 10 ppt";
-            "${movementMap.up}" = "resize shrink height 50 px or 10 ppt";
+          resize = let
+            resizeDeltaPx = 50;
+            resizeDeltaPpt = 10;
+            go = action: dir: "i3-msg resize ${action} ${dir} ${builtins.toString resizeDeltaPx} px or ${builtins.toString resizeDeltaPpt} ppt";
+            resizeCmd = growDir: shrinkDir: run "${go "grow" growDir} || ${go "shrink" shrinkDir}";
+          in {
+            "${movementMap.left}" = resizeCmd "left" "right";
+            "${movementMap.right}" = resizeCmd "right" "left";
+            "${movementMap.up}" = resizeCmd "up" "down";
+            "${movementMap.down}" = resizeCmd "down" "up";
             Escape = "mode default";
           };
         };

@@ -12,7 +12,8 @@
       "window_type *= 'menu'"
       "window_type *= 'notification'"
       "window_type *= 'utility'"
-      "bounding_shaped && !rounded_corners"];
+      "bounding_shaped && !rounded_corners"
+    ];
   in {
     backend = "glx";
     fade = true;
