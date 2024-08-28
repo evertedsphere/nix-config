@@ -234,6 +234,7 @@ in {
           leader = {
             "s" = spawn "systemd-user-unit-toggle screenkey.service, mode default";
             "p" = spawn "open-pdf, mode default";
+            Escape = "mode default";
           };
           resize = {
             # TODO resize grow right etc
