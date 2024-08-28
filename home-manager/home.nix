@@ -1,19 +1,10 @@
 {
   inputs,
   outputs,
-  lib,
   config,
   pkgs,
   ...
 }: let
-  renderTemplates = renderTemplate: data: let
-    attrsToList = attrSet:
-      lib.zipListsWith (name: value: {inherit name value;})
-      (builtins.attrNames attrSet)
-      (builtins.attrValues attrSet);
-    f = arg: attrsToList (renderTemplate arg);
-  in
-    builtins.listToAttrs (builtins.concatMap f data);
   c = config.colorScheme.palette;
   h = x: "#${x}";
   colour_with_transparency = tr: x: "#${x}${tr}";
