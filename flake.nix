@@ -36,7 +36,6 @@
     self,
     nixpkgs,
     home-manager,
-    emacs-overlay,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -97,19 +96,5 @@
       malina = mkSystem "malina";
       work = mkSystem "work";
     };
-
-    # home-manager --flake .#your-username@your-hostname
-    # I do it this way because rebuilds are much faster.
-    # homeConfigurations = {
-    #   "s@malina" = home-manager.lib.homeManagerConfiguration {
-    #     pkgs = nixpkgs.legacyPackages.x86_64-linux;
-    #     extraSpecialArgs = {inherit inputs outputs;};
-    #     modules = [
-    #       ./home-manager/config.nix
-    #       ./home-manager/home.nix
-    #       ./hosts/malina/home-manager/home.nix
-    #     ];
-    #   };
-    # };
   };
 }

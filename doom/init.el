@@ -47,7 +47,7 @@
        (evil +everywhere)
        file-templates
        fold
-       (format +onsave)
+       (format +onsave +lsp)
        ;; lispy
        ;; multiple-cursors
        ;;objed

@@ -142,7 +142,7 @@ in {
   programs.doom-emacs = {
     enable = true;
     doomDir = ../doom;
-    emacs = pkgs.emacs;
+    emacs = pkgs.emacs-git;
   };
   # services.emacs.enable = true;
 
