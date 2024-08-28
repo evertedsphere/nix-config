@@ -83,7 +83,7 @@
        (eval +overlay)
        lookup
        lsp
-       magit
+       (magit +forge)
        ;;make
        ;;(pass +auth)
        ;;pdf
@@ -92,7 +92,7 @@
        ;;taskrunner
        ;;terraform
        ;;tmux
-       ;;tree-sitter
+       tree-sitter
        ;;upload
 
        :os

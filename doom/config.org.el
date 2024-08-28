@@ -396,10 +396,11 @@ Refer to `org-agenda-prefix-format' for more information."
   `(lambda (&rest _rest)
      (funcall ,fnc)))
 
-(advice-add 'org-deadline       :after (local/const #'org-save-all-org-buffers))
-(advice-add 'org-schedule       :after (local/const #'org-save-all-org-buffers))
-(advice-add 'org-store-log-note :after (local/const #'org-save-all-org-buffers))
-(advice-add 'org-todo           :after (local/const #'org-save-all-org-buffers))
+;; This is nice but the lag is annoying
+;; (advice-add 'org-deadline       :after (local/const #'org-save-all-org-buffers))
+;; (advice-add 'org-schedule       :after (local/const #'org-save-all-org-buffers))
+;; (advice-add 'org-store-log-note :after (local/const #'org-save-all-org-buffers))
+;; (advice-add 'org-todo           :after (local/const #'org-save-all-org-buffers))
 
 ;; image handling
 ;; I don't use attachments; as far as I can tell they just don't fucking work because of the stupid buffer-local attachment path setup that I can't be bothered to figure out how to change.

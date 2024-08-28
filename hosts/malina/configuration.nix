@@ -109,6 +109,7 @@ in {
       "/etc/nixos"
       "/etc/NetworkManager/system-connections"
       "/etc/mullvad-vpn"
+      "/var/lib/nixos"
     ];
     files = [
       "/etc/machine-id"

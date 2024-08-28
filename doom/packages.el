@@ -51,3 +51,4 @@
 (package! org-download :pin "19e166f0a8c539b4144cfbc614309d47a9b2a9b7")
 
 (package! symex :pin "36f57dc94d225fa326191d46bc7ec74111fbf41d")
+(package! pcre2el :pin "b4d846d80dddb313042131cf2b8fbf647567e000")
