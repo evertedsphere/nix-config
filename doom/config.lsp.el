@@ -9,31 +9,23 @@
 
 (use-package! lsp
   :config
+  (setq lsp-enable-symbol-highlighting nil
+        ;; highlight colour codes in stuff like CSS
+        lsp-enable-text-document-color t
+        lsp-semantic-tokens-enable nil))
+(use-package! lsp-ui
+  :config
   (setq lsp-ui-doc-show-with-cursor t
+        lsp-ui-doc-position 'bottom
+        lsp-ui-doc-side 'right
+        lsp-ui-doc-delay 0.1
         lsp-ui-doc-use-webkit t
-        lsp-enable-symbol-highlighting nil
-        lsp-ui-doc-max-height 20
-        lsp-ui-doc-max-width 110))
-
-;; nil setup
-;;
-;; (use-package lsp-nix
-;;   :ensure lsp-mode
-;;   :after (lsp-mode)
-;;   :demand t
-;;   :custom
-;;   (lsp-nix-nil-formatter ["nixpkgs-fmt"]))
-
-;; (use-package nix-mode
-;;   :hook (nix-mode . lsp-deferred)
-;;   :ensure t)
-
-(with-eval-after-load 'lsp-mode
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection "nixd")
-                    :major-modes '(nix-mode)
-                    :priority 0
-                    :server-id 'nixd)))
+        lsp-ui-doc-max-height 40
+        lsp-ui-doc-max-width 150
+        ;; lsp-ui-imenu
+        lsp-ui-imenu-auto-refresh t
+        lsp-ui-imenu-window-fix-width t
+        lsp-ui-peek-enable t))
 
 (setq +format-with-lsp t)
 

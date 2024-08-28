@@ -51,18 +51,25 @@
   nix = {
     registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
-    settings = {
+    settings = rec {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
       substituters = [
         "https://cache.nixos.org/"
-        "https://ghc-nix.cachix.org"
         "https://nix-community.cachix.org"
       ];
+      # These are trusted, but won't be hit by default.
+      trusted-substituters =
+        substituters
+        ++ [
+          "https://storage.googleapis.com/zeuslogics-nix-cache-github"
+          "https://ghc-nix.cachix.org"
+        ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "ghc-nix.cachix.org-1:wI8l3tirheIpjRnr2OZh6YXXNdK2fVQeOI4SVz/X8nA="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "zeuslogics-nix-cache-github:RpfcOgIp6w2cvPyhTfErGcWkR9QSHc1gpp4UwyH3ovU="
       ];
       trusted-users = ["s" "root"];
     };

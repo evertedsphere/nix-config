@@ -129,7 +129,9 @@
        ;;idris
        json
        ;;(java +lsp)
-       ;;javascript
+       ;; Can't enable tree-sitter because it doesn't work well yet with nix-doom-emacs-unstraightened
+       ;; https://github.com/marienz/nix-doom-emacs-unstraightened/commit/c8011f8f101b3e4ec1ebb73794f9ceb82c81bbc5
+       (javascript +lsp)
        ;;julia
        ;;kotlin
        ;;latex
@@ -138,7 +140,7 @@
        ;;lua
        markdown
        ;;nim
-       nix
+       (nix +lsp)
        ;;(ocaml +lsp +tree-sitter)
        (org +pretty
             +roam2
