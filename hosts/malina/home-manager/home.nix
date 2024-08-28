@@ -33,7 +33,7 @@
     discord
   ];
 
-  xsession.windowManager.i3.config.fonts.size = 11.0;
+  # xsession.windowManager.i3.config.fonts.size = 11.0;
 
   wayland.windowManager.sway.enable = false;
 

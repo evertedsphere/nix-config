@@ -139,40 +139,44 @@ in {
           background = h c.base01;
 
           # A window which currently has the focus
-          focused = {
+          focused = rec {
             border = h c.base0A;
             background = h c.base0A;
-            text = h c.base00;
+            # text = h c.base00;
+            text = border;
             indicator = h c.base03;
             childBorder = h c.base0A;
           };
 
           # A window which is the focused one of its container,
           # but it does not have the focus at the moment.
-          focusedInactive = {
+          focusedInactive = rec {
             border = h c.base03;
             background = h c.base03;
-            text = h c.base00;
+            # text = h c.base00;
+            text = border;
             # hide indicator
             indicator = h c.base03;
             childBorder = h c.base03;
           };
 
           # A window which is not focused
-          unfocused = {
+          unfocused = rec {
             border = h c.base01;
             background = h c.base01;
-            text = h c.base03;
+            # text = h c.base03;
+            text = border;
             # text = h c.base01;
             indicator = h c.base01;
             childBorder = h c.base01;
           };
 
           # A window which has its urgency hint activated.
-          urgent = {
+          urgent = rec {
             border = h c.base08;
             background = h c.base08;
-            text = h c.base07;
+            # text = h c.base07;
+            text = border;
             # text = h c.base08;
             indicator = h c.base08;
             childBorder = h c.base08;
@@ -180,10 +184,11 @@ in {
 
           # Background and text color are used to draw placeholder window
           # contents (when restoring layouts). Border and indicator are ignobase08.
-          placeholder = {
+          "placeholder" = rec {
             border = h c.base00;
             background = h c.base00;
-            text = h c.base0A;
+            # text = h c.base0A;
+            text = border;
             indicator = h c.base03;
             childBorder = h c.base00;
           };
@@ -194,6 +199,7 @@ in {
         terminal = config.local.programs.terminalExe;
         fonts = {
           names = [config.local.fonts.monospaceFont];
+          size = 0.0;
         };
         workspaceAutoBackAndForth = true;
         focus = {
@@ -219,7 +225,7 @@ in {
           border = borderWidth;
           commands = [
             {
-              command = "border pixel ${builtins.toString borderWidth}";
+              command = "border normal ${builtins.toString borderWidth}";
               criteria = {class = ".*";};
             }
           ];

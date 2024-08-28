@@ -26,8 +26,9 @@
     settings = {
       # https://github.com/dunst-project/dunst/issues/697#issuecomment-1188107553
       # prevents notifs from showing on lockscreen
+      # but also basically disables the whole fucking compositor if you fullscreen mpv
       # unredir-if-possible = true;
-      corner-radius = 8;
+      corner-radius = 6;
       shadow-offset-x = -20;
       shadow-offset-y = -20;
       shadow-radius = 20;
