@@ -124,3 +124,11 @@
 (map! :nvi "M-l" #'evil-window-right)
 (map! :nvi "M-j" #'evil-window-down)
 (map! :nvi "M-k" #'evil-window-up)
+
+(use-package! emprise)
+
+(use-package! marginalia-emprise
+  :after (marginalia emprise)
+  :config
+  (add-to-list 'marginalia-annotator-registry
+               '(emprise marginalia-emprise-annotate builtin none)))

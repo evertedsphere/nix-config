@@ -52,3 +52,15 @@
 
 (package! symex :pin "36f57dc94d225fa326191d46bc7ec74111fbf41d")
 (package! pcre2el :pin "b4d846d80dddb313042131cf2b8fbf647567e000")
+
+(package! org-music
+  :pin "1669b8488a431ce70adbbbd1b6ed1f467aa8c1ef"
+  :recipe (:host github :repo "tecosaur/org-music"))
+
+(package! emprise
+  :pin "669a46f6027acdf1673c044bda0e2216e794b812"
+  :recipe (:host nil :repo "https://git.sr.ht/~plattfot/emprise"))
+
+(package! marginalia-emprise
+  :pin "d371d1e1691dd653e59777cbf80dbb4877b39172"
+  :recipe (:host nil :repo "https://git.sr.ht/~plattfot/marginalia-emprise"))

@@ -454,31 +454,132 @@ without crowding out other backlinks."
            :immediate-finish t
            :jump-to-captured nil)
           ("c" "ref-comment" plain
-           ,(format "#+begin_quote\n%%%S\n#+end_quote"
+           ,(format "#+begin_quote\n%%%S\n#+end_quote\n%%?"
                     '(local/command-line-pandoc-filter (plist-get org-roam-capture--info :body)))
            :target (file+head "%<%Y%m%d%H%M%S>.org" "#+title: ${title}\n")
            :empty-lines 1
            :immediate-finish nil
            :jump-to-captured nil))))
 
+(org-link-set-parameters "music-artist")
+(org-link-set-parameters "music-album")
+(org-link-set-parameters "music-track")
+
+(defun local/org-roam-capture-now-playing ()
+  (let* ((metadata (dbus-get-property
+                    :session
+                    "org.mpris.MediaPlayer2.spotify"
+                    "/org/mpris/MediaPlayer2"
+                    "org.mpris.MediaPlayer2.Player"
+                    "Metadata"))
+         (position (dbus-get-property
+                    :session
+                    "org.mpris.MediaPlayer2.spotify"
+                    "/org/mpris/MediaPlayer2"
+                    "org.mpris.MediaPlayer2.Player"
+                    "Position")))
+    (if metadata
+        (cl-flet
+            ((metadata-get (lambda (k) (caar (alist-get k metadata nil nil 'string-equal))))
+             (to-ref (lambda (k) (secure-hash 'md5 k))))
+          (let* ((artists (metadata-get "xesam:artist"))
+                 (artist (car artists))
+                 (artist-qual (format "%s (artist)" artist))
+                 (artist-ref (format "music-artist:%s" (to-ref artist)))
+                 ;; Rudimentary "typing" for distinctions between artists and albums and tracks (all necessary)
+                 (artist-slug (to-ref artist-ref))
+                 (album (metadata-get "xesam:album"))
+                 (album-qual (format "%s (%s album)" album artist))
+                 ;; I could very well concatenate the strings before hashing but I like this more
+                 (album-ref (format "music-album:%s:%s" (to-ref artist) (to-ref album)))
+                 (album-slug (to-ref album-ref))
+                 (track (metadata-get "xesam:title"))
+                 (track-qual (format "%s (%s track)" track artist))
+                 (track-ref (format "music-track:%s:%s:%s" (to-ref artist) (to-ref album) (to-ref track)))
+                 (track-slug (to-ref track-ref))
+                 (track-number (metadata-get "xesam:trackNumber"))
+                 ;; TODO add this as a ref
+                 (track-url (metadata-get "xesam:url"))
+                 (artist-node-id nil)
+                 (album-node-id nil)
+                 (pos (/ position (* 1000 1000)))
+                 (pos-seconds (mod pos 60))
+                 (pos-total-minutes (/ pos 60))
+                 (pos-minutes (mod pos-total-minutes 60))
+                 (pos-hours (/ pos-total-minutes 60))
+                 (fixup-artist (lambda ()
+                                 (org-roam-alias-add artist)))
+                 (fixup-album (lambda ()
+                                (org-roam-alias-add (format "%s (album)" album))
+                                (org-roam-alias-add album)))
+                 (fixup-track (lambda ()
+                                (org-roam-alias-add (format "%s (track)" track))
+                                (org-roam-alias-add track)
+                                (org-roam-ref-add track-url))))
+            (if (not (org-roam-node-from-ref artist-ref))
+                (org-roam-capture-
+                 :node (org-roam-node-create :title artist-qual)
+                 :templates
+                 `(("x" "music-artist" plain ""
+                    :target (file+head ,(format "%s.org" artist-slug)
+                                       ,(format "#+title: %s\n" artist-qual))
+                    :immediate-finish t
+                    :jump-to-captured nil
+                    :before-finalize (list ,fixup-artist)))
+                 :info (list :ref artist-ref :title artist-qual)))
+            (setq artist-node-id (org-roam-node-id (org-roam-node-from-ref artist-ref)))
+            (if (not (org-roam-node-from-ref album-ref))
+                (org-roam-capture-
+                 :node (org-roam-node-create :title album-qual)
+                 :templates
+                 `(("x" "music-album" plain ""
+                    :target
+                    (file+head
+                     ,(format "%s.org" album-slug)
+                     ,(format "#+title: %s\n\nAlbum by [[id:%s][%s]]." album-qual artist-node-id artist))
+                    :immediate-finish t
+                    :jump-to-captured nil
+                    :before-finalize (list ,fixup-album)))
+                 :info (list :ref album-ref :title album-qual)))
+            (setq album-node-id (org-roam-node-id (org-roam-node-from-ref album-ref)))
+            (org-roam-capture-
+             :node (org-roam-node-create :title track-qual)
+             :templates
+             `(("x" "music-track" plain
+                ,(if (= pos-hours 0)
+                     (format "- [%02d:%02d] %%?" pos-minutes pos-seconds)
+                   (format "- [%02d:%02d:%02d] %%?" pos-hours pos-minutes pos-seconds))
+                :target
+                (file+head
+                 ,(format "%s.org" track-slug)
+                 ,(format "#+title: %s\n\nTrack number %d from [[id:%s][%s]] by [[id:%s][%s]]."
+                          track-qual
+                          track-number
+                          album-node-id album artist-node-id artist))
+                :unnarrowed t
+                :empty-lines 1
+                :immediate-finish nil
+                :jump-to-captured nil
+                :before-finalize (list ,fixup-track)))
+             :info (list :ref track-ref :title track-qual)))))))
+
 ;; --------------------------------------------------------------------------------
 ;; cache which files have TODO headings to make the agenda faster
 ;; https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html
-
 (defun local/project-p ()
-  "Return non-nil if current buffer has any todo entry.
-
-TODO entries marked as done are ignored, meaning the this
-function returns nil if current buffer contains only completed
-tasks."
-  (let ((is-todo (lambda (h)
-                   ;; TODO add a condition that marks a note as a project if it has any clock time?
-                   ;; or just if it is a daily note, since otherwise i don't clock into non-TODO headings
-                   ;; or just mark any non-TODO heading done if i clock out on it
-                   (let ((todo-type (org-element-property :todo-type h)))
-                     (or (eq todo-type 'todo)
-                         (eq todo-type 'done))))))
-    (org-element-map (org-element-parse-buffer 'headline) 'headline is-todo nil 'first-match)))
+  "Return non-nil if current buffer has any TODOs or clock logs."
+  (let ((els (org-element-parse-buffer 'object))
+        (has-clock-drawer
+         (lambda (h)
+           (string= (org-element-property :drawer-name h)
+                    (org-clock-drawer-name))))
+        (is-todo
+         (lambda (h)
+           (let ((todo-type (org-element-property :todo-type h)))
+             (or (eq todo-type 'todo)
+                 (eq todo-type 'done))))))
+    (or (org-element-map els 'drawer has-clock-drawer nil 'first-match)
+        (org-element-map els 'headline is-todo nil 'first-match))))
 
 (add-hook 'find-file-hook #'local/project-update-tag)
 (add-hook 'before-save-hook #'local/project-update-tag)

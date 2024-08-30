@@ -13,6 +13,7 @@ in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
     inputs.nix-doom-emacs-unstraightened.hmModule
+    inputs.wired-notify.homeManagerModules.default
     outputs.homeManagerModules.local
     outputs.homeManagerModules.keyd-application-mapper
     outputs.homeManagerModules.org-protocol

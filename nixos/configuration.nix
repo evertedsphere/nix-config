@@ -15,13 +15,11 @@
 
   nixpkgs = {
     overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-
-      # neovim-nightly-overlay.overlays.default
       inputs.emacs-overlay.overlays.default
+      inputs.wired-notify.overlays.default
     ];
 
     config = {allowUnfree = true;};
@@ -106,7 +104,10 @@
     keyMap = "us";
   };
 
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    enableCompletion = false;
+  };
   environment.pathsToLink = ["/share/zsh"];
   environment.shells = with pkgs; [bashInteractive zsh];
   users.defaultUserShell = pkgs.zsh;

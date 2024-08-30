@@ -210,8 +210,12 @@ in {
         floating = {
           inherit modifier;
           titlebar = false;
+          criteria = [
+            {title = "doom-capture";}
+          ];
         };
         assigns = {
+          "11:w" = [{class = "Zotero";}];
           "2:2" = [{class = "firefox";}];
           "5:5" = [{class = "Spotify";}];
           "7:7" = [{class = "discord";}];
@@ -232,6 +236,7 @@ in {
           leader = {
             "s" = spawn "systemd-user-unit-toggle screenkey.service, mode default";
             "p" = spawn "open-pdf, mode default";
+            "m" = spawn "~/.local/bin/org-capture-now-playing, mode default";
             Escape = "mode default";
           };
           resize = let
