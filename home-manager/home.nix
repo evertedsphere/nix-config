@@ -159,7 +159,7 @@ in {
   # (Unstraightened sets itself as `services.emacs.package`). Set
   # `programs.doom-emacs.provideEmacs = false` or override `services.emacs.package`
   # if you want a vanilla Emacs daemon instead.
-  services.emacs.enable = true;
+  services.emacs.enable = false;
 
   systemd.user.services.screenkey = let
     screenkey-script = pkgs.resholve.writeScript "run-screenkey" {

@@ -15,7 +15,14 @@
       format = pkgs.formats.ron {};
       inherit (format.lib) mkLiteral struct;
 
-      colors = lib.mapAttrs (_: Color) config.lib.stylix.colors.withHashtag;
+      style = config.lib.stylix.colors;
+
+      colors = lib.mapAttrs (_: Color) style.withHashtag;
+      bg-colors = {
+        base05 = "#aa${style.base05}";
+        base06 = "#aa${style.base06}";
+      };
+
       inherit (config.stylix) fonts;
 
       # A global scaling factor to apply to all notifications.

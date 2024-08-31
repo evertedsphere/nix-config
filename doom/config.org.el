@@ -43,12 +43,7 @@
        ((string= (system-name) "work") local/org-work-dir)
        (t local/org-roam-dir)))
 
-(setq org-agenda-files (list org-directory
-                             local/org-roam-dir
-                             local/org-sync-dir
-                             local/org-lit-dir
-                             local/org-work-dir
-                             (f-join local/org-roam-dir "daily")))
+(setq org-agenda-files '())
 
 (setq org-default-notes-file (f-join org-roam-directory "inbox.org"))
 (setq +org-capture-notes-file org-default-notes-file)
@@ -387,9 +382,9 @@ Refer to `org-agenda-prefix-format' for more information."
        nil))
     (2 font-lock-keyword-face))))
 
-(defun local/org-mode-autosave-settings ()
-  (add-hook 'auto-save-hook 'org-save-all-org-buffers nil nil))
-(add-hook 'org-mode-hook 'local/org-mode-autosave-settings)
+;; (defun local/org-mode-autosave-settings ()
+;;   (add-hook 'auto-save-hook 'org-save-all-org-buffers nil nil))
+;; (add-hook 'org-mode-hook 'local/org-mode-autosave-settings)
 
 (defmacro local/const (fnc)
   "Return function that ignores its arguments and invokes FNC."
@@ -601,7 +596,8 @@ without crowding out other backlinks."
         ;; update tags if changed
         (when (or (seq-difference tags original-tags)
                   (seq-difference original-tags tags))
-          (apply #'vulpea-buffer-tags-set tags))))))
+          (apply #'vulpea-buffer-tags-set tags)
+          (save-buffer))))))
 
 (defun local/buffer-p ()
   "Return non-nil if the currently visited buffer is a note."
@@ -634,7 +630,7 @@ without crowding out other backlinks."
 (defun local/refresh-agenda-files ()
   "Update the list of agenda files by refreshing the org-roam database."
   (interactive)
-  (org-roam-db-sync t)
+  ;; (org-roam-db-sync)
   (local/agenda-files-update))
 
 (defun local/recompute-agenda-file-tags ()

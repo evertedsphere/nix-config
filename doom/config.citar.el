@@ -19,9 +19,11 @@
  citar-notes-paths (list local/org-lit-dir)
  citar-symbol-separator "  ")
 
+(use-package! citar
+  :after org-roam)
+
 (use-package! citar-org-roam
   :after citar org-roam
-  :no-require
   :config
   (setq citar-org-roam-subdir local/org-lit-subdir)
   (setq citar-org-roam-note-title-template "${title}")
