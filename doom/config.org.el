@@ -578,8 +578,7 @@ without crowding out other backlinks."
            (let ((todo-type (org-element-property :todo-type h)))
              (or (eq todo-type 'todo)
                  (eq todo-type 'done))))))
-    (or (org-element-map els 'drawer has-clock-drawer nil 'first-match)
-        (org-element-map els 'headline is-todo nil 'first-match))))
+    (or (org-element-map els 'headline is-todo nil 'first-match))))
 
 (add-hook 'find-file-hook #'local/project-update-tag)
 (add-hook 'before-save-hook #'local/project-update-tag)
@@ -639,14 +638,18 @@ without crowding out other backlinks."
   (local/agenda-files-update))
 
 (defun local/recompute-agenda-file-tags ()
-  "Fix missing :PROJECT: tags on agenda files. Warning: slow as shit."
+  "Fix missing :PROJECT: tags on agenda files. Warning: slow as shit.
+TODO maybe force org to be 'minimal' when loading these files into buffers."
   (interactive)
-  (dolist (file (org-roam-list-files))
-    (message "processing %s" file)
-    (with-current-buffer (or (find-buffer-visiting file)
-                             (find-file-noselect file))
-      (local/project-update-tag)
-      (save-buffer))))
+  (let* ((files (org-roam-list-files))
+         (count (length files)))
+    (-each-indexed files
+      (lambda (ix file)
+        (message "processing file %d/%d: %s" ix count file)
+        (with-current-buffer (or (find-buffer-visiting file)
+                                 (find-file-noselect file))
+          (local/project-update-tag)
+          (save-buffer))))))
 
 (add-hook! 'org-mode-hook
            #'prettify-symbols-mode)
