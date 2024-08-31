@@ -342,53 +342,6 @@ in {
   programs.dircolors.enable = true;
   fonts.fontconfig.enable = true;
 
-  services.dunst = {
-    enable = false;
-    settings = rec {
-      global = let
-        inner = config.xsession.windowManager.i3.config.gaps.inner;
-        border = config.xsession.windowManager.i3.config.window.border;
-        bar-height = 32;
-        margin = inner;
-        right = inner + border + margin;
-        top = bar-height + inner + border + margin;
-      in rec {
-        alignment = "left";
-        origin = "top-right";
-        offset = "${builtins.toString right}x${builtins.toString top}";
-        corner_radius = 6;
-        format = "<b>%s</b>\\n%b";
-        horizontal_padding = 8;
-        idle_threshold = 120;
-        ignore_newline = false;
-        indicate_hidden = true;
-        line_height = 0;
-        notification_limit = 5;
-        markup = "full";
-        max_icon_size = 60;
-        padding = 8;
-        show_age_threshold = 30;
-        sort = true;
-        sticky_history = true;
-        transparency = 0;
-        word_wrap = true;
-        gap_size = margin;
-        monitor = "HDMI-1";
-      };
-      urgency_low = {
-        background = ht c.base01;
-        frame_color = ht c.base01;
-        foreground = h c.base06;
-      };
-      urgency_normal = urgency_low;
-      urgency_critical = {
-        background = ht c.base08;
-        frame_color = ht c.base08;
-        foreground = h c.base07;
-      };
-    };
-  };
-
   services.syncthing = {
     enable = true;
     tray = {

@@ -12,16 +12,13 @@
     config = let
       inherit (builtins) floor;
 
+      inner = config.xsession.windowManager.i3.config.gaps.inner;
+      border = config.xsession.windowManager.i3.config.window.border;
+
       format = pkgs.formats.ron {};
       inherit (format.lib) mkLiteral struct;
 
       style = config.lib.stylix.colors;
-
-      colors = lib.mapAttrs (_: Color) style.withHashtag;
-      bg-colors = {
-        base05 = "#aa${style.base05}";
-        base06 = "#aa${style.base06}";
-      };
 
       inherit (config.stylix) fonts;
 
@@ -65,6 +62,31 @@
             max = floor (globalScale * maxh);
           };
         };
+
+      colors = lib.mapAttrs (_: Color) style.withHashtag;
+      bg-colors = {
+        base00 = Color "#99${style.base00}";
+        base01 = Color "#99${style.base01}";
+        base02 = Color "#99${style.base02}";
+        base04 = Color "#99${style.base04}";
+        base05 = Color "#99${style.base05}";
+        base06 = Color "#99${style.base06}";
+        base08 = Color "#99${style.base08}";
+        base09 = Color "#99${style.base09}";
+      };
+
+      notificationBlock = unnamedStruct {
+        monitor = 0;
+        border_width = globalScale * 2;
+        border_rounding = globalScale * 0;
+        background_color = bg-colors.base00;
+        border_color = bg-colors.base02;
+        border_color_low = bg-colors.base01;
+        border_color_critical = bg-colors.base08;
+        border_color_paused = bg-colors.base09;
+        gap = mkVec2 0 inner;
+        notification_hook = mkHook "BR" "TR";
+      };
 
       mkTopBar = name: extra:
         map (x: extra // x) [
@@ -114,7 +136,7 @@
               params = struct "ImageBlock" (unnamedStruct {
                 filter_mode = mkLiteral "Lanczos3";
                 image_type = mkLiteral "Hint";
-                padding = mkPaddingLrBt 12 0 12 12;
+                padding = mkPaddingLrBt inner 0 inner inner;
                 rounding = globalScale * 9;
                 scale_height = floor (globalScale * 128);
                 scale_width = floor (globalScale * 128);
@@ -388,7 +410,7 @@
     in
       format.generate "wired.ron" (unnamedStruct {
         max_notifications = 10;
-        timeout = 10000;
+        timeout = 60000;
         poll_interval = 6; # 6ms ~= 166hz.
         history_length = 60;
         replacing_enabled = true;
@@ -420,24 +442,19 @@
               name = "general_root";
               parent = "";
               hook = mkHook "TR" "TR";
-              offset = Vec2 (-50) 50; # Vec2 instead of mkVec2 to not apply scaling.
+              offset = let
+                bar-height = 48;
+                margin = inner * 2;
+                right = inner + border + margin;
+                top = bar-height + inner + border + margin;
+              in
+                Vec2 (-right) top; # Vec2 instead of mkVec2 to not apply scaling.
               render_criteria = [
                 (Not (Or [
                   (struct "Tag" "indicator")
                 ]))
               ];
-              params = struct "NotificationBlock" (unnamedStruct {
-                monitor = 0;
-                border_width = globalScale * 2;
-                border_rounding = globalScale * 0;
-                background_color = colors.base00;
-                border_color = colors.base04;
-                border_color_low = colors.base04;
-                border_color_critical = colors.base08;
-                border_color_paused = colors.base09;
-                gap = mkVec2 0 8;
-                notification_hook = mkHook "BR" "TR";
-              });
+              params = struct "NotificationBlock" notificationBlock;
             }
             # Dummy text that enforces minimum window size
             {
