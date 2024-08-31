@@ -133,3 +133,8 @@
   :config
   (add-to-list 'marginalia-annotator-registry
                '(emprise marginalia-emprise-annotate builtin none)))
+
+(use-package! flymake
+  :init
+  (global-set-key [remap previous-error] #'flymake-goto-prev-error)
+  (global-set-key [remap next-error] #'flymake-goto-next-error))

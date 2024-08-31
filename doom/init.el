@@ -68,7 +68,7 @@
        vterm
 
        :checkers
-       (syntax +childframe)
+       (syntax +icons +childframe +flymake)
        ;;(spell +flyspell)
        ;;grammar
 
@@ -92,7 +92,7 @@
        ;;taskrunner
        ;;terraform
        ;;tmux
-       tree-sitter
+       ;; tree-sitter
        ;;upload
 
        :os
@@ -157,14 +157,14 @@
        ;;purescript
        (python +lsp +pyright +poetry)
        ;;qt
-       racket
+       ;; racket
        ;;raku
        ;;rest
        ;;rst
        ;;(ruby +rails)
        (rust +lsp)
-       (scala +lsp +tree-sitter)
-       (scheme +guile)
+       ;; (scala +lsp +tree-sitter)
+       ;; (scheme +guile)
        sh
        ;;sml
        ;;solidity
