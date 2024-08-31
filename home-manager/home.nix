@@ -21,6 +21,7 @@ in {
     ./alacritty.nix
     ./neovim.nix
     ./i3status-rs.nix
+    ./wired.nix
   ];
 
   home = {
@@ -340,7 +341,7 @@ in {
   fonts.fontconfig.enable = true;
 
   services.dunst = {
-    enable = true;
+    enable = false;
     settings = rec {
       global = let
         inner = config.xsession.windowManager.i3.config.gaps.inner;
