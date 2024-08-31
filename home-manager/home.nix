@@ -14,6 +14,7 @@ in {
     inputs.nix-colors.homeManagerModules.default
     inputs.nix-doom-emacs-unstraightened.hmModule
     inputs.wired-notify.homeManagerModules.default
+    inputs.stylix.homeManagerModules.stylix
     outputs.homeManagerModules.local
     outputs.homeManagerModules.keyd-application-mapper
     outputs.homeManagerModules.org-protocol
@@ -22,6 +23,7 @@ in {
     ./neovim.nix
     ./i3status-rs.nix
     ./wired.nix
+    ./stylix.nix
   ];
 
   home = {
@@ -60,9 +62,9 @@ in {
   };
 
   home.pointerCursor = {
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Classic";
-    size = 30;
+    # package = pkgs.bibata-cursors;
+    # name = "Bibata-Modern-Classic";
+    # size = 30;
     gtk.enable = true;
     x11.enable = true;
   };

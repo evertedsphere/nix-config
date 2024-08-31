@@ -29,11 +29,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    base16-schemes = {
+      url = "github:tinted-theming/schemes";
+      flake = false;
+    };
+
     nix-colors.url = "github:Misterio77/nix-colors";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
+    stylix.url = "github:danth/stylix";
     flake-utils.url = "github:numtide/flake-utils";
     nur.url = "github:nix-community/NUR";
   };
