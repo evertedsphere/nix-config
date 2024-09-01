@@ -39,7 +39,10 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
-    stylix.url = "github:danth/stylix";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-utils.url = "github:numtide/flake-utils";
     nur.url = "github:nix-community/NUR";
   };
@@ -102,6 +105,7 @@
             home-manager.nixosModules.home-manager
             homeManagerConfig
             inputs.nur.nixosModules.nur
+            inputs.stylix.nixosModules.stylix
           ];
         };
     in {

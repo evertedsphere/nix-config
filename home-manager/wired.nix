@@ -23,7 +23,7 @@
       inherit (config.stylix) fonts;
 
       # A global scaling factor to apply to all notifications.
-      globalScale = 1.2;
+      globalScale = 1;
 
       # Ron format shorthands and helpers
       unnamedStruct = struct "";
@@ -417,7 +417,7 @@
         replacing_resets_timeout = true;
         min_window_width = floor (globalScale * 20);
         min_window_height = floor (globalScale * 20);
-        debug = false;
+        debug = true;
 
         # https://github.com/Toqozz/wired-notify/wiki/Shortcuts
         shortcuts = ShortcutsConfig {

@@ -85,6 +85,12 @@
     sampleRate = 10;
   };
 
+  stylix = {
+    enable = true;
+    # not sure why we need a default
+    image = ../walls/yellow.jpg;
+  };
+
   zramSwap.enable = true;
 
   services.earlyoom = {

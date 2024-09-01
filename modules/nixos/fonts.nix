@@ -34,9 +34,10 @@
     # B&W emojis that would sometimes show instead of some Color emojis
     fontconfig = {
       # TODO parity with home-manager.local.fonts.*
+      # TODO ditto for stylix.fonts.*
       defaultFonts = {
-        serif = ["Noto Serif" "Noto Color Emoji"];
-        sansSerif = ["Noto Sans" "Noto Color Emoji"];
+        serif = ["IBM Plex Serif" "Noto Color Emoji"];
+        sansSerif = ["IBM Plex Sans" "Noto Color Emoji"];
         monospace = ["Sarasa Mono J" "BQN386 Unicode" "Noto Color Emoji"];
         emoji = ["Noto Color Emoji"];
       };

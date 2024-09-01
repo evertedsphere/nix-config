@@ -14,7 +14,7 @@ in {
     inputs.nix-colors.homeManagerModules.default
     inputs.nix-doom-emacs-unstraightened.hmModule
     inputs.wired-notify.homeManagerModules.default
-    inputs.stylix.homeManagerModules.stylix
+    # inputs.stylix.homeManagerModules.stylix
     outputs.homeManagerModules.local
     outputs.homeManagerModules.keyd-application-mapper
     outputs.homeManagerModules.org-protocol
@@ -280,18 +280,18 @@ in {
   };
 
   # set a random background
-  home.file.wallpaper = {
-    target = ".local/share/walls/wall.jpg";
-  };
+  # home.file.wallpaper = {
+  #   target = ".local/share/walls/wall.jpg";
+  # };
 
-  services.random-background = {
-    enable = true;
-    imageDirectory = "%h/.local/share/walls";
-    display = "fill";
-    # only set on login
-    interval = null;
-    enableXinerama = true;
-  };
+  # services.random-background = {
+  #   enable = true;
+  #   imageDirectory = "%h/.local/share/walls";
+  #   display = "fill";
+  #   # only set on login
+  #   interval = null;
+  #   enableXinerama = true;
+  # };
 
   xdg.userDirs = {
     enable = true;

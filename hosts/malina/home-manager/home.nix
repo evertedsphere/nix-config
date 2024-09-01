@@ -14,7 +14,7 @@
 
   home.stateVersion = "22.11";
 
-  home.file.wallpaper.source = ./yellow.jpg;
+  # home.file.wallpaper.source = ../../../walls/yellow.jpg;
 
   local = {
     user.fullName = "Soham Chowdhury";

@@ -19,7 +19,7 @@
     hasBattery = true;
   };
 
-  home.file.wallpaper.source = ./flowers.jpg;
+  # home.file.wallpaper.source = ../../../walls/yellow.jpg;
 
   home.stateVersion = "22.11";
 
