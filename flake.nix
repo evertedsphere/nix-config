@@ -45,12 +45,18 @@
     };
     flake-utils.url = "github:numtide/flake-utils";
     nur.url = "github:nix-community/NUR";
+
+    lix-module = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.0.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
+    lix-module,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -106,6 +112,7 @@
             homeManagerConfig
             inputs.nur.nixosModules.nur
             inputs.stylix.nixosModules.stylix
+            lix-module.nixosModules.default
           ];
         };
     in {
