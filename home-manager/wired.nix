@@ -23,7 +23,7 @@
       inherit (config.stylix) fonts;
 
       # A global scaling factor to apply to all notifications.
-      globalScale = 1;
+      globalScale = 1.6;
 
       # Ron format shorthands and helpers
       unnamedStruct = struct "";
@@ -65,14 +65,14 @@
 
       colors = lib.mapAttrs (_: Color) style.withHashtag;
       bg-colors = {
-        base00 = Color "#99${style.base00}";
-        base01 = Color "#99${style.base01}";
-        base02 = Color "#99${style.base02}";
-        base04 = Color "#99${style.base04}";
-        base05 = Color "#99${style.base05}";
-        base06 = Color "#99${style.base06}";
-        base08 = Color "#99${style.base08}";
-        base09 = Color "#99${style.base09}";
+        base00 = Color "#aa${style.base00}";
+        base01 = Color "#aa${style.base01}";
+        base02 = Color "#aa${style.base02}";
+        base04 = Color "#aa${style.base04}";
+        base05 = Color "#aa${style.base05}";
+        base06 = Color "#aa${style.base06}";
+        base08 = Color "#aa${style.base08}";
+        base09 = Color "#aa${style.base09}";
       };
 
       notificationBlock = unnamedStruct {
@@ -80,13 +80,16 @@
         border_width = globalScale * 2;
         border_rounding = globalScale * 0;
         background_color = bg-colors.base00;
-        border_color = bg-colors.base02;
-        border_color_low = bg-colors.base01;
+        border_color = bg-colors.base00;
+        border_color_low = bg-colors.base00;
         border_color_critical = bg-colors.base08;
         border_color_paused = bg-colors.base09;
         gap = mkVec2 0 inner;
         notification_hook = mkHook "BR" "TR";
       };
+
+      ma = 5;
+      mb = 10;
 
       mkTopBar = name: extra:
         map (x: extra // x) [
@@ -100,7 +103,7 @@
               image_type = mkLiteral "App";
               min_height = floor (globalScale * 24);
               min_width = floor (globalScale * 24);
-              padding = mkPaddingLrBt 16 (-8) 6 12;
+              padding = mkPaddingLrBt mb ma ma mb;
               rounding = globalScale * 12.0;
               scale_height = floor (globalScale * 24);
               scale_width = floor (globalScale * 24);
@@ -112,11 +115,11 @@
             hook = mkHook "TR" "TL";
             offset = mkVec2 0 0;
             params = struct "TextBlock" (unnamedStruct {
-              color = bg-colors.base05;
+              color = colors.base04;
               dimensions = mkDimensionsWH 350 350 28 28;
               ellipsize = mkLiteral "End";
-              font = "${fonts.monospace.name} ${toString (globalScale * 14)}";
-              padding = mkPaddingLrBt 16 0 0 12;
+              font = "${fonts.sansSerif.name} ${toString (globalScale * 14)}";
+              padding = mkPaddingLrBt ma 0 0 mb;
               text = "%n";
             });
           }
@@ -136,7 +139,7 @@
               params = struct "ImageBlock" (unnamedStruct {
                 filter_mode = mkLiteral "Lanczos3";
                 image_type = mkLiteral "Hint";
-                padding = mkPaddingLrBt inner 0 inner inner;
+                padding = mkPaddingLrBt mb ma mb mb;
                 rounding = globalScale * 9;
                 scale_height = floor (globalScale * 128);
                 scale_width = floor (globalScale * 128);
@@ -149,10 +152,10 @@
               offset = mkVec2 0 0;
               params = struct "TextBlock" (unnamedStruct {
                 text = "%s";
-                font = "${fonts.sansSerif.name} Bold ${toString (globalScale * 16)}";
+                font = "${fonts.sansSerif.name} Bold ${toString (globalScale * 18)}";
                 ellipsize = mkLiteral "End";
-                color = bg-colors.base06;
-                padding = mkPaddingLrBt 16 16 12 8;
+                color = colors.base05;
+                padding = mkPaddingLrBt mb 0 0 ma;
                 dimensions = mkDimensionsWH (maxWFull - summaryRightPadding) (maxWFull - summaryRightPadding) 0 30;
                 dimensions_image_hint = mkDimensionsWH (maxWImg - summaryRightPadding) (maxWImg - summaryRightPadding) 0 30;
                 dimensions_image_both = mkDimensionsWH (maxWImg - summaryRightPadding) (maxWImg - summaryRightPadding) 0 30;
@@ -173,8 +176,8 @@
                 text = "%b";
                 font = "${fonts.sansSerif.name} ${toString (globalScale * 16)}";
                 ellipsize = mkLiteral "End";
-                color = bg-colors.base06;
-                padding = mkPaddingLrBt 16 16 12 (-4);
+                color = colors.base05;
+                padding = mkPaddingLrBt mb 0 mb ma;
                 dimensions = mkDimensionsWH maxWFull maxWFull 0 88;
                 dimensions_image_hint = mkDimensionsWH maxWImg maxWImg 0 88;
                 dimensions_image_both = mkDimensionsWH maxWImg maxWImg 0 88;
@@ -315,7 +318,7 @@
             ];
             params = struct "TextBlock" (unnamedStruct {
               text = "";
-              font = "${fonts.monospace.name} 1";
+              font = "${fonts.sansSerif.name} 1";
               color = colors.base06;
               padding = mkPaddingLrBt 0 0 0 0;
               dimensions = mkDimensionsWH 568 568 44 44;
@@ -383,7 +386,7 @@
                 font = "${fonts.monospace.name} Bold ${toString (globalScale * 18)}";
                 align = mkLiteral "Center";
                 color = colors.base06;
-                padding = mkPaddingLrBt 0 0 12 0;
+                padding = mkPaddingLrBt 0 0 999 0;
                 dimensions = mkDimensionsWH 64 64 32 32;
               }
               // textParamsExtra));
@@ -417,7 +420,9 @@
         replacing_resets_timeout = true;
         min_window_width = floor (globalScale * 20);
         min_window_height = floor (globalScale * 20);
-        debug = true;
+        debug = false;
+        debug_color = Color "#33ff0000";
+        debug_color_alt = Color "#330000ff";
 
         # https://github.com/Toqozz/wired-notify/wiki/Shortcuts
         shortcuts = ShortcutsConfig {
@@ -433,6 +438,7 @@
             (Not (Or [
               (struct "AppName" "")
               (struct "AppName" "notify-send")
+              (struct "AppName" "Spotify")
             ]))
           ];
         in
@@ -464,8 +470,8 @@
               offset = Vec2 0 0;
               params = struct "TextBlock" (unnamedStruct {
                 text = "";
-                font = "${fonts.monospace.name} 1";
-                color = colors.base06;
+                font = "${fonts.sansSerif.name} 1";
+                color = colors.base09;
                 padding = mkPaddingLrBt 0 0 0 0;
                 dimensions = mkDimensionsWH 600 600 1 1;
               });
@@ -475,14 +481,14 @@
               name = "general_time";
               parent = "general_root";
               hook = mkHook "TL" "TL";
-              offset = mkVec2 (600 - 100) 0;
+              offset = mkVec2 600 0;
               params = struct "TextBlock" (unnamedStruct {
-                color = colors.base05;
-                dimensions = mkDimensionsWH 100 100 28 28;
+                color = colors.base03;
+                dimensions = mkDimensionsWH 80 80 28 28;
                 ellipsize = mkLiteral "End";
-                font = "${fonts.monospace.name} Bold ${toString (globalScale * 14)}";
-                padding = mkPaddingLrBt 0 16 4 12;
-                text = "%t(%a %H:%M)";
+                font = "${fonts.sansSerif.name} ${toString (globalScale * 14)}";
+                padding = mkPaddingLrBt 0 mb 0 mb;
+                text = "%t(%H:%M:%S)";
               });
             }
             # Top bar for app image, name and time, but only
@@ -499,114 +505,114 @@
               render_criteria = [criterionHasTopBar];
             })
 
-            # Root block for brightness/volume indicators
-            {
-              name = "indicator_root";
-              parent = "";
-              hook = mkHook "MM" "MM";
-              offset = Vec2 0 0; # Vec2 instead of mkVec2 to not apply scaling.
-              render_criteria = [
-                (And [
-                  (struct "Tag" "indicator")
-                ])
-              ];
-              params = struct "NotificationBlock" (unnamedStruct {
-                monitor = 0;
-                border_width = globalScale * 2;
-                border_rounding = globalScale * 0;
-                background_color = colors.base00;
-                border_color = colors.base04;
-                border_color_low = colors.base04;
-                border_color_critical = colors.base08;
-                border_color_paused = colors.base09;
-                gap = mkVec2 0 0;
-                notification_hook = mkHook "MM" "MM";
-              });
-            }
-            # Dummy text that enforces minimum window size
-            {
-              name = "indicator_size";
-              parent = "indicator_root";
-              hook = mkHook "TL" "TL";
-              offset = Vec2 0 0;
-              params = struct "TextBlock" (unnamedStruct {
-                text = "";
-                font = "${fonts.monospace.name} 1";
-                color = colors.base06;
-                padding = mkPaddingLrBt 0 0 0 0;
-                dimensions = mkDimensionsWH 384 384 384 384;
-              });
-            }
-            {
-              name = "indicator_summary";
-              parent = "indicator_size";
-              hook = mkHook "TM" "TM";
-              offset = mkVec2 0 0;
-              params = struct "TextBlock" (unnamedStruct {
-                text = "%s";
-                font = "${fonts.sansSerif.name} Bold ${toString (globalScale * 18)}";
-                align = mkLiteral "Center";
-                color = colors.base06;
-                padding = mkPaddingLrBt 0 0 8 8;
-                dimensions = mkDimensionsWH 300 300 32 32;
-              });
-            }
-            {
-              name = "indicator_hint";
-              parent = "indicator_summary";
-              hook = mkHook "BM" "TM";
-              offset = mkVec2 0 0;
-              params = struct "ImageBlock" (unnamedStruct {
-                filter_mode = mkLiteral "Lanczos3";
-                image_type = mkLiteral "Hint";
-                min_height = floor (globalScale * 180);
-                min_width = floor (globalScale * 180);
-                padding = mkPaddingLrBt 0 0 (35 + 8) 35;
-                rounding = globalScale * 9;
-                scale_height = floor (globalScale * 180);
-                scale_width = floor (globalScale * 180);
-              });
-            }
-            (
-              mkIndicatorValue "indicator" "anything" "hint" {
-                render_criteria = [
-                  (Not (Or [
-                    (struct "Note" "brightness")
-                    (struct "Note" "volume")
-                  ]))
-                ];
-              }
-              # text extra
-              {}
-              # progress extra
-              {}
-            )
-            (mkIndicatorValue "indicator" "brightness" "hint" {
-                render_criteria = [
-                  (And [
-                    (struct "Note" "brightness")
-                  ])
-                ];
-              }
-              # text extra
-              {}
-              # progress extra
-              {
-                fill_color = colors.base0A;
-              })
-            (mkIndicatorValue "indicator" "volume" "hint" {
-                render_criteria = [
-                  (And [
-                    (struct "Note" "volume")
-                  ])
-                ];
-              }
-              # text extra
-              {}
-              # progress extra
-              {
-                fill_color = colors.base0B;
-              })
+            # # Root block for brightness/volume indicators
+            # {
+            #   name = "indicator_root";
+            #   parent = "";
+            #   hook = mkHook "MM" "MM";
+            #   offset = Vec2 0 0; # Vec2 instead of mkVec2 to not apply scaling.
+            #   render_criteria = [
+            #     (And [
+            #       (struct "Tag" "indicator")
+            #     ])
+            #   ];
+            #   params = struct "NotificationBlock" (unnamedStruct {
+            #     monitor = 0;
+            #     border_width = globalScale * 2;
+            #     border_rounding = globalScale * 0;
+            #     background_color = colors.base00;
+            #     border_color = colors.base04;
+            #     border_color_low = colors.base04;
+            #     border_color_critical = colors.base08;
+            #     border_color_paused = colors.base09;
+            #     gap = mkVec2 0 0;
+            #     notification_hook = mkHook "MM" "MM";
+            #   });
+            # }
+            # # Dummy text that enforces minimum window size
+            # {
+            #   name = "indicator_size";
+            #   parent = "indicator_root";
+            #   hook = mkHook "TL" "TL";
+            #   offset = Vec2 0 0;
+            #   params = struct "TextBlock" (unnamedStruct {
+            #     text = "";
+            #     font = "${fonts.monospace.name} 1";
+            #     color = colors.base06;
+            #     padding = mkPaddingLrBt 0 0 0 0;
+            #     dimensions = mkDimensionsWH 384 384 384 384;
+            #   });
+            # }
+            # {
+            #   name = "indicator_summary";
+            #   parent = "indicator_size";
+            #   hook = mkHook "TM" "TM";
+            #   offset = mkVec2 0 0;
+            #   params = struct "TextBlock" (unnamedStruct {
+            #     text = "%s";
+            #     font = "${fonts.sansSerif.name} Bold ${toString (globalScale * 18)}";
+            #     align = mkLiteral "Center";
+            #     color = colors.base06;
+            #     padding = mkPaddingLrBt 0 0 8 8;
+            #     dimensions = mkDimensionsWH 300 300 32 32;
+            #   });
+            # }
+            # {
+            #   name = "indicator_hint";
+            #   parent = "indicator_summary";
+            #   hook = mkHook "BM" "TM";
+            #   offset = mkVec2 0 0;
+            #   params = struct "ImageBlock" (unnamedStruct {
+            #     filter_mode = mkLiteral "Lanczos3";
+            #     image_type = mkLiteral "Hint";
+            #     min_height = floor (globalScale * 180);
+            #     min_width = floor (globalScale * 180);
+            #     padding = mkPaddingLrBt 0 0 (35 + 8) 35;
+            #     rounding = globalScale * 9;
+            #     scale_height = floor (globalScale * 180);
+            #     scale_width = floor (globalScale * 180);
+            #   });
+            # }
+            # (
+            #   mkIndicatorValue "indicator" "anything" "hint" {
+            #     render_criteria = [
+            #       (Not (Or [
+            #         (struct "Note" "brightness")
+            #         (struct "Note" "volume")
+            #       ]))
+            #     ];
+            #   }
+            #   # text extra
+            #   {}
+            #   # progress extra
+            #   {}
+            # )
+            # (mkIndicatorValue "indicator" "brightness" "hint" {
+            #     render_criteria = [
+            #       (And [
+            #         (struct "Note" "brightness")
+            #       ])
+            #     ];
+            #   }
+            #   # text extra
+            #   {}
+            #   # progress extra
+            #   {
+            #     fill_color = colors.base0A;
+            #   })
+            # (mkIndicatorValue "indicator" "volume" "hint" {
+            #     render_criteria = [
+            #       (And [
+            #         (struct "Note" "volume")
+            #       ])
+            #     ];
+            #   }
+            #   # text extra
+            #   {}
+            #   # progress extra
+            #   {
+            #     fill_color = colors.base0B;
+            #   })
           ]);
       });
   };

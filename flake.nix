@@ -36,7 +36,7 @@
 
     nix-colors.url = "github:Misterio77/nix-colors";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
     stylix = {

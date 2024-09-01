@@ -22,11 +22,6 @@ in {
       };
     };
     fonts = {
-      monospaceFont = lib.mkOption {
-        type = lib.types.str;
-        example = "Iosevka Term";
-        description = "Monospace font to use";
-      };
       alacrittyFontSize = lib.mkOption {
         type = lib.types.float;
       };

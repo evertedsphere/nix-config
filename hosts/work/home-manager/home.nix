@@ -29,7 +29,7 @@
 
   services.dunst.settings = {
     global = {
-      font = "${config.local.fonts.monospaceFont} 22";
+      font = "${config.stylix.fonts.monospace.name} 22";
       # TODO use scale factor?
       width = 750;
       height = 400;

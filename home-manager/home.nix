@@ -237,7 +237,7 @@ in {
     enable = true;
     terminal = config.local.programs.terminalExe;
     theme = "sidebar";
-    font = "${config.local.fonts.monospaceFont} 22";
+    font = "${config.stylix.fonts.monospace.name} 22";
   };
 
   programs.zsh = {

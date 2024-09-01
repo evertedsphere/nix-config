@@ -196,7 +196,7 @@ in {
         inherit modifier colors;
         terminal = config.local.programs.terminalExe;
         fonts = {
-          names = [config.local.fonts.monospaceFont];
+          names = [config.stylix.fonts.monospace.name];
           size = 0.0;
         };
         workspaceAutoBackAndForth = true;
@@ -268,14 +268,14 @@ in {
             # TODO don't hardcode
             statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
             fonts = {
-              names = [config.local.fonts.monospaceFont];
+              names = [config.stylix.fonts.monospace.name];
               size = config.local.fonts.i3barFontSize;
             };
             command = "i3bar --transparency";
             trayOutput = "HDMI-0";
             # separatorSymbol = " \ ";
             colors = let
-              ht = colour_with_transparency config.local.opacityHex;
+              ht = colour_with_transparency "44";
             in {
               background = ht c.base00;
               statusline = ht c.base00;

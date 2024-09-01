@@ -70,7 +70,7 @@ in {
       settings = {
         theme = {
           overrides = let
-            ht = colour_with_transparency config.local.opacityHex;
+            ht = colour_with_transparency "44";
             # zero
             hz = colour_with_transparency "00";
             colour_with_transparency = tr: x: "#${x}${tr}";

@@ -90,7 +90,7 @@ in {
 
       font = {
         normal = {
-          family = config.local.fonts.monospaceFont;
+          family = config.stylix.fonts.monospace.name;
         };
         size = config.local.fonts.alacrittyFontSize;
       };

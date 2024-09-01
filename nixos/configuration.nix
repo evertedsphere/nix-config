@@ -17,7 +17,7 @@
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.unstable-packages
+      # outputs.overlays.unstable-packages
       inputs.emacs-overlay.overlays.default
       inputs.wired-notify.overlays.default
     ];
@@ -89,6 +89,28 @@
     enable = true;
     # not sure why we need a default
     image = ../walls/yellow.jpg;
+
+    fonts = {
+      serif = {
+        package = pkgs.dejavu_fonts;
+        name = "IBM Plex Serif";
+      };
+
+      sansSerif = {
+        package = pkgs.dejavu_fonts;
+        name = "IBM Plex Sans";
+      };
+
+      monospace = {
+        package = pkgs.sarasa-gothic;
+        name = "Sarasa Mono J";
+      };
+
+      emoji = {
+        package = pkgs.noto-fonts-emoji;
+        name = "Noto Emoji";
+      };
+    };
   };
 
   zramSwap.enable = true;
@@ -128,6 +150,7 @@
     enable = true;
   };
 
+  # Thumbnails
   services.tumbler.enable = true;
 
   hardware.graphics = {

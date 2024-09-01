@@ -224,7 +224,7 @@ scheduled for the given date."
 (require 'org-pomodoro)
 
 
-(defvar clock-check-interval 120
+(defvar clock-check-interval 10
   "How often to harass the user if they are not clocked in.")
 (defvar clock-reminder-interval 300
   "How often to gently remind the user to stay focused.")
