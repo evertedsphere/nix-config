@@ -57,6 +57,22 @@
     fsType = "vfat";
   };
 
+  fileSystems."/media" = {
+    device = "/dev/disk/by-uuid/72208b0d-7912-4e59-a787-1317655e5c1b";
+    fsType = "ext4";
+    options = [ "nofail" ];
+  };
+
+  boot.initrd.luks.devices."media".device = "/dev/disk/by-uuid/a486f079-882b-494d-ba62-9561828db5e8";
+
+  fileSystems."/data" = {
+    device = "/dev/disk/by-uuid/534f89e4-9dbb-4051-8777-d86fc28c031f";
+    fsType = "ext4";
+    options = [ "nofail" ];
+  };
+
+  boot.initrd.luks.devices."data".device = "/dev/disk/by-uuid/aec61fb8-25a6-4899-b5e7-9fa46ad80635";
+
   # fileSystems."/data/inbox" = {
   #   device = "dpool/inbox";
   #   fsType = "zfs";
