@@ -49,3 +49,31 @@
   (python-shell-send-buffer))
 
 (map! :localleader :map python-mode-map :desc "Clear and send buffer" :n "r" #'local/python-shell-send)
+
+
+(use-package! slime
+  :defer t ; don't load the package immediately
+  :init ; runs this immediately
+  (setq inferior-lisp-program "sbcl")
+  :config ; runs this when slime loads
+  (set-repl-handler! 'lisp-mode #'sly-mrepl)
+  (set-eval-handler! 'lisp-mode #'sly-eval-region)
+  (set-lookup-handlers! 'lisp-mode
+    :definition #'sly-edit-definition
+    :documentation #'sly-describe-symbol)
+
+  (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
+
+  (defun my--slime-completion-at-point ()
+    (let ((slime-current-thread :repl-thread)
+          (package (slime-current-package)))
+      (when-let ((symbol (thing-at-point 'symbol)))
+        (pcase-let ((`(,beg . ,end)
+                     (bounds-of-thing-at-point 'symbol)))
+          (list beg end
+                (car (slime-eval
+                      ;; Or swank:simple-completions
+                      `(swank:fuzzy-completions
+                        ,(substring-no-properties symbol) ',package))))))))
+  (advice-add #'slime--completion-at-point
+              :override #'my--slime-completion-at-point))
