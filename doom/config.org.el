@@ -60,6 +60,7 @@
       org-image-actual-width '(768)
       org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i!)" "DONE(d!)" "CANCELLED(x!)"))
       org-todo-keywords-for-agenda '((sequence "TODO(t)" "WAIT(w)" "|" "INACTIVE(i!)" "DONE(d!)" "CANCELLED(x!)"))
+      org-agenda-hide-tags-regexp (rx-to-string '(or "draft" "project"))
       org-attach-id-dir ".attachments/")
 
 
@@ -74,9 +75,6 @@
          :immediate-finish t)
         ("c" "org-protocol-capture" entry (file ,org-default-notes-file)
          "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
-        ("k" "Cookbook" entry (file "~/o/cookbook.org")
-         "%(org-chef-get-recipe-from-url)"
-         :empty-lines 1)
         ("m" "Manual Cookbook" entry (file "~/o/cookbook.org")
          "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
         ))
@@ -195,69 +193,67 @@ scheduled for the given date."
         ("ps" . "src python :results silent :exports code")))
 
 
-(require 'org-chef-utils)
-(require 'dom)
-
-(advice-add 'org-chef-xiachufang-extract-ingredients :override
-            #'(lambda (dom)
-                "Get the ingredients for a recipe from a xiachufang DOM."
-                (split-string
-                 (car (mapcar #'(lambda (n) (org-chef-xiachufang-sanitize (dom-texts n "\n")))
-                              (dom-elements dom 'class "^ings$")))
-                 "\n")))
-
-(advice-add 'org-chef-xiachufang-extract-directions :override
-            #'(lambda (dom)
-                "Get the directions for a recipe from a xiachufang DOM."
-                (split-string
-                 (car (mapcar #'(lambda (n) (org-chef-xiachufang-sanitize (dom-texts n "\n")))
-                              (dom-elements dom 'class "^steps$")))
-                 "\n")))
-
 ;; hack for the annoying org-element warnings
 (setq warning-minimum-level :error)
 
+(message "%s" "Have you tried being normal?")
 ;; stolen from neeasade's :harass-myself timer
+
+(use-package! named-timer)
 
 (require 'notifications)
 (require 'named-timer)
 (require 'org-pomodoro)
-
 
 (defvar clock-check-interval 10
   "How often to harass the user if they are not clocked in.")
 (defvar clock-reminder-interval 300
   "How often to gently remind the user to stay focused.")
 
-(named-timer-run
-    :clock-reminder t clock-reminder-interval
-    (lambda ()
-      (if (not (-contains-p '(:short-break :long-break) org-pomodoro-state))
-          (if (org-clocking-p)
-              (notifications-notify
-               :title "Clocked in"
-               :body (format "Working on task \"%s\"." org-clock-heading))
-            ))))
+(defun local/set-up-clock-notifications ()
+  (let ((notif-id nil))
+    (named-timer-run
+        :clock-reminder t clock-reminder-interval
+        (lambda ()
+          (if (and (not (-contains-p '(:short-break :long-break) org-pomodoro-state))
+                   (org-clocking-p))
+              (setq notif-id
+                    (notifications-notify
+                     :title "Clocked in"
+                     :app-name "Org mode"
+                     :replaces-id notif-id
+                     :timeout 5000
+                     :body (format "Working on task \"%s\": %s invested this session."
+                                   org-clock-heading
+                                   (format-time-string "%H:%M:%S" (time-since org-clock-start-time) t)))))))
+    (named-timer-run
+        :clock-check t clock-check-interval
+        (lambda ()
+          (if (and (not (-contains-p '(:short-break :long-break) org-pomodoro-state))
+                   (not (org-clocking-p)))
+              (setq notif-id
+                    (notifications-notify
+                     :title "Not clocked in"
+                     :app-name "Org mode"
+                     :replaces-id notif-id
+                     :timeout 5000
+                     :body (format "%s since the last clock-out event."
+                                   (format-time-string
+                                    "%H:%M:%S"
+                                    (time-since org-clock-out-time) t)))))))))
 
-(named-timer-run
-    :clock-check t clock-check-interval
-    (lambda ()
-      (let ((idle-time (ceiling (org-user-idle-seconds))))
-        (if (not (-contains-p '(:short-break :long-break) org-pomodoro-state))
-            (if (not (org-clocking-p))
-                (notifications-notify
-                 :title "Not clocked in"
-                 :body (format "Idle for %s seconds: Clock in to a task." idle-time))
-              )))))
+(local/set-up-clock-notifications)
 
 (add-hook! 'org-pomodoro-finished-hook
   (defun local/pomodoro/notify-on-finish ()
     (notifications-notify :title "Time for a break"
+                          :timeout 5000
                           :body "Pomodoro finished, time for a break.")))
 
 (add-hook! 'org-pomodoro-break-finished-hook
   (defun local/pomodoro/notify-on-break-finish ()
     (notifications-notify :title "Time to get back to work"
+                          :timeout 5000
                           :body "Break over, start another pomodoro.")))
 
 (defun org-babel-edit-prep:python (babel-info)

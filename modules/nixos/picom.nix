@@ -8,7 +8,7 @@
       "bounding_shaped && !rounded_corners"
     ];
   in {
-    backend = "glx";
+    backend = "xrender";
     fade = true;
     vSync = true;
     fadeDelta = 6;

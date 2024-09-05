@@ -104,7 +104,7 @@
        ;;beancount
        cc
        ;;clojure
-       common-lisp
+       ;; common-lisp
        ;;coq
        ;;crystal
        ;;csharp

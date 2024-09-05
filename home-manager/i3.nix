@@ -297,13 +297,13 @@ in {
               };
               bindingMode = rec {
                 border = background;
-                background = ht c.base08;
-                text = h c.base00;
+                background = ht c.base00;
+                text = h c.base08;
               };
               urgentWorkspace = rec {
                 border = background;
-                background = ht c.base08;
-                text = h c.base00;
+                background = ht c.base00;
+                text = h c.base08;
               };
             };
           }

@@ -102,18 +102,16 @@
   (setq symex--user-evil-keyspec
         '(("j" . symex-go-up)
           ("k" . symex-go-down)
-          ("j" . symex-go-up)
           ("C-j" . symex-climb-branch)
           ("C-k" . symex-descend-branch)
           ("M-j" . symex-goto-highest)
           ("M-k" . symex-goto-lowest)))
   (symex-initialize)
-  (setq symex-common-lisp-backend 'sly)
-  ;; (evil-define-key 'normal symex-mode-map
-  ;;   (kbd "<escape>") 'symex-mode-interface)
-  ;; (evil-define-key 'insert symex-mode-map
-  ;;   (kbd "<escape>") 'symex-mode-interface)
-  )
+  (setq symex-common-lisp-backend 'slime)
+  (evil-define-key 'normal symex-mode-map
+    (kbd "<escape>") 'symex-mode-interface)
+  (evil-define-key 'insert symex-mode-map
+    (kbd "<escape>") 'symex-mode-interface))
 
 ;; https://github.com/joaotavora/sly/issues/535
 ;; https://github.com/larrasket/doomemacs/commit/01f560ab86d79b5d39ca350789ced2563b570f8d
@@ -127,12 +125,6 @@
 (map! :nvi "M-k" #'evil-window-up)
 
 (use-package! emprise)
-
-(use-package! marginalia-emprise
-  :after (marginalia emprise)
-  :config
-  (add-to-list 'marginalia-annotator-registry
-               '(emprise marginalia-emprise-annotate builtin none)))
 
 (use-package! flymake
   :init

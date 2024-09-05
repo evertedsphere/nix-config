@@ -65,14 +65,14 @@
 
       colors = lib.mapAttrs (_: Color) style.withHashtag;
       bg-colors = {
-        base00 = Color "#aa${style.base00}";
-        base01 = Color "#aa${style.base01}";
-        base02 = Color "#aa${style.base02}";
-        base04 = Color "#aa${style.base04}";
-        base05 = Color "#aa${style.base05}";
-        base06 = Color "#aa${style.base06}";
-        base08 = Color "#aa${style.base08}";
-        base09 = Color "#aa${style.base09}";
+        base00 = Color "#e0${style.base00}";
+        base01 = Color "#e0${style.base01}";
+        base02 = Color "#e0${style.base02}";
+        base04 = Color "#e0${style.base04}";
+        base05 = Color "#e0${style.base05}";
+        base06 = Color "#e0${style.base06}";
+        base08 = Color "#e0${style.base08}";
+        base09 = Color "#e0${style.base09}";
       };
 
       notificationBlock = unnamedStruct {
@@ -354,11 +354,11 @@
                   text_color = colors.base06;
                   text_color_hovered = colors.base06;
                   background_color = colors.base01;
+                  border_color = colors.base02;
                   background_color_hovered = colors.base02;
-                  border_color = colors.base04;
-                  border_color_hovered = colors.base0F;
-                  border_rounding = globalScale * 0;
-                  border_width = globalScale * 2;
+                  border_color_hovered = colors.base04;
+                  border_rounding = globalScale * 6;
+                  border_width = globalScale * 1;
                   padding = mkPaddingLrBt 8 8 4 4;
                   # Technically distribute like below, but we'll just allow more even
                   # if it breaks when having > 4 max length buttons, because it probably
