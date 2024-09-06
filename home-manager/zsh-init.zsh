@@ -2,7 +2,7 @@ path=("$HOME/.local/bin" "$HOME/.config/emacs/bin" "$HOME/.cargo/bin" "$HOME/.ca
 export PATH
 
 nsh () {
-nix-shell --run zsh -p "$@"
+  nix-shell --run zsh -p "$@"
 }
 
 # emacs-libvterm helper code

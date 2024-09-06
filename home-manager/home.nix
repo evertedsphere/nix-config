@@ -24,6 +24,7 @@ in {
     ./i3status-rs.nix
     ./wired.nix
     ./stylix.nix
+    ./emacs.nix
   ];
 
   home = {
@@ -143,24 +144,6 @@ in {
     };
   };
 
-  programs.doom-emacs = {
-    enable = true;
-    doomDir = ../doom;
-    # As of 31-08-2024, Emacs 31 is way snappier overall but also produces tons
-    # of multiple-second pauses doing god knows what (I couldn't be arsed to
-    # check with the profiler) and once sat there spinning for a whole five
-    # minutes trying to render my agenda. It's unusable.
-    # Also segfaults if you profile it sometimes.
-    emacs = pkgs.emacs;
-  };
-
-  # https://github.com/marienz/nix-doom-emacs-unstraightened/blob/cfd0a1ad0995efc8ee1149e09445bcde9f9b0a8d/README.md
-  # If you set `services.emacs.enable = true`, that will run Unstraightened as well
-  # (Unstraightened sets itself as `services.emacs.package`). Set
-  # `programs.doom-emacs.provideEmacs = false` or override `services.emacs.package`
-  # if you want a vanilla Emacs daemon instead.
-  services.emacs.enable = false;
-
   systemd.user.services.screenkey = let
     screenkey-script = pkgs.resholve.writeScript "run-screenkey" {
       inputs = with pkgs; [xorg.xrandr gnused gnugrep coreutils screenkey i3 jq];
@@ -240,12 +223,36 @@ in {
     font = "${config.stylix.fonts.monospace.name} 22";
   };
 
+  programs.zoxide = {
+    enable = true;
+  };
+
   programs.zsh = {
     enable = true;
+    enableCompletion = true;
+    enableVteIntegration = true;
+    autocd = true;
 
     history.save = 100000;
     history.size = 100000;
-    initExtra = builtins.readFile ./zsh-init.zsh;
+    # initExtra = builtins.readFile ./zsh-init.zsh;
+
+    antidote = {
+      useFriendlyNames = true;
+      plugins = ["zsh-users/zsh-autosuggestions"];
+    };
+
+    initExtraFirst = ''
+      if [ -n "$${ZSH_DEBUGRC+1}" ]; then
+          zmodload zsh/zprof
+      fi
+    '';
+
+    initExtra = ''
+      if [ -n "$${ZSH_DEBUGRC+1}" ]; then
+          zprof
+      fi
+    '';
 
     initExtraBeforeCompInit = ''
       # fpath=("$HOME/.zfunc" $fpath)
@@ -253,45 +260,7 @@ in {
       # fpath+="/etc/profiles/per-user/$USER/share/zsh/$ZSH_VERSION/functions"
       # fpath+="/etc/profiles/per-user/$USER/share/zsh/vendor-completions"
     '';
-
-    prezto = {
-      enable = true;
-      ssh = {identities = ["id_rsa" "id_ed25519"];};
-      prompt.theme = "pure";
-      pmodules = [
-        # "environment"
-        # "terminal"
-        "editor"
-        # "history"
-        # "directory"
-        # "syntax-highlighting"
-        # "autosuggestions"
-        # "archive"
-        # "spectrum"
-        # "utility"
-        "ssh"
-        # "git"
-        # "docker"
-        # "completion"
-        # "fasd"
-        "prompt"
-      ];
-    };
   };
-
-  # set a random background
-  # home.file.wallpaper = {
-  #   target = ".local/share/walls/wall.jpg";
-  # };
-
-  # services.random-background = {
-  #   enable = true;
-  #   imageDirectory = "%h/.local/share/walls";
-  #   display = "fill";
-  #   # only set on login
-  #   interval = null;
-  #   enableXinerama = true;
-  # };
 
   xdg.userDirs = {
     enable = true;
