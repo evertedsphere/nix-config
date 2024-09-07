@@ -137,9 +137,13 @@ in {
   };
 
   services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia.modesetting.enable = true;
-  hardware.nvidia.powerManagement.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  hardware.nvidia = {
+    open = true;
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    nvidiaPersistenced = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
   hardware.nvidia-container-toolkit.enable = true;
 
   services.openssh = {
