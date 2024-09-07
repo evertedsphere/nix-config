@@ -678,11 +678,10 @@ scheduled for the given date."
   (map! "<f1>" #'local/fake-org-ql-agenda))
 
 (use-package! el-patch)
-
 (use-package! org-ql)
+(use-package! org-ql-view)
 
-(after! (:and el-patch org-ql)
-  (el-patch-feature org-ql)
+(with-eval-after-load 'org-ql-view
   (el-patch-define-and-eval-template
    (defun org-ql-view--format-element)
    (tag-string (when tag-list
@@ -693,3 +692,4 @@ scheduled for the given date."
                       (el-patch-swap (s-join ":" it) (s-join " " it))
                       (el-patch-remove (s-wrap it ":"))
                       (org-add-props it nil 'face 'org-tag))))))
+
