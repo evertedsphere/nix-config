@@ -660,6 +660,8 @@ scheduled for the given date."
       `((:name "Log"
          :todo "DONE"
          :todo "CANCELLED")
+        (:name "Shopping"
+         :tag "shopping")
         (:name "Important"
          :priority "A")
         (:name "Overdue" ,@(local/deadline-or-scheduled-on 'past))

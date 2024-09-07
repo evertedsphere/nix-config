@@ -33,7 +33,7 @@
        nav-flash
        ;;neotree
        ophints
-       (popup +all +defaults)
+       (popup +defaults)
        ;;tabs
        ;;treemacs
        ;;unicode
