@@ -59,3 +59,5 @@
 (package! sly-repl-ansi-color :disable t)
 
 (package! slime)
+
+(package! el-patch)

@@ -79,47 +79,11 @@
          "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
         ))
 
-(setq! org-super-agenda-final-group-separator ?┄)
-
-(defun local/deadline-or-scheduled-on (when-scheduled)
-  "Generates an org-super-agenda-mode selector for items with a deadline on or
-scheduled for the given date."
-  `(:and (:deadline ,when-scheduled :not (:habit t))
-    :and (:scheduled ,when-scheduled :not (:habit t))))
-
-(setq org-super-agenda-groups
-      `((:name "Log"
-         :log t)
-        (:name "Important"
-         :priority "A")
-        (:name "Overdue" ,@(local/deadline-or-scheduled-on 'past))
-        (:name "Today" ,@(local/deadline-or-scheduled-on 'today))
-        (:name "Less important"
-         :priority "B")
-        (:name "L2"
-         :tag "l2@read"
-         :tag "l2@listen"
-         :tag "l2@drill")
-        (:name "Consistency checks" :tag "habit" :habit t)))
-
-;; TODO: keep everything but hjkl
-(setq org-super-agenda-header-map (make-sparse-keymap))
-
 (after! org
   (org-clock-persistence-insinuate))
 
-(defun local/switch-to-agenda ()
-  (interactive)
-  (let ((org-agenda-start-day "-1d")
-        (org-agenda-span 3))
-    (org-agenda nil "a")
-    (org-super-agenda-mode)
-    ;; uhh
-    (org-agenda-redo)))
-
 (use-package! org-agenda
   :init
-  (map! "<f1>" #'local/switch-to-agenda)
   (setq org-agenda-block-separator nil
         org-agenda-skip-scheduled-if-done t
         org-agenda-show-future-repeats t
@@ -620,9 +584,6 @@ without crowding out other backlinks."
   "Update the value of `org-agenda-files'."
   (setq org-agenda-files (local/project-files)))
 
-(advice-add 'org-agenda :before #'local/agenda-files-update)
-(advice-add 'org-todo-list :before #'local/agenda-files-update)
-
 (defun local/refresh-agenda-files ()
   "Update the list of agenda files by refreshing the org-roam database."
   (interactive)
@@ -668,3 +629,65 @@ TODO maybe force org to be 'minimal' when loading these files into buffers."
  :leader
  :prefix "n q"
  :desc "find in agenda" :g "f" #'org-ql-find-in-agenda)
+
+;; --------------------------------------------------------------------------------
+
+(setq! org-super-agenda-final-group-separator ?┄)
+
+;; TODO: keep everything but hjkl
+(setq org-super-agenda-header-map (make-sparse-keymap))
+
+(after! (:and org-agenda org-ql)
+  (defun local/deadline-or-scheduled-on (when-scheduled)
+    "Generates an org-super-agenda-mode selector for items with a deadline on or
+scheduled for the given date."
+    `(:and (:deadline ,when-scheduled :not (:habit t) :not (:todo "DONE"))
+      :and (:scheduled ,when-scheduled :not (:habit t) :not (:todo "DONE"))))
+  (defun local/fake-org-ql-agenda ()
+    (interactive)
+    (local/agenda-files-update)
+    (org-ql-search (org-agenda-files)
+      '(or (closed :on today)
+           (clocked :on today)
+           (and (not (done))
+                (or (habit)
+                    (deadline auto)
+                    (scheduled :to today)
+                    (ts-active :on today))))
+      :title "Agenda en simulacre"
+      :sort '(todo priority date)
+      :super-groups
+      `((:name "Log"
+         :todo "DONE"
+         :todo "CANCELLED")
+        (:name "Important"
+         :priority "A")
+        (:name "Overdue" ,@(local/deadline-or-scheduled-on 'past))
+        (:name "Today" ,@(local/deadline-or-scheduled-on 'today))
+        (:name "Less important"
+         :priority "B")
+        (:name "L2"
+         :tag "l2@read"
+         :tag "l2@listen"
+         :tag "l2@drill")
+        (:name "Consistency checks" :tag "habit" :habit t)))
+    ;; org-ql-search always opens in a split, which isn't ideal
+    (delete-other-windows))
+  (map! "<f1>" #'local/fake-org-ql-agenda))
+
+(use-package! el-patch)
+
+(use-package! org-ql)
+
+(after! (:and el-patch org-ql)
+  (el-patch-feature org-ql)
+  (el-patch-define-and-eval-template
+   (defun org-ql-view--format-element)
+   (tag-string (when tag-list
+                 (--> tag-list
+                      ;; Don't show administrative tags
+                      (el-patch-add (remove "project" it) (remove "draft" it))
+                      ;; Make tag display nicer
+                      (el-patch-swap (s-join ":" it) (s-join " " it))
+                      (el-patch-remove (s-wrap it ":"))
+                      (org-add-props it nil 'face 'org-tag))))))

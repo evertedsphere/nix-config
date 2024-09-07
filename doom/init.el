@@ -26,14 +26,14 @@
        ;;doom-quit
        ;; (emoji +unicode)
        hl-todo
-       indent-guides
-       ;;ligatures
+       ;; indent-guides
+       ligatures
        ;;minimap
        modeline
        nav-flash
        ;;neotree
        ophints
-       (popup +defaults)
+       (popup +all +defaults)
        ;;tabs
        ;;treemacs
        ;;unicode
@@ -60,7 +60,7 @@
        (dired +icons +dirvish)
        electric
        ibuffer
-       undo
+       (undo +tree)
        vc
 
        :term
