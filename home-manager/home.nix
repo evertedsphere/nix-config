@@ -231,27 +231,64 @@ in {
     enable = true;
     enableCompletion = true;
     enableVteIntegration = true;
+    defaultKeymap = "emacs";
     autocd = true;
 
     history.save = 100000;
     history.size = 100000;
     # initExtra = builtins.readFile ./zsh-init.zsh;
+    shellAliases = {
+      "cd" = "z";
+    };
+    shellGlobalAliases = {
+      "@w" = "wc -l";
+      ":w" = "| @w";
+      ":l" = "| less";
+      "@xo" = "xclip -sel clip -o";
+      "@xi" = "xclip -sel clip -i";
+      ":xi" = "| @xi";
+      ":x" = "| xargs";
+      ":j" = "| jq";
+      ":jc" = ":j -c";
+      ":jcr" = ":j -cr";
+      ":g" = "| grep";
+      ":gv" = "| grep -v";
+      ":sd" = "| sed-delete";
+    };
 
     antidote = {
+      enable = true;
       useFriendlyNames = true;
-      plugins = ["zsh-users/zsh-autosuggestions"];
+      plugins = [
+        "sindresorhus/pure"
+        "peterhurford/up.zsh"
+        "zsh-users/zsh-autosuggestions"
+        "zsh-users/zsh-history-substring-search"
+      ];
     };
 
     initExtraFirst = ''
-      if [ -n "$${ZSH_DEBUGRC+1}" ]; then
+      if [ -n "''${ZSH_DEBUGRC+1}" ]; then
           zmodload zsh/zprof
       fi
+
+      export PURE_PROMPT_SYMBOL="$"
+      export PURE_PROMPT_VICMD_SYMBOL=":"
+      export PURE_CMD_MAX_EXEC_TIME="1"
     '';
 
     initExtra = ''
-      if [ -n "$${ZSH_DEBUGRC+1}" ]; then
+      if [ -n "''${ZSH_DEBUGRC+1}" ]; then
           zprof
       fi
+
+      nsh () {
+        nix-shell --run zsh -p "$@"
+      }
+
+      sed-delete () {
+        sed "s/$1//g"
+      }
     '';
 
     initExtraBeforeCompInit = ''
