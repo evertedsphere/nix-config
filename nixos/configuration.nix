@@ -142,6 +142,8 @@
 
   boot.kernelModules = ["uinput"];
 
+  boot.kernel.sysctl."kernel.sysrq" = 1;
+
   services.dbus.packages = [pkgs.blueman];
   services.blueman.enable = true;
   programs.kdeconnect.enable = true;

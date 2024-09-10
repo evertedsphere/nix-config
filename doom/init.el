@@ -92,7 +92,7 @@
        ;;taskrunner
        ;;terraform
        ;;tmux
-       ;; tree-sitter
+       tree-sitter
        ;;upload
 
        :os
@@ -140,10 +140,9 @@
        ;;lua
        markdown
        ;;nim
-       (nix +lsp)
+       (nix +lsp +tree-sitter)
        ;;(ocaml +lsp +tree-sitter)
-       (org +pretty
-            +roam2
+       (org +roam2
             +dragndrop
             ;; +hugo
             +babel
@@ -157,7 +156,7 @@
        ;;purescript
        (python +lsp +pyright +poetry)
        ;;qt
-       ;; racket
+       (racket +xp)
        ;;raku
        ;;rest
        ;;rst

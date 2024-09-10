@@ -342,20 +342,10 @@ Refer to `org-agenda-prefix-format' for more information."
        nil))
     (2 font-lock-keyword-face))))
 
-;; (defun local/org-mode-autosave-settings ()
-;;   (add-hook 'auto-save-hook 'org-save-all-org-buffers nil nil))
-;; (add-hook 'org-mode-hook 'local/org-mode-autosave-settings)
-
 (defmacro local/const (fnc)
   "Return function that ignores its arguments and invokes FNC."
   `(lambda (&rest _rest)
      (funcall ,fnc)))
-
-;; This is nice but the lag is annoying
-;; (advice-add 'org-deadline       :after (local/const #'org-save-all-org-buffers))
-;; (advice-add 'org-schedule       :after (local/const #'org-save-all-org-buffers))
-;; (advice-add 'org-store-log-note :after (local/const #'org-save-all-org-buffers))
-;; (advice-add 'org-todo           :after (local/const #'org-save-all-org-buffers))
 
 ;; image handling
 ;; I don't use attachments; as far as I can tell they just don't fucking work because of the stupid buffer-local attachment path setup that I can't be bothered to figure out how to change.
@@ -649,6 +639,7 @@ scheduled for the given date."
     (org-ql-search (org-agenda-files)
       '(or (closed :on today)
            (clocked :on today)
+           (and (todo "WAIT") (or (tags "zeus") (tags "work")))
            (and (not (done))
                 (or (habit)
                     (deadline auto)
@@ -657,17 +648,15 @@ scheduled for the given date."
       :title "Agenda en simulacre"
       :sort '(todo priority date)
       :super-groups
-      `((:name "Log"
+      `((:name "Output"
          :todo "DONE"
          :todo "CANCELLED")
-        (:name "Shopping"
-         :tag "shopping")
-        (:name "Important"
-         :priority "A")
+        (:name "Work" :tag "zeus" :tag "work")
+        (:name "Shopping" :tag "shopping")
+        (:name "Important" :priority "A")
         (:name "Overdue" ,@(local/deadline-or-scheduled-on 'past))
         (:name "Today" ,@(local/deadline-or-scheduled-on 'today))
-        (:name "Less important"
-         :priority "B")
+        (:name "Less important" :priority "B")
         (:name "L2"
          :tag "l2@read"
          :tag "l2@listen"
@@ -677,11 +666,13 @@ scheduled for the given date."
     (delete-other-windows))
   (map! "<f1>" #'local/fake-org-ql-agenda))
 
-(use-package! el-patch)
-(use-package! org-ql)
-(use-package! org-ql-view)
+(use-package! el-patch
+  :config
+  ;; cba figuring out how to byte-compile this
+  (setq el-patch-warn-on-eval-template nil))
 
-(with-eval-after-load 'org-ql-view
+(use-package! org-ql-view
+  :config/el-patch
   (el-patch-define-and-eval-template
    (defun org-ql-view--format-element)
    (tag-string (when tag-list
@@ -692,4 +683,3 @@ scheduled for the given date."
                       (el-patch-swap (s-join ":" it) (s-join " " it))
                       (el-patch-remove (s-wrap it ":"))
                       (org-add-props it nil 'face 'org-tag))))))
-

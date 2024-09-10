@@ -109,9 +109,9 @@
   (symex-initialize)
   (setq symex-common-lisp-backend 'slime)
   (evil-define-key 'normal symex-mode-map
-    (kbd "<escape>") 'symex-mode-interface)
+    (kbd "C-e") 'symex-mode-interface)
   (evil-define-key 'insert symex-mode-map
-    (kbd "<escape>") 'symex-mode-interface))
+    (kbd "C-e") 'symex-mode-interface))
 
 ;; https://github.com/joaotavora/sly/issues/535
 ;; https://github.com/larrasket/doomemacs/commit/01f560ab86d79b5d39ca350789ced2563b570f8d

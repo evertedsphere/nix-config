@@ -8,6 +8,11 @@
   (setq lsp-rust-server 'rust-analyzer)
   (setq rustic-lsp-server 'rust-analyzer))
 
+(after! racket-mode
+  ;; K shows a web search popup otherwise lol
+  (set-lookup-handlers! 'racket-mode :async t :documentation #'racket-xp-describe))
+(evil-set-initial-state 'racket-stepper-mode 'emacs)
+
 (use-package! lsp
   :preface
   (defun lsp-booster--advice-json-parse (old-fn &rest args)

@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   services.picom = let
     special = [
       "window_type *= 'menu'"
@@ -8,9 +6,9 @@
       "bounding_shaped && !rounded_corners"
     ];
   in {
-    backend = "xrender";
+    backend = "glx";
     fade = true;
-    vSync = true;
+    vSync = false;
     fadeDelta = 6;
     fadeSteps = [0.028 0.032];
     fadeExclude = special;
@@ -30,7 +28,7 @@
       rounded-corners-exclude = special;
       blur = {
         method = "dual_kawase";
-        strength = 8;
+        strength = 6;
       };
       blur-background-exclude = special;
     };
