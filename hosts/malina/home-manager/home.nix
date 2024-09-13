@@ -10,6 +10,7 @@
     ../../../home-manager/config.nix
     ../../../home-manager/home.nix
     ./autorandr.nix
+    ./mounts.nix
   ];
 
   home.stateVersion = "22.11";
