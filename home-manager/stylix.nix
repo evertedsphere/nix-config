@@ -6,7 +6,7 @@
     autoEnable = false;
     imageScalingMode = "fill";
     opacity = {
-      terminal = 0.5;
+      terminal = 0.7;
     };
     targets.alacritty.enable = true;
     targets.helix.enable = true;
