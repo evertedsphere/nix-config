@@ -223,6 +223,10 @@ in {
     font = "${config.stylix.fonts.monospace.name} 22";
   };
 
+  programs.helix = {
+    enable = true;
+  };
+
   programs.zoxide = {
     enable = true;
   };
