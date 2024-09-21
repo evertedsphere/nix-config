@@ -48,11 +48,11 @@
   };
 
   nix = {
+    optimise.automatic = true;
     registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
     settings = rec {
       experimental-features = "nix-command flakes";
-      auto-optimise-store = true;
       substituters = [
         "https://cache.nixos.org/"
         "https://nix-community.cachix.org"
@@ -102,8 +102,8 @@
       };
 
       monospace = {
-        package = pkgs.sarasa-gothic;
-        name = "Sarasa Mono J";
+        package = pkgs.iosevka-comfy.comfy;
+        name = "Iosevka Comfy";
       };
 
       emoji = {

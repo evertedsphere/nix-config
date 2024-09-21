@@ -3,7 +3,7 @@
   lib,
   fetchFromGitHub,
 }:
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "BQN386";
   version = "20211026";
   src = fetchFromGitHub {

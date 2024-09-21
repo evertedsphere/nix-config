@@ -8,6 +8,11 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -61,7 +66,6 @@
     self,
     nixpkgs,
     home-manager,
-    lix-module,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -117,7 +121,8 @@
             homeManagerConfig
             inputs.nur.nixosModules.nur
             inputs.stylix.nixosModules.stylix
-            lix-module.nixosModules.default
+            inputs.lix-module.nixosModules.default
+            inputs.sops-nix.nixosModules.sops
           ];
         };
     in {

@@ -7,6 +7,7 @@
   ...
 }: let
   zdradaSshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCwG0xwG+Q73dHW5M7Yyos1ns7DdNMZ4Vho8AKueTG116wLe92JChjxg7+cOzit026zz1Ni+B2/jS9/RF3WZAVWpTjFv2c3DaCy1TR/LlOqWp4qZJMmJBtymQ83wm0p49ELIkY5XOw3xtZKi3PurKa1yo2gbGnu7u91Tm4LP/rOi52F6vJFR28OR2O5HuQeu48zEQE2BHXfd0tBJt2bMS+2wRYwKdz02XUS7bpSK/8EC7Dou/El7Vm3faqIuQk5/63kxc4LZVHq7IAhcRYYZWOdEeBWat7AFDA3w/8upAdWQrZBh6X+XnGclRgNJAzU4QJ+Vkp8UqHFbrMy82b4QyHAo1pS1/VWU6lN5A8ccVbJYzZWRpT+Nijj1nJepeRsqE7xKDjMyfAEFiUCApoalCB/Qcout6fQFOn/bOa/1EYlHZh6jppu5Fpl4ZxTshpZgAwC7cNp2O4r9K6l0Cslt5fz0Hfq3Y/+1Y/soPg0BH9YwluXKvhJJAbHME2WNGlmkVE= k@zdrada";
+  azazelSshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDIX4dEex08qTBqrqG0AHIKZFrejiasBk1BGNAQGX2N7Zcq5nCC9BH6a1biedvemd+Lhv68uHAzdYDK2EhB6dgbmU6YqULlPCocVwXg9YAoGj2OktonWPBtak4ZFMsO1C0AfmY0JfSp243YsgTE6xuGAS+dkr+TAebqWEzzK0+2G1xo3mnsNqk216tfv2j5GLt6PAx0A3Yv0y7LYQyRmrk6ln1CtowWv8u9GAd5vdjDCCh921xJSayoLb/5ce6eQn+ZBgfN927ZlxCzOXDRbfCo8cDPFohdnj0eKsa+6gOPLpMRchxRKV7DrrwwkK3EZGL28CU+234lWN7bx/9dQTccuTFh5UJADDEerhomfT8LSQdOCQEOZ+2K/PS4qHIA2q3gjICDt3sOS+qCdG9OheeByIsz79zeKDh6WrB2FWV0e7DXoDCbhD/ewlyhl4nLURkGszBI2UWutCMhiMCEQoLntblZ6/xvAOIw7kUEiKCWNm/73yc8zpA+fy3b1g1cOZ/KPZKV/CaM+NXk0qQaJKUixkTVwpDsEv7CR04bbwoN7spWmqzyu8hQO5wq8BYYHsFB4g6PIOgQiCRoHsbl6xAlRn+9Y/bcHagZLkDGwkm6/yFzPpZS+0zYEW1IT9oD0gbJ7s1G8bHvVoj9hIH8aAzbXIosef1fWv/T76ReRmcRqQ== nix-on-droid@localhost";
 in {
   imports = [
     outputs.nixosModules.xserver
@@ -123,12 +124,15 @@ in {
     extraGroups = ["networkmanager" "wheel" "docker" "keyd"];
     initialPassword = "hunter2";
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [zdradaSshKey];
+    openssh.authorizedKeys.keys = [zdradaSshKey azazelSshKey];
   };
 
   programs.fuse = {
     userAllowOther = true;
   };
+
+  # remote building for the phone
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {

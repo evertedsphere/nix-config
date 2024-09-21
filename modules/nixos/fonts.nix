@@ -7,25 +7,16 @@
   fonts = {
     enableDefaultPackages = false;
     packages = with pkgs; [
-      sarasa-gothic
       (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
       source-han-sans
       source-han-mono
       source-code-pro
-      (iosevka-bin.override {variant = "Aile";})
-      (iosevka-bin.override {variant = "Etoile";})
-      hanazono
+      iosevka-comfy.comfy
+      iosevka-comfy.comfy-duo
       noto-fonts
       noto-fonts-extra
       noto-fonts-cjk
       noto-fonts-emoji
-      # material-symbols
-      # jost
-      # lexend
-      # carlito
-      # dejavu_fonts
-      # ttf_bitstream_vera
-      # iosevka
       google-fonts
       terminus_font
     ];
@@ -38,7 +29,7 @@
       defaultFonts = {
         serif = ["IBM Plex Serif" "Noto Color Emoji"];
         sansSerif = ["IBM Plex Sans" "Noto Color Emoji"];
-        monospace = ["Sarasa Mono J" "BQN386 Unicode" "Noto Color Emoji"];
+        monospace = ["Iosevka Comfy" "BQN386 Unicode" "Noto Color Emoji"];
         emoji = ["Noto Color Emoji"];
       };
     };

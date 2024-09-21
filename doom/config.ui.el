@@ -10,11 +10,10 @@
 (let
     ((font-size
       (cond
-       ((string= (system-name) "malina") 26)
+       ((string= (system-name) "malin") 26)
        ((string= (system-name) "work") 30)
        (t 30))))
-  (setq doom-font (font-spec :family "Sarasa Mono J" :size font-size :weight 'normal))
-  (setq doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size font-size :weight 'normal)))
+  (setq doom-font (font-spec :family "Iosevka Comfy" :size font-size :weight 'normal)))
 
 (setq display-line-numbers-type 'relative)
 ;; Only has an effect on emacs-pgtk, but let's leave it in.
@@ -109,9 +108,9 @@
   (symex-initialize)
   (setq symex-common-lisp-backend 'slime)
   (evil-define-key 'normal symex-mode-map
-    (kbd "C-e") 'symex-mode-interface)
+    (kbd "<escape>") 'symex-mode-interface)
   (evil-define-key 'insert symex-mode-map
-    (kbd "C-e") 'symex-mode-interface))
+    (kbd "<escape>") 'symex-mode-interface))
 
 ;; https://github.com/joaotavora/sly/issues/535
 ;; https://github.com/larrasket/doomemacs/commit/01f560ab86d79b5d39ca350789ced2563b570f8d
@@ -130,3 +129,19 @@
   :init
   (global-set-key [remap previous-error] #'flymake-goto-prev-error)
   (global-set-key [remap next-error] #'flymake-goto-next-error))
+
+(after! consult
+  (setq read-file-name-function #'consult-find-file-with-preview)
+  (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
+    (interactive)
+    (let ((default-directory (or dir default-directory))
+          (minibuffer-completing-file-name t))
+      (consult--read #'read-file-name-internal
+                     :state (consult--file-preview)
+                     :prompt prompt
+                     :initial initial
+                     :require-match mustmatch
+                     :predicate pred))))
+
+(after! orderless
+  (setq orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp)))

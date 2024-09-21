@@ -17,8 +17,8 @@
 (doom! :input
 
        :completion
-       (corfu +orderless +icons)
-       (vertico +orderless +icons)
+       (corfu +dabbrev +orderless +icons)
+       (vertico +icons)
 
        :ui
        doom
