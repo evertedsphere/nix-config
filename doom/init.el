@@ -102,7 +102,7 @@
        :lang
        ;;agda
        ;;beancount
-       cc
+       (cc +lsp +tree-sitter)
        ;;clojure
        ;; common-lisp
        ;;coq
@@ -131,13 +131,13 @@
        ;;(java +lsp)
        ;; Can't enable tree-sitter because it doesn't work well yet with nix-doom-emacs-unstraightened
        ;; https://github.com/marienz/nix-doom-emacs-unstraightened/commit/c8011f8f101b3e4ec1ebb73794f9ceb82c81bbc5
-       (javascript +lsp)
+       (javascript +lsp +tree-sitter)
        ;;julia
        ;;kotlin
        ;;latex
        ;;lean
        ;;ledger
-       ;;lua
+       (lua +lsp +tree-sitter)
        markdown
        ;;nim
        (nix +lsp +tree-sitter)
@@ -154,7 +154,7 @@
        ;;php
        ;;plantuml
        ;;purescript
-       (python +lsp +pyright +poetry)
+       (python +lsp +tree-sitter +pyright +poetry)
        ;;qt
        (racket +xp)
        ;;raku
@@ -164,7 +164,7 @@
        (rust +lsp)
        ;; (scala +lsp +tree-sitter)
        ;; (scheme +guile)
-       sh
+       (sh +lsp +tree-sitter)
        ;;sml
        ;;solidity
        ;;swift

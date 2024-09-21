@@ -10,7 +10,7 @@
 (let
     ((font-size
       (cond
-       ((string= (system-name) "malin") 26)
+       ((string= (system-name) "malina") 26)
        ((string= (system-name) "work") 30)
        (t 30))))
   (setq doom-font (font-spec :family "Iosevka Comfy" :size font-size :weight 'normal)))
