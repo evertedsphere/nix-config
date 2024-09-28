@@ -144,4 +144,4 @@
                      :predicate pred))))
 
 (after! orderless
-  (setq orderless-matching-styles '(orderless-literal orderless-regexp)))
+  (setq orderless-matching-styles '(orderless-literal orderless-flex orderless-regexp)))
