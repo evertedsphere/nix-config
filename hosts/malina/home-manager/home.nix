@@ -41,7 +41,7 @@
 
   services.screen-locker = {
     enable = true;
-    lockCmd = "${pkgs.imagemagick}/bin/convert ${config.stylix.image} ${pkgs.i3lock}/bin/i3lock -n -t --raw 3840x2160:xbgr --image /dev/stdin";
+    lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
   };
 
   qt.style = {
