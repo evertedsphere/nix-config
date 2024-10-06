@@ -127,6 +127,10 @@ in {
         if [ -n "$pdf_to_open" ]; then zathura "$pdf_to_open"; fi
       '';
     })
+    (pkgs.resholve.writeScriptBin "i3-window-criteria" {
+      inputs = with pkgs; [xorg.xwininfo xorg.xprop gnused coreutils];
+      interpreter = "${pkgs.bash}/bin/bash";
+    } (builtins.readFile ./i3-window-criteria.sh))
   ];
 
   # misc

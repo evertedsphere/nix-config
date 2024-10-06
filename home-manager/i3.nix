@@ -230,6 +230,13 @@ in {
               command = "border normal ${builtins.toString borderWidth}";
               criteria = {class = ".*";};
             }
+            {
+              command = "floating enable, resize set width 50 ppt height 50 ppt, move position center";
+              criteria = {
+                class = "Anki";
+                title = "Browse .*";
+              };
+            }
           ];
         };
         modes = {
