@@ -73,6 +73,8 @@ in {
 
   services.udev.packages = with pkgs; [via vial];
 
+  programs.steam.enable = true;
+
   environment.systemPackages = with pkgs; [
     vial
     via
