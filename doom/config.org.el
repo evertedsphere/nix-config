@@ -652,7 +652,7 @@ scheduled for the given date."
          :todo "DONE"
          :todo "CANCELLED")
         (:name "Work" :tag "zeus" :tag "work")
-        (:name "Shopping" :tag "shopping")
+        (:name "Shopping" :tag "shopping" :order 100)
         (:name "Important" :priority "A")
         (:name "Overdue" ,@(local/deadline-or-scheduled-on 'past))
         (:name "Today" ,@(local/deadline-or-scheduled-on 'today))
