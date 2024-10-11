@@ -145,3 +145,6 @@
 
 (after! orderless
   (setq orderless-matching-styles '(orderless-literal orderless-flex orderless-regexp)))
+
+;; a/default.nix and b/default.nix
+(setq uniquify-buffer-name-style 'forward)
